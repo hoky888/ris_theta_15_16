@@ -1,0 +1,2 @@
+set(localizer_MESSAGE_FILES "")
+set(localizer_SERVICE_FILES "/home/team_theta/ROS/src/vicos_ros-master/localizer/srv/Localize.srv")

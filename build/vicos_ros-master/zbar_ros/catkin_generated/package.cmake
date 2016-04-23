@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "zbar_ros")
+set(zbar_ros_MAINTAINER "Luka Čehovin <luka.cehovin@fri.uni-lj.si>")
+set(zbar_ros_DEPRECATED "")
+set(zbar_ros_VERSION "0.1.0")
+set(zbar_ros_BUILD_DEPENDS "std_msgs" "opencv2" "roscpp" "sensor_msgs" "cv_bridge" "image_transport")
+set(zbar_ros_RUN_DEPENDS "std_msgs" "opencv2" "roscpp" "sensor_msgs" "cv_bridge" "image_transport")
+set(zbar_ros_BUILDTOOL_DEPENDS "catkin")

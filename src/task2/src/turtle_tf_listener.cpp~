@@ -1,0 +1,72 @@
+#include <ros/ros.h>
+#include <tf/transform_listener.h>
+#include <geometry_msgs/Twist.h>
+#include <turtlesim/Spawn.h>
+#include <visualization_msgs/Marker.h>
+#include <visualization_msgs/MarkerArray.h>
+
+int main(int argc, char** argv){
+  ros::init(argc, argv, "my_tf_listener");
+
+  ros::NodeHandle node;
+
+  ros::service::waitForService("spawn");
+  ros::ServiceClient add_turtle = node.serviceClient<turtlesim::Spawn>("spawn");
+  turtlesim::Spawn srv;
+  add_turtle.call(srv);
+
+  visualization_msgs::Marker marker;
+  visualization_msgs::MarkerArray marker_array_msg;
+  ros::Publisher pub_marker = node.advertise<visualization_msgs::MarkerArray>("breadcrumbs", 100);
+
+  tf::TransformListener listener;
+
+  ros::Rate rate(10.0);
+  marker_array_msg.markers.resize(100);
+  int i = 0;
+  while (node.ok()){
+    tf::StampedTransform transform;
+    try{
+      listener.lookupTransform("/turtle2", "/turtle1", ros::Time(0), transform);
+      ROS_DEBUG("%f\n", transform.getOrigin().x());
+    }
+    catch (tf::TransformException &ex) {
+      ROS_ERROR("%s",ex.what());
+      ros::Duration(1.0).sleep();
+      continue;
+    }
+/*
+    geometry_msgs::Twist vel_msg;
+    vel_msg.angular.z = 4.0 * atan2(transform.getOrigin().y(), transform.getOrigin().x());
+    vel_msg.linear.x = 0.5 * sqrt(pow(transform.getOrigin().x(), 2) + pow(transform.getOrigin().y(), 2));
+*/
+
+/*
+    marker_array_msg.markers[i].header.frame_id = "base_link";
+    marker_array_msg.markers[i].header.stamp = ros::Time();
+    marker_array_msg.markers[i].ns = "my_namespace";
+    marker_array_msg.markers[i].id = i;
+    marker_array_msg.markers[i].type =  visualization_msgs::Marker::SPHERE;
+    marker_array_msg.markers[i].action = visualization_msgs::Marker::ADD;
+    marker_array_msg.markers[i].pose.position.x = transform.getOrigin().x();
+    marker_array_msg.markers[i].pose.position.y = transform.getOrigin().y();
+    marker_array_msg.markers[i].pose.position.z = transform.getOrigin().z();
+    marker_array_msg.markers[i].pose.orientation.x = 0.0;
+    marker_array_msg.markers[i].pose.orientation.y = 0.0;
+    marker_array_msg.markers[i].pose.orientation.z = 0.0;
+    marker_array_msg.markers[i].pose.orientation.w = 1.0;
+    marker_array_msg.markers[i].scale.x = 1.0;
+    marker_array_msg.markers[i].scale.y = 0.1;
+    marker_array_msg.markers[i].scale.z = 0.1;
+    marker_array_msg.markers[i].color.a = 1.0;
+    marker_array_msg.markers[i].color.r = 1.0;
+    marker_array_msg.markers[i].color.g = 0.0;
+    marker_array_msg.markers[i].color.b = 0.0;
+    i = (i+1)%100;
+
+    pub_marker.publish(marker_array_msg);   */ 
+
+    rate.sleep();
+  }
+  return 0;
+};
