@@ -191,7 +191,7 @@ include_directories(
 
 find_package(catkin REQUIRED COMPONENTS actionlib)
 find_package(catkin REQUIRED COMPONENTS tf)
-find_package(catkin REQUIRED COMPONENTS visualization_msgs)
+#find_package(catkin REQUIRED COMPONENTS visualization_msgs)
 
 add_executable(simple_navigation_goals src/simple_navigation_goals.cpp)
 target_link_libraries(simple_navigation_goals ${catkin_LIBRARIES})

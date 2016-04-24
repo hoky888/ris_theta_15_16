@@ -5,8 +5,6 @@
     <arg name="depth_registration" value="false" />
     <arg name="depth_processing" value="false" />
     
-    <!-- We must specify an absolute topic name because if not it will be prefixed by "$(arg camera)".
-         Probably is a bug in the nodelet manager: https://github.com/ros/nodelet_core/issues/7 --> 
     <arg name="scan_topic" value="/scan" />
   </include>
 
@@ -26,6 +24,11 @@
   <include file="$(find turtlebot_navigation)/launch/includes/move_base.launch.xml">
     <arg name="custom_param_file" value="$(arg custom_param_file)"/>
   </include>
+  
+  <node pkg="facedetector" type="visualizer" name="facevisualizer" output="screen">
+    <param name="topic" type="string" value="/facedetector/faces" />
+  </node>
+
 
 </launch>
 

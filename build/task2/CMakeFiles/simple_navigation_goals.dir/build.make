@@ -81,7 +81,21 @@ simple_navigation_goals_EXTERNAL_OBJECTS =
 
 /home/team_theta/ROS/devel/lib/task2/simple_navigation_goals: task2/CMakeFiles/simple_navigation_goals.dir/src/simple_navigation_goals.cpp.o
 /home/team_theta/ROS/devel/lib/task2/simple_navigation_goals: task2/CMakeFiles/simple_navigation_goals.dir/build.make
+/home/team_theta/ROS/devel/lib/task2/simple_navigation_goals: /opt/ros/indigo/lib/libtf.so
+/home/team_theta/ROS/devel/lib/task2/simple_navigation_goals: /opt/ros/indigo/lib/libtf2_ros.so
+/home/team_theta/ROS/devel/lib/task2/simple_navigation_goals: /opt/ros/indigo/lib/libactionlib.so
+/home/team_theta/ROS/devel/lib/task2/simple_navigation_goals: /opt/ros/indigo/lib/libmessage_filters.so
+/home/team_theta/ROS/devel/lib/task2/simple_navigation_goals: /opt/ros/indigo/lib/libroscpp.so
+/home/team_theta/ROS/devel/lib/task2/simple_navigation_goals: /usr/lib/x86_64-linux-gnu/libboost_signals.so
+/home/team_theta/ROS/devel/lib/task2/simple_navigation_goals: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
+/home/team_theta/ROS/devel/lib/task2/simple_navigation_goals: /opt/ros/indigo/lib/libxmlrpcpp.so
+/home/team_theta/ROS/devel/lib/task2/simple_navigation_goals: /opt/ros/indigo/lib/libtf2.so
 /home/team_theta/ROS/devel/lib/task2/simple_navigation_goals: /opt/ros/indigo/lib/libroscpp_serialization.so
+/home/team_theta/ROS/devel/lib/task2/simple_navigation_goals: /opt/ros/indigo/lib/librosconsole.so
+/home/team_theta/ROS/devel/lib/task2/simple_navigation_goals: /opt/ros/indigo/lib/librosconsole_log4cxx.so
+/home/team_theta/ROS/devel/lib/task2/simple_navigation_goals: /opt/ros/indigo/lib/librosconsole_backend_interface.so
+/home/team_theta/ROS/devel/lib/task2/simple_navigation_goals: /usr/lib/liblog4cxx.so
+/home/team_theta/ROS/devel/lib/task2/simple_navigation_goals: /usr/lib/x86_64-linux-gnu/libboost_regex.so
 /home/team_theta/ROS/devel/lib/task2/simple_navigation_goals: /opt/ros/indigo/lib/librostime.so
 /home/team_theta/ROS/devel/lib/task2/simple_navigation_goals: /usr/lib/x86_64-linux-gnu/libboost_date_time.so
 /home/team_theta/ROS/devel/lib/task2/simple_navigation_goals: /opt/ros/indigo/lib/libcpp_common.so
