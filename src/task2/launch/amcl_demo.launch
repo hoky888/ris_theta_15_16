@@ -23,6 +23,8 @@
 
   <include file="$(find turtlebot_navigation)/launch/includes/move_base.launch.xml">
     <arg name="custom_param_file" value="$(arg custom_param_file)"/>
+    <arg name="recovery_behavior_enabled" value="false"/>
+    <arg name="clearing_rotation_allowed" value="false"/>
   </include>
   
   <node pkg="facedetector" type="visualizer" name="facevisualizer" output="screen">
