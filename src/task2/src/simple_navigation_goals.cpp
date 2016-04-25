@@ -19,23 +19,22 @@ struct face
 	double goal_x,goal_y;
 	int count;
 	bool visited;
-} faces[10], visited[10];
+} faces[10];
 
 double x_current = 0;
 double y_current = 0;
 double theta_current = 0;
-
-double coords[][2] = {{2.0, -0.309},{2.45, 1.25},{3.9,0.381}, {4.34,2.07}, {5.3,0.554}, {5.91,-0.964}, {1.0, 0.63}};
+visualization_msgs::MarkerArray ma;
+double coords[][2] = {{0.5, 0.2},{2.2, 0.4},{4.0, 1.3}, {6.0, -1.0}};
 int goal = 0;
 tf::TransformListener *listener;
 tf::TransformListener *odom_listener;
 ros::Publisher cmd_VelPublisher;
+MoveBaseClient *ac;
 int faceCount = 0;
-int visitedCount = 0;
 
 void move_to(double x, double y, double ox, double oy)
 {	
-  MoveBaseClient ac("move_base", true);
   move_base_msgs::MoveBaseGoal goal;
   goal.target_pose.header.frame_id = "map";
   goal.target_pose.header.stamp = ros::Time::now();
@@ -45,25 +44,24 @@ void move_to(double x, double y, double ox, double oy)
   goal.target_pose.pose.orientation.z = tan((y-oy)/(ox-x));
   goal.target_pose.pose.orientation.w = 1.0;
 
-  ROS_INFO("Sending goal");
-  ROS_INFO("Goal: [%f, %f]", x, y);
-  ac.sendGoal(goal);
+  //ROS_INFO("Sending goal");
+  ROS_INFO("	Goal: [%f, %f]", x, y);
+  ac->sendGoal(goal);
 
-  ac.waitForResult();
+  ac->waitForResult();
 
-  if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED) 
+  if(ac->getState() == actionlib::SimpleClientGoalState::SUCCEEDED) 
   {
-    ROS_INFO("Hooray");
+    ROS_INFO("		SUCCESS");
   }
   else 
   {
-    ROS_INFO("Fail");
+    ROS_INFO("		FAIL");
   }
 }
 
 void move_to(double x, double y)
 {	
-  MoveBaseClient ac("move_base", true);
   move_base_msgs::MoveBaseGoal goal;
   goal.target_pose.header.frame_id = "map";
   goal.target_pose.header.stamp = ros::Time::now();
@@ -72,19 +70,18 @@ void move_to(double x, double y)
 
   goal.target_pose.pose.orientation.w = 1.0;
 
-  ROS_INFO("Sending goal");
-  ROS_INFO("Goal: [%f, %f]", x, y);
-  ac.sendGoal(goal);
+  ROS_INFO("	Goal: [%f, %f]", x, y);
+  ac->sendGoal(goal);
 
-  ac.waitForResult();
+  ac->waitForResult();
 
-  if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED) 
+  if(ac->getState() == actionlib::SimpleClientGoalState::SUCCEEDED) 
   {
-    ROS_INFO("Hooray");
+    ROS_INFO("		SUCCESS");
   }
   else 
   {
-    ROS_INFO("Fail");
+    ROS_INFO("		FAIL");
   }
 }
 
@@ -151,7 +148,6 @@ void turn(double turn_angle)
 
 void rotate(int angle)
 {	
-  MoveBaseClient ac("move_base", true);
   move_base_msgs::MoveBaseGoal goal;
   goal.target_pose.header.frame_id = "map";
   goal.target_pose.header.stamp = ros::Time::now();
@@ -160,9 +156,9 @@ void rotate(int angle)
   goal.target_pose.pose.orientation.w = 1.0;
 
   ROS_INFO("Sending rotation");
-  ac.sendGoal(goal);
-  ac.waitForResult();
-  if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED) 
+  ac->sendGoal(goal);
+  ac->waitForResult();
+  if(ac->getState() == actionlib::SimpleClientGoalState::SUCCEEDED) 
   {
     ROS_INFO("Hooray rotation");
   }
@@ -172,12 +168,10 @@ void rotate(int angle)
   }
 }
 
-void send_data(int i) {
-	move_to(coords[i][0], coords[i][1]);
-}
 
 void faceMapperCallback(const visualization_msgs::MarkerArray& msg)
 {
+	//ROS_INFO("msg received");
     tf::StampedTransform transform;
 	visualization_msgs::Marker m = msg.markers[0];
 	geometry_msgs::PoseStamped pout;
@@ -200,8 +194,11 @@ void faceMapperCallback(const visualization_msgs::MarkerArray& msg)
 		x *= 0.35;
 		y *= 0.35;
 		
-		double goal_x = pout.pose.position.x + x;
-		double goal_y = pout.pose.position.y + y;
+		x = ((int)round(x*1000))/1000.0;
+		y = ((int)round(y*1000))/1000.0;
+		
+		double goal_x = ((int)round((pout.pose.position.x + x)*1000))/1000.0;
+		double goal_y = ((int)round((pout.pose.position.y + y)*1000))/1000.0;
 				
 	    //ROS_INFO("Roomba rot: [%f, %f, %f, %f]", transform.getRotation().x(), transform.getRotation().y(),transform.getRotation().z(), transform.getRotation().w());
 		//ROS_INFO("Roomba pos: [%f, %f, %f]", transform.getOrigin().x(), transform.getOrigin().y(),transform.getOrigin().z());
@@ -211,61 +208,29 @@ void faceMapperCallback(const visualization_msgs::MarkerArray& msg)
 		if (pout.pose.position.z < 0.45) 
 		{
 			bool found = false;
+			//ROS_INFO("Face count: %d", faceCount);
 			for(int i = 0; i < faceCount; i++)
 			{
+				//ROS_INFO("Face: [%f, %f] - Pose: [%f, %f]", faces[i].x, faces[i].y, pout.pose.position.x, pout.pose.position.y);
 				double dist = sqrt(pow(pout.pose.position.x-faces[i].x, 2)+pow(pout.pose.position.y-faces[i].y,2));
+				//ROS_INFO("		Dist %d: %f", i, dist);
 				if(dist < 0.5)
 				{
 					found = true;
 					faces[i].count++;				
-					ROS_INFO("Existing face: %d - [%f, %f] - %d", i, faces[i].x, faces[i].y, faces[i].count);
-					if(faces[i].count > 10 && !faces[i].visited)
-					{
-						bool v = true;
-						for(int j = 0; j < visitedCount; j++)
-						{
-							double d2 = sqrt(pow(faces[i].x-visited[j].x, 2)+pow(faces[i].y-visited[j].y,2));
-							if(d2 < 0.5)
-							{
-								v = false;
-								break;
-							}
-						}
-						if(v)
-						{
-							faces[i].visited = true;
-							visitedCount++;
-							visited[visitedCount].x = faces[i].x;
-							visited[visitedCount].y = faces[i].y;
-							move_to(faces[i].goal_x,faces[i].goal_y,faces[i].x,faces[i].y);
-							ros::Duration(1.5).sleep();
-						}
-					}
-					else
-					{
-						if(goal < 7)
-						{		
-							ROS_INFO("Sending waypoint");
-							send_data(goal++);
-							turn(360);
-						}
-					}
+					//ROS_INFO("Existing face: %d - [%f, %f] - %d", i, faces[i].x, faces[i].y, faces[i].count);					
 					break;
 				}
 			}
 			if(!found)
 			{
-				faceCount++;
 				faces[faceCount].x = pout.pose.position.x;
 				faces[faceCount].y = pout.pose.position.y;
 				faces[faceCount].goal_x = goal_x;
 				faces[faceCount].goal_y = goal_y;
-				faces[faceCount].count = 1;				
+				faces[faceCount].count = 1;		
 				ROS_INFO("New face: [%f, %f]", faces[faceCount].x, faces[faceCount].y);
-				move_to(faces[faceCount].x, faces[faceCount].y);
-			} else {
-				ROS_INFO("Sending waypoint");
-				send_data(goal++);
+				faceCount++;		
 			}
 		}
     }
@@ -275,15 +240,71 @@ void faceMapperCallback(const visualization_msgs::MarkerArray& msg)
 }
 
 int main(int argc, char** argv){
-  	ros::init(argc, argv, "waypoin");
+  	ros::init(argc, argv, "simpe_navigation_goals");
 	listener = new tf::TransformListener();
 	ros::NodeHandle n;
-	ros::Subscriber sub = n.subscribe("/facemapper/markers", 1, faceMapperCallback);  
+	ros::Subscriber sub = n.subscribe("/facemapper/markers", 1000, faceMapperCallback);  
+	ros::Publisher faces_pub = n.advertise<visualization_msgs::MarkerArray>("detected_faces", 1000);
 	cmd_VelPublisher = n.advertise<geometry_msgs::Twist>("cmd_vel", 10);
     odom_listener = new tf::TransformListener();
 	
   //tell the action client that we want to spin a thread by default
-  MoveBaseClient ac("move_base", true);
+  ac = new MoveBaseClient("move_base", true);
+  
+  while(!ac->waitForServer(ros::Duration(5.0))){
+    ROS_INFO("Waiting for the move_base action server to come up");
+  }
+  
+  for(int i = 0 ; i < 4 ; i++)
+  {
+	  ROS_INFO("Moving to next goal");
+	  move_to(coords[i][0], coords[i][1]); 
+	  ROS_INFO("Move to next goal finnished");
+	  ros::spinOnce();
+	  
+	  ROS_INFO("Spin 360");
+	  //turn(360);
+	  ROS_INFO("Spin finnished");
+	  ros::spinOnce();
+	  
+	  ROS_INFO("Checking for new faces goals");
+	  for(int i = 0; i < faceCount; i++)
+	  {
+		  if(!faces[i].visited && faces[i].count > 5)
+			{
+				/*
+				visualization_msgs::Marker marker;
+				marker.header.frame_id = "map";
+				marker.header.stamp = ros::Time();
+				marker.ns = "my_namespace";
+				marker.id = 0;
+				marker.type = visualization_msgs::Marker::SPHERE;
+				marker.action = visualization_msgs::Marker::ADD;
+				marker.pose.position.x = 1;
+				marker.pose.position.y = 1;
+				marker.pose.position.z = 1;
+				marker.pose.orientation.x = faces[i].x;
+				marker.pose.orientation.y = faces[i].y;
+				marker.pose.orientation.z = 0.0;
+				marker.pose.orientation.w = 1.0;
+				marker.scale.x = 1;
+				marker.scale.y = 0.1;
+				marker.scale.z = 0.1;
+				marker.color.a = 1.0; // Don't forget to set the alpha!
+				marker.color.r = 0.0;
+				marker.color.g = 1.0;
+				marker.color.b = 0.0;
+
+				ma.markers.push_back(marker);*/
+				faces[i].visited = true;
+				ROS_INFO("MOVING TO FACE");
+				move_to(faces[i].goal_x,faces[i].goal_y,faces[i].x,faces[i].y);
+			}
+	  }
+	  ros::spinOnce();
+      faces_pub.publish(ma);
+	  ros::spinOnce();
+  }
    
   ros::spin();
   
