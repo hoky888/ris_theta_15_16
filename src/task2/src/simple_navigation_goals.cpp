@@ -10,6 +10,7 @@
 #include <math.h>
 #include <nav_msgs/Odometry.h>
 #include <angles/angles.h>
+#include <geometry_msgs/Twist.h>
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
@@ -29,8 +30,8 @@ double coords[][2] = {{0.5, 0.2},{2.2, 0.4},{4.0, 1.3}, {6.0, -1.0}};
 int goal = 0;
 tf::TransformListener *listener;
 tf::TransformListener *odom_listener;
-ros::Publisher cmd_VelPublisher;
 MoveBaseClient *ac;
+ros::Publisher cmd_vel_pub_;
 int faceCount = 0;
 
 void move_to(double x, double y, double ox, double oy)
@@ -85,87 +86,12 @@ void move_to(double x, double y)
   }
 }
 
-void get_odom()
-{
-    tf::StampedTransform transform;
-    try
-    {
-        odom_listener->lookupTransform("/odom", "/base_footprint", ros::Time(0), transform);
-
-        x_current = transform.getOrigin().x();
-        y_current = transform.getOrigin().y();
-        theta_current = angles::normalize_angle_positive(tf::getYaw(transform.getRotation()));
-        //ROS_INFO("odom (x, y, theta) : (%f, %f, %f)", x_current, y_current, theta_current);
-    }
-    catch (tf::TransformException &ex)
-    {
-        ROS_ERROR("%s",ex.what());
-    }
-}
-
-void turn(double turn_angle)
-{
-	double angularSpeed = 25;
-	int direction = 10;
-    // Initialize the movement command message
-    geometry_msgs::Twist cmd_velMsg;
-    //Set the movement command rotation speed
-    cmd_velMsg.angular.z = direction * angularSpeed;
-
-    // How fast to update the robot's movement?
-    // Set the equivalent ROS rate variable
-    ros::Rate rate(10.0);
-
-    // Current angle
-    get_odom();
-    double last_angle = theta_current;
-    double angle = 0;
-
-     while ((angle < turn_angle) && ros::ok())
-    {
-        //Publish the Twist message and sleep 1 cycle
-        cmd_VelPublisher.publish(cmd_velMsg);
-
-        //ROS_INFO("current_theta: %f, angle + turn_angle: %f", angle, (angle + turn_angle));
-
-        ros::spinOnce();
-        rate.sleep();
-
-        // Get the current odometry
-        get_odom();
-
-        // Compute the amount of rotation since the last loop
-        angle += angles::normalize_angle(theta_current - last_angle);
-        last_angle = theta_current;
-
-        //ROS_INFO("angle: %f", angle);
-    }
-
-    // Stop turning the robot
-    cmd_velMsg.angular.z = 0;
-    cmd_VelPublisher.publish(cmd_velMsg);
-}
-
 void rotate(int angle)
 {	
-  move_base_msgs::MoveBaseGoal goal;
-  goal.target_pose.header.frame_id = "map";
-  goal.target_pose.header.stamp = ros::Time::now();
-
-  goal.target_pose.pose.orientation.z = angle;
-  goal.target_pose.pose.orientation.w = 1.0;
-
-  ROS_INFO("Sending rotation");
-  ac->sendGoal(goal);
-  ac->waitForResult();
-  if(ac->getState() == actionlib::SimpleClientGoalState::SUCCEEDED) 
-  {
-    ROS_INFO("Hooray rotation");
-  }
-  else 
-  {
-    ROS_INFO("Fail rotation");
-  }
+	geometry_msgs::Twist base_cmd;	
+	base_cmd.angular.z = 0.75;
+	for(int i = 0; i < angle ; i++)
+		cmd_vel_pub_.publish(base_cmd);
 }
 
 
@@ -205,7 +131,7 @@ void faceMapperCallback(const visualization_msgs::MarkerArray& msg)
 	    //ROS_INFO("Marker pos: [%f, %f, %f]", m.pose.position.x, m.pose.positio/y, m.pose.position.z);
 		//ROS_INFO("Marker map pos: [%f, %f, %f]", pout.pose.position.x, pout.pose.position.y,pout.pose.position.z);
 		
-		if (pout.pose.position.z < 0.45) 
+		if (pout.pose.position.z < 0.35) 
 		{
 			bool found = false;
 			//ROS_INFO("Face count: %d", faceCount);
@@ -218,7 +144,7 @@ void faceMapperCallback(const visualization_msgs::MarkerArray& msg)
 				{
 					found = true;
 					faces[i].count++;				
-					//ROS_INFO("Existing face: %d - [%f, %f] - %d", i, faces[i].x, faces[i].y, faces[i].count);					
+					//ROS_INFO("	Existing face: %d - [%f, %f] - %d", i, faces[i].x, faces[i].y, faces[i].count);					
 					break;
 				}
 			}
@@ -229,7 +155,7 @@ void faceMapperCallback(const visualization_msgs::MarkerArray& msg)
 				faces[faceCount].goal_x = goal_x;
 				faces[faceCount].goal_y = goal_y;
 				faces[faceCount].count = 1;		
-				ROS_INFO("New face: [%f, %f]", faces[faceCount].x, faces[faceCount].y);
+				ROS_INFO("	New face %d : [%f, %f]", faceCount, faces[faceCount].x, faces[faceCount].y);
 				faceCount++;		
 			}
 		}
@@ -245,7 +171,7 @@ int main(int argc, char** argv){
 	ros::NodeHandle n;
 	ros::Subscriber sub = n.subscribe("/facemapper/markers", 1000, faceMapperCallback);  
 	ros::Publisher faces_pub = n.advertise<visualization_msgs::MarkerArray>("detected_faces", 1000);
-	cmd_VelPublisher = n.advertise<geometry_msgs::Twist>("cmd_vel", 10);
+    cmd_vel_pub_ = n.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
     odom_listener = new tf::TransformListener();
 	
   //tell the action client that we want to spin a thread by default
@@ -258,51 +184,22 @@ int main(int argc, char** argv){
   for(int i = 0 ; i < 4 ; i++)
   {
 	  ROS_INFO("Moving to next goal");
-	  move_to(coords[i][0], coords[i][1]); 
-	  ROS_INFO("Move to next goal finnished");
+	  //move_to(coords[i][0], coords[i][1]); 
 	  ros::spinOnce();
 	  
-	  ROS_INFO("Spin 360");
-	  //turn(360);
-	  ROS_INFO("Spin finnished");
+	  rotate(360);
 	  ros::spinOnce();
-	  
-	  ROS_INFO("Checking for new faces goals");
+	  /*
 	  for(int i = 0; i < faceCount; i++)
 	  {
+		 ROS_INFO("Detected face %d - visited: %s - count: %d", i,faces[i].visited ? "true" : "false",faces[i].count);
 		  if(!faces[i].visited && faces[i].count > 5)
 			{
-				/*
-				visualization_msgs::Marker marker;
-				marker.header.frame_id = "map";
-				marker.header.stamp = ros::Time();
-				marker.ns = "my_namespace";
-				marker.id = 0;
-				marker.type = visualization_msgs::Marker::SPHERE;
-				marker.action = visualization_msgs::Marker::ADD;
-				marker.pose.position.x = 1;
-				marker.pose.position.y = 1;
-				marker.pose.position.z = 1;
-				marker.pose.orientation.x = faces[i].x;
-				marker.pose.orientation.y = faces[i].y;
-				marker.pose.orientation.z = 0.0;
-				marker.pose.orientation.w = 1.0;
-				marker.scale.x = 1;
-				marker.scale.y = 0.1;
-				marker.scale.z = 0.1;
-				marker.color.a = 1.0; // Don't forget to set the alpha!
-				marker.color.r = 0.0;
-				marker.color.g = 1.0;
-				marker.color.b = 0.0;
-
-				ma.markers.push_back(marker);*/
 				faces[i].visited = true;
-				ROS_INFO("MOVING TO FACE");
+				ROS_INFO("MOVING TO FACE %d", i);
 				move_to(faces[i].goal_x,faces[i].goal_y,faces[i].x,faces[i].y);
 			}
-	  }
-	  ros::spinOnce();
-      faces_pub.publish(ma);
+	  }*/
 	  ros::spinOnce();
   }
    

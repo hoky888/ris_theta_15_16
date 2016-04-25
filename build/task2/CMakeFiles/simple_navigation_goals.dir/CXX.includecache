@@ -31,6 +31,8 @@ nav_msgs/Odometry.h
 -
 angles/angles.h
 -
+geometry_msgs/Twist.h
+-
 
 /opt/ros/indigo/include/XmlRpcDecl.h
 ros/macros.h
