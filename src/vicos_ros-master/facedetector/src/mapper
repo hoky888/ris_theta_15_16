@@ -33,7 +33,9 @@ class FaceMapper():
 		         ((v - camera_model.cy()) - camera_model.Ty()) / camera_model.fy(), 1)
 			#print point
 			resp = self.localize(faces.header, point, 3)
-			if resp:
+			if resp.pose.position.y < -0.2:
+				continue
+			else resp:
 				marker = Marker()
 				marker.header.stamp = faces.header.stamp
 				marker.header.frame_id = faces.header.frame_id
