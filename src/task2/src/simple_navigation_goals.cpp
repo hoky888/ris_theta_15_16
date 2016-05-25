@@ -37,7 +37,7 @@ MoveBaseClient *ac;
 ros::Publisher cmd_vel_pub_;
 int faceCount = 0;
 int indeks = 0;
-	 
+	
 void move_to(double x, double y, double ox, double oy)
 {	
   move_base_msgs::MoveBaseGoal goal;
@@ -58,7 +58,7 @@ void move_to(double x, double y, double ox, double oy)
   if(ac->getState() == actionlib::SimpleClientGoalState::SUCCEEDED) 
   {
     ROS_INFO("		SUCCESS");
-		faces[indeks].visited = true;
+    faces[indeks].visited = true;
   }
   else 
   {
@@ -131,8 +131,11 @@ void faceMapperCallback(const visualization_msgs::MarkerArray& msg)
 		//double goal_x = ((int)round((pout.pose.position.x + x)*1000))/1000.0;
 		//double goal_y = ((int)round((pout.pose.position.y + y)*1000))/1000.0;
 		
-		double goal_x = pout.pose.position.x + x;
-		double goal_y = pout.pose.position.y + y;
+		x = ((int)round(x*1000))/1000.0;
+		y = ((int)round(y*1000))/1000.0;
+		
+		double goal_x = ((int)round((pout.pose.position.x + x)*1000))/1000.0;
+		double goal_y = ((int)round((pout.pose.position.y + y)*1000))/1000.0;
 				
 	    //ROS_INFO("Roomba rot: [%f, %f, %f, %f]", transform.getRotation().x(), transform.getRotation().y(),transform.getRotation().z(), transform.getRotation().w());
 		//ROS_INFO("Roomba pos: [%f, %f, %f]", transform.getOrigin().x(), transform.getOrigin().y(),transform.getOrigin().z());
@@ -163,10 +166,11 @@ void faceMapperCallback(const visualization_msgs::MarkerArray& msg)
 				faces[faceCount].z = pout.pose.position.z;
 				faces[faceCount].goal_x = goal_x;
 				faces[faceCount].goal_y = goal_y;
-				faces[faceCount].count = 1;		
+				faces[faceCount].count = 1;
 				ROS_INFO("	New face %d : [%f, %f, %f, %f]", faceCount, faces[faceCount].x, faces[faceCount].y, faces[faceCount].goal_x, faces[faceCount].goal_y);
 				
 				ROS_INFO("	Face data %d : [%f, %f, %f]", faceCount, faces[faceCount].x, faces[faceCount].y, faces[faceCount].z);
+
 				faceCount++;		
 			}
 		}
