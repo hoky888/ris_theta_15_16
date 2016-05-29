@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "cob_perception_msgs")
+set(cob_perception_msgs_MAINTAINER "Richard Bormann <rmb@ipa.fhg.de>")
+set(cob_perception_msgs_DEPRECATED "")
+set(cob_perception_msgs_VERSION "0.6.6")
+set(cob_perception_msgs_BUILD_DEPENDS "message_generation" "sensor_msgs" "geometry_msgs" "std_msgs")
+set(cob_perception_msgs_RUN_DEPENDS "message_runtime" "sensor_msgs" "geometry_msgs" "std_msgs")
+set(cob_perception_msgs_BUILDTOOL_DEPENDS "catkin")

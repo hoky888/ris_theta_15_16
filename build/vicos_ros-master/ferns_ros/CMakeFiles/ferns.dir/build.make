@@ -49,9 +49,32 @@ include vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/progress.make
 # Include the compile flags for this target's objects.
 include vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
 
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/ferns.cc
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/ferns.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/ferns.cc
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ferns.dir/src/ferns/ferns.cc.i"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/ferns.cc > CMakeFiles/ferns.dir/src/ferns/ferns.cc.i
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ferns.dir/src/ferns/ferns.cc.s"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/ferns.cc -o CMakeFiles/ferns.dir/src/ferns/ferns.cc.s
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o.requires:
+.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o.requires
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o.provides: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o.requires
+	$(MAKE) -f vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build.make vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o.provides.build
+.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o.provides
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o
+
 vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fine_gaussian_pyramid.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
 vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fine_gaussian_pyramid.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/fine_gaussian_pyramid.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fine_gaussian_pyramid.cc.o"
 	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/fine_gaussian_pyramid.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/fine_gaussian_pyramid.cc
 
@@ -72,51 +95,28 @@ vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fine_gaussian_pyramid.
 
 vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fine_gaussian_pyramid.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fine_gaussian_pyramid.cc.o
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/pyr_yape06.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_2)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/pyr_yape06.cc
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.i"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/pyr_yape06.cc > CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.i
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.s"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/pyr_yape06.cc -o CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.s
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o.requires:
-.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o.requires
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o.provides: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o.requires
-	$(MAKE) -f vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build.make vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o.provides.build
-.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o.provides
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/homography_estimator.cc
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/affine_transformation_range.cc
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_3)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/homography_estimator.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/affine_transformation_range.cc
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.i"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/homography_estimator.cc > CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.i
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.i"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/affine_transformation_range.cc > CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.i
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.s"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/homography_estimator.cc -o CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.s
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.s"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/affine_transformation_range.cc -o CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.s
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o.requires:
-.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o.requires
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o.requires:
+.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o.requires
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o.provides: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o.requires
-	$(MAKE) -f vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build.make vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o.provides.build
-.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o.provides
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o.provides: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o.requires
+	$(MAKE) -f vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build.make vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o.provides.build
+.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o.provides
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o
 
 vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/cmphomo.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
 vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/cmphomo.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/cmphomo.cc
@@ -141,124 +141,9 @@ vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/cmphomo.cc.o.provides:
 
 vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/cmphomo.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/cmphomo.cc.o
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/affine_image_generator06.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_5)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/affine_image_generator06.cc
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.i"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/affine_image_generator06.cc > CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.i
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.s"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/affine_image_generator06.cc -o CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.s
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o.requires:
-.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o.requires
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o.provides: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o.requires
-	$(MAKE) -f vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build.make vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o.provides.build
-.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o.provides
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/mcvGaussianSmoothing.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_6)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/mcvGaussianSmoothing.cc
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.i"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/mcvGaussianSmoothing.cc > CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.i
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.s"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/mcvGaussianSmoothing.cc -o CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.s
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o.requires:
-.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o.requires
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o.provides: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o.requires
-	$(MAKE) -f vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build.make vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o.provides.build
-.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o.provides
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/fern_based_point_classifier.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_7)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/fern_based_point_classifier.cc
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.i"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/fern_based_point_classifier.cc > CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.i
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.s"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/fern_based_point_classifier.cc -o CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.s
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o.requires:
-.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o.requires
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o.provides: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o.requires
-	$(MAKE) -f vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build.make vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o.provides.build
-.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o.provides
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/ferns.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_8)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/ferns.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/ferns.cc
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ferns.dir/src/ferns/ferns.cc.i"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/ferns.cc > CMakeFiles/ferns.dir/src/ferns/ferns.cc.i
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ferns.dir/src/ferns/ferns.cc.s"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/ferns.cc -o CMakeFiles/ferns.dir/src/ferns/ferns.cc.s
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o.requires:
-.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o.requires
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o.provides: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o.requires
-	$(MAKE) -f vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build.make vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o.provides.build
-.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o.provides
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/planar_pattern_detector_builder.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_9)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/planar_pattern_detector_builder.cc
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.i"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/planar_pattern_detector_builder.cc > CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.i
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.s"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/planar_pattern_detector_builder.cc -o CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.s
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o.requires:
-.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o.requires
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o.provides: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o.requires
-	$(MAKE) -f vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build.make vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o.provides.build
-.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o.provides
-
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o
-
 vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/template_matching_based_tracker.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
 vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/template_matching_based_tracker.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/template_matching_based_tracker.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_10)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/template_matching_based_tracker.cc.o"
 	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/template_matching_based_tracker.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/template_matching_based_tracker.cc
 
@@ -281,7 +166,7 @@ vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/template_matching_base
 
 vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
 vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/planar_pattern_detector.cc
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_11)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_6)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector.cc.o"
 	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/planar_pattern_detector.cc
 
@@ -301,6 +186,121 @@ vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detecto
 .PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector.cc.o.provides
 
 vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector.cc.o
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/buffer_management.cc
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_7)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/buffer_management.cc
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.i"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/buffer_management.cc > CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.i
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.s"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/buffer_management.cc -o CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.s
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o.requires:
+.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o.requires
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o.provides: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o.requires
+	$(MAKE) -f vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build.make vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o.provides.build
+.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o.provides
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/mcvGaussianSmoothing.cc
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_8)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/mcvGaussianSmoothing.cc
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.i"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/mcvGaussianSmoothing.cc > CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.i
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.s"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/mcvGaussianSmoothing.cc -o CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.s
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o.requires:
+.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o.requires
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o.provides: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o.requires
+	$(MAKE) -f vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build.make vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o.provides.build
+.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o.provides
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/fern_based_point_classifier.cc
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_9)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/fern_based_point_classifier.cc
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.i"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/fern_based_point_classifier.cc > CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.i
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.s"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/fern_based_point_classifier.cc -o CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.s
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o.requires:
+.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o.requires
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o.provides: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o.requires
+	$(MAKE) -f vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build.make vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o.provides.build
+.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o.provides
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/homography06.cc
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_10)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/homography06.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/homography06.cc
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ferns.dir/src/ferns/homography06.cc.i"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/homography06.cc > CMakeFiles/ferns.dir/src/ferns/homography06.cc.i
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ferns.dir/src/ferns/homography06.cc.s"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/homography06.cc -o CMakeFiles/ferns.dir/src/ferns/homography06.cc.s
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o.requires:
+.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o.requires
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o.provides: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o.requires
+	$(MAKE) -f vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build.make vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o.provides.build
+.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o.provides
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/planar_pattern_detector_builder.cc
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_11)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/planar_pattern_detector_builder.cc
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.i"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/planar_pattern_detector_builder.cc > CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.i
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.s"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/planar_pattern_detector_builder.cc -o CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.s
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o.requires:
+.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o.requires
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o.provides: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o.requires
+	$(MAKE) -f vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build.make vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o.provides.build
+.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o.provides
+
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o
 
 vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcv.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
 vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcv.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/mcv.cc
@@ -325,111 +325,111 @@ vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcv.cc.o.provides: vic
 
 vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcv.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcv.cc.o
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/buffer_management.cc
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/homography_estimator.cc
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_13)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/buffer_management.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/homography_estimator.cc
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.i"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/buffer_management.cc > CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.i
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.i"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/homography_estimator.cc > CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.i
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.s"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/buffer_management.cc -o CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.s
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.s"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/homography_estimator.cc -o CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.s
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o.requires:
-.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o.requires
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o.requires:
+.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o.requires
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o.provides: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o.requires
-	$(MAKE) -f vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build.make vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o.provides.build
-.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o.provides
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o.provides: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o.requires
+	$(MAKE) -f vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build.make vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o.provides.build
+.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o.provides
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/affine_transformation_range.cc
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/affine_image_generator06.cc
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_14)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/affine_transformation_range.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/affine_image_generator06.cc
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.i"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/affine_transformation_range.cc > CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.i
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.i"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/affine_image_generator06.cc > CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.i
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.s"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/affine_transformation_range.cc -o CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.s
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.s"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/affine_image_generator06.cc -o CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.s
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o.requires:
-.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o.requires
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o.requires:
+.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o.requires
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o.provides: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o.requires
-	$(MAKE) -f vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build.make vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o.provides.build
-.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o.provides
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o.provides: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o.requires
+	$(MAKE) -f vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build.make vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o.provides.build
+.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o.provides
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/homography06.cc
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/flags.make
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o: /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/pyr_yape06.cc
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles $(CMAKE_PROGRESS_15)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/homography06.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/homography06.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o -c /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/pyr_yape06.cc
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ferns.dir/src/ferns/homography06.cc.i"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/homography06.cc > CMakeFiles/ferns.dir/src/ferns/homography06.cc.i
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.i"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/pyr_yape06.cc > CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.i
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ferns.dir/src/ferns/homography06.cc.s"
-	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/homography06.cc -o CMakeFiles/ferns.dir/src/ferns/homography06.cc.s
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.s"
+	cd /home/team_theta/ROS/build/vicos_ros-master/ferns_ros && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/team_theta/ROS/src/vicos_ros-master/ferns_ros/src/ferns/pyr_yape06.cc -o CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.s
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o.requires:
-.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o.requires
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o.requires:
+.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o.requires
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o.provides: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o.requires
-	$(MAKE) -f vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build.make vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o.provides.build
-.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o.provides
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o.provides: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o.requires
+	$(MAKE) -f vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build.make vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o.provides.build
+.PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o.provides
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o.provides.build: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o
 
 # Object files for target ferns
 ferns_OBJECTS = \
-"CMakeFiles/ferns.dir/src/ferns/fine_gaussian_pyramid.cc.o" \
-"CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o" \
-"CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o" \
-"CMakeFiles/ferns.dir/src/ferns/cmphomo.cc.o" \
-"CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o" \
-"CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o" \
-"CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o" \
 "CMakeFiles/ferns.dir/src/ferns/ferns.cc.o" \
-"CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o" \
+"CMakeFiles/ferns.dir/src/ferns/fine_gaussian_pyramid.cc.o" \
+"CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o" \
+"CMakeFiles/ferns.dir/src/ferns/cmphomo.cc.o" \
 "CMakeFiles/ferns.dir/src/ferns/template_matching_based_tracker.cc.o" \
 "CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector.cc.o" \
-"CMakeFiles/ferns.dir/src/ferns/mcv.cc.o" \
 "CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o" \
-"CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o" \
-"CMakeFiles/ferns.dir/src/ferns/homography06.cc.o"
+"CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o" \
+"CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o" \
+"CMakeFiles/ferns.dir/src/ferns/homography06.cc.o" \
+"CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o" \
+"CMakeFiles/ferns.dir/src/ferns/mcv.cc.o" \
+"CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o" \
+"CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o" \
+"CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o"
 
 # External object files for target ferns
 ferns_EXTERNAL_OBJECTS =
 
-/home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fine_gaussian_pyramid.cc.o
-/home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o
-/home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o
-/home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/cmphomo.cc.o
-/home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o
-/home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o
-/home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o
 /home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o
-/home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o
+/home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fine_gaussian_pyramid.cc.o
+/home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o
+/home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/cmphomo.cc.o
 /home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/template_matching_based_tracker.cc.o
 /home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector.cc.o
-/home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcv.cc.o
 /home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o
-/home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o
+/home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o
+/home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o
 /home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o
+/home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o
+/home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcv.cc.o
+/home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o
+/home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o
+/home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o
 /home/team_theta/ROS/devel/lib/libferns.so: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build.make
 /home/team_theta/ROS/devel/lib/libferns.so: /opt/ros/indigo/lib/libimage_transport.so
 /home/team_theta/ROS/devel/lib/libferns.so: /opt/ros/indigo/lib/libmessage_filters.so
@@ -481,21 +481,21 @@ ferns_EXTERNAL_OBJECTS =
 vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build: /home/team_theta/ROS/devel/lib/libferns.so
 .PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/build
 
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fine_gaussian_pyramid.cc.o.requires
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o.requires
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o.requires
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/cmphomo.cc.o.requires
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o.requires
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o.requires
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o.requires
 vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/ferns.cc.o.requires
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o.requires
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fine_gaussian_pyramid.cc.o.requires
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o.requires
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/cmphomo.cc.o.requires
 vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/template_matching_based_tracker.cc.o.requires
 vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector.cc.o.requires
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcv.cc.o.requires
 vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/buffer_management.cc.o.requires
-vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_transformation_range.cc.o.requires
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcvGaussianSmoothing.cc.o.requires
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/fern_based_point_classifier.cc.o.requires
 vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography06.cc.o.requires
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/planar_pattern_detector_builder.cc.o.requires
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/mcv.cc.o.requires
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/homography_estimator.cc.o.requires
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/affine_image_generator06.cc.o.requires
+vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires: vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/src/ferns/pyr_yape06.cc.o.requires
 .PHONY : vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/requires
 
 vicos_ros-master/ferns_ros/CMakeFiles/ferns.dir/clean:

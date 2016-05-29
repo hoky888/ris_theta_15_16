@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "cob_leg_detection")
+set(cob_leg_detection_MAINTAINER "Richard Bormann <richard.bormann@ipa.fraunhofer.de>")
+set(cob_leg_detection_DEPRECATED "")
+set(cob_leg_detection_VERSION "1.0.4")
+set(cob_leg_detection_BUILD_DEPENDS "bfl" "cmake_modules" "cob_people_tracking_filter" "cob_perception_msgs" "dynamic_reconfigure" "eigen" "geometry_msgs" "image_geometry" "laser_geometry" "libopencv-dev" "orocos_kdl" "roscpp" "rospy" "sensor_msgs" "std_msgs" "std_srvs" "tf" "visualization_msgs")
+set(cob_leg_detection_RUN_DEPENDS "laser_filters" "bfl" "cmake_modules" "cob_people_tracking_filter" "cob_perception_msgs" "dynamic_reconfigure" "eigen" "geometry_msgs" "image_geometry" "laser_geometry" "libopencv-dev" "orocos_kdl" "roscpp" "rospy" "sensor_msgs" "std_msgs" "std_srvs" "tf" "visualization_msgs")
+set(cob_leg_detection_BUILDTOOL_DEPENDS "catkin")

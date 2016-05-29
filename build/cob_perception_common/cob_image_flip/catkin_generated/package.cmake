@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "cob_image_flip")
+set(cob_image_flip_MAINTAINER "Richard Bormann <richard.bormann@ipa.fraunhofer.de>")
+set(cob_image_flip_DEPRECATED "")
+set(cob_image_flip_VERSION "0.6.6")
+set(cob_image_flip_BUILD_DEPENDS "boost" "cmake_modules" "cv_bridge" "geometry_msgs" "image_transport" "libopencv-dev" "nodelet" "pcl_conversions" "pcl_ros" "roscpp" "sensor_msgs" "stereo_msgs" "tf")
+set(cob_image_flip_RUN_DEPENDS "boost" "cmake_modules" "cv_bridge" "geometry_msgs" "image_transport" "libopencv-dev" "nodelet" "pcl_conversions" "pcl_ros" "roscpp" "sensor_msgs" "stereo_msgs" "tf")
+set(cob_image_flip_BUILDTOOL_DEPENDS "catkin")

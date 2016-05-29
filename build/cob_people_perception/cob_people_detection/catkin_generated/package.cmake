@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "cob_people_detection")
+set(cob_people_detection_MAINTAINER "Richard Bormann <richard.bormann@ipa.fraunhofer.de>")
+set(cob_people_detection_DEPRECATED "")
+set(cob_people_detection_VERSION "1.0.0")
+set(cob_people_detection_BUILD_DEPENDS "actionlib" "actionlib_msgs" "boost" "cmake_modules" "cob_image_flip" "cob_perception_msgs" "cob_vision_utils" "cv_bridge" "dynamic_reconfigure" "geometry_msgs" "image_transport" "image_geometry" "libopencv-dev" "libpcl-all-dev" "message_generation" "nodelet" "pcl_ros" "roscpp" "sensor_msgs" "std_msgs" "std_srvs" "stereo_msgs" "tf")
+set(cob_people_detection_RUN_DEPENDS "message_runtime" "image_view" "actionlib" "actionlib_msgs" "boost" "cmake_modules" "cob_image_flip" "cob_perception_msgs" "cob_vision_utils" "cv_bridge" "dynamic_reconfigure" "geometry_msgs" "image_transport" "image_geometry" "libopencv-dev" "libpcl-all-dev" "message_generation" "nodelet" "pcl_ros" "roscpp" "sensor_msgs" "std_msgs" "std_srvs" "stereo_msgs" "tf")
+set(cob_people_detection_BUILDTOOL_DEPENDS "catkin")

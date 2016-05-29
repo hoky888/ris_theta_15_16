@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "cob_vision_utils")
+set(cob_vision_utils_MAINTAINER "Richard Bormann <rmb@ipa.fhg.de>")
+set(cob_vision_utils_DEPRECATED "")
+set(cob_vision_utils_VERSION "0.6.6")
+set(cob_vision_utils_BUILD_DEPENDS "cmake_modules" "libopencv-dev" "roscpp" "tinyxml" "visualization_msgs")
+set(cob_vision_utils_RUN_DEPENDS "cmake_modules" "libopencv-dev" "roscpp" "tinyxml" "visualization_msgs")
+set(cob_vision_utils_BUILDTOOL_DEPENDS "catkin")

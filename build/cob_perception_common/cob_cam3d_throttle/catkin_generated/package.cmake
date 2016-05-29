@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "cob_cam3d_throttle")
+set(cob_cam3d_throttle_MAINTAINER "Joshua Hampp <joshua.hampp@ipa.fhg.de>")
+set(cob_cam3d_throttle_DEPRECATED "")
+set(cob_cam3d_throttle_VERSION "0.6.6")
+set(cob_cam3d_throttle_BUILD_DEPENDS "message_filters" "nodelet" "pluginlib" "roscpp" "sensor_msgs")
+set(cob_cam3d_throttle_RUN_DEPENDS "message_filters" "nodelet" "pluginlib" "roscpp" "sensor_msgs")
+set(cob_cam3d_throttle_BUILDTOOL_DEPENDS "catkin")

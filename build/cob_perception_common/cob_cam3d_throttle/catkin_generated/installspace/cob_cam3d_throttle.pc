@@ -1,0 +1,8 @@
+prefix=/home/team_theta/ROS/install
+
+Name: cob_cam3d_throttle
+Description: Description of cob_cam3d_throttle
+Version: 0.6.6
+Cflags: 
+Libs: -L/home/team_theta/ROS/install/lib -lcam3d_throttle
+Requires: message_filters nodelet pluginlib roscpp sensor_msgs

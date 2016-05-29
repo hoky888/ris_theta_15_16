@@ -1,2 +1,2 @@
-task2:vicos_ros-master/facedetector:vicos_ros-master/ferns_ros:vicos_ros-master/julius_ros:vicos_ros-master/localizer:vicos_ros-master/pcl_demos:vicos_ros-master/turtlebot_vicos:vicos_ros-master/zbar_ros
+procrob_functional:task2:vicos_ros-master/facedetector:vicos_ros-master/ferns_ros:vicos_ros-master/julius_ros:vicos_ros-master/localizer:vicos_ros-master/pcl_demos:vicos_ros-master/turtlebot_vicos:vicos_ros-master/zbar_ros
 -DCATKIN_DEVEL_PREFIX=/home/team_theta/ROS/devel -DCMAKE_INSTALL_PREFIX=/home/team_theta/ROS/install -G Unix Makefiles

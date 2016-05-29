@@ -537,6 +537,15 @@ dynamic_reconfigure_DIR:PATH=/opt/ros/indigo/share/dynamic_reconfigure/cmake
 eigen_conversions_DIR:PATH=/opt/ros/indigo/share/eigen_conversions/cmake
 
 //Value Computed by CMake
+face_recognition_BINARY_DIR:STATIC=/home/team_theta/ROS/build/procrob_functional
+
+//Value Computed by CMake
+face_recognition_SOURCE_DIR:STATIC=/home/team_theta/ROS/src/procrob_functional
+
+//Dependencies for target
+face_recognition_lib_LIB_DEPENDS:STATIC=
+
+//Value Computed by CMake
 facedetector_BINARY_DIR:STATIC=/home/team_theta/ROS/build/vicos_ros-master/facedetector
 
 //Value Computed by CMake
@@ -870,7 +879,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_LOCAL_GENERATORS:INTERNAL=10
+CMAKE_NUMBER_OF_LOCAL_GENERATORS:INTERNAL=11
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

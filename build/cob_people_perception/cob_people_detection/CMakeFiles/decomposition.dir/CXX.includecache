@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/team_theta/ROS/src/cob_people_perception/cob_people_detection/common/include/thirdparty/decomposition.hpp
+opencv2/core/core.hpp
+/home/team_theta/ROS/src/cob_people_perception/cob_people_detection/common/include/thirdparty/opencv2/core/core.hpp
+
+/home/team_theta/ROS/src/cob_people_perception/cob_people_detection/common/include/thirdparty/helper.hpp
+opencv2/core/core.hpp
+/home/team_theta/ROS/src/cob_people_perception/cob_people_detection/common/include/thirdparty/opencv2/core/core.hpp
+vector
+-
+set
+-
+
+/home/team_theta/ROS/src/cob_people_perception/cob_people_detection/common/src/decomposition.cpp
+thirdparty/decomposition.hpp
+/home/team_theta/ROS/src/cob_people_perception/cob_people_detection/common/src/thirdparty/decomposition.hpp
+thirdparty/helper.hpp
+/home/team_theta/ROS/src/cob_people_perception/cob_people_detection/common/src/thirdparty/helper.hpp
+

@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/team_theta/ROS/src/cob_people_perception/cob_people_detection/common/include/cob_people_detection/face_normalizer.h
+opencv/cv.h
+-
+opencv/cvaux.h
+-
+opencv/highgui.h
+-
+opencv/ml.h
+-
+iostream
+-
+boost/lexical_cast.hpp
+-
+
+/home/team_theta/ROS/src/cob_people_perception/cob_people_detection/common/src/face_align_test.cpp
+cob_people_detection/face_normalizer.h
+/home/team_theta/ROS/src/cob_people_perception/cob_people_detection/common/src/cob_people_detection/face_normalizer.h
+iostream
+-
+opencv/cv.h
+-
+opencv/highgui.h
+-
+
