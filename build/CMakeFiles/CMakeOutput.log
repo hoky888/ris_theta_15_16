@@ -291,3 +291,213 @@ Linking C executable cmTryCompileExec3355038551
 make[1]: Leaving directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
 
 
+Determining if the function XOpenDisplay exists in the /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so passed with the following output:
+Change Dir: /home/team_theta/ROS/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec2181477404/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2181477404.dir/build.make CMakeFiles/cmTryCompileExec2181477404.dir/build
+make[1]: Entering directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec2181477404.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=XOpenDisplay   -o CMakeFiles/cmTryCompileExec2181477404.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec2181477404
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2181477404.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=XOpenDisplay    CMakeFiles/cmTryCompileExec2181477404.dir/CheckFunctionExists.c.o  -o cmTryCompileExec2181477404 -rdynamic -lX11 -lXext 
+make[1]: Leaving directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function gethostbyname exists passed with the following output:
+Change Dir: /home/team_theta/ROS/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec3191842149/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3191842149.dir/build.make CMakeFiles/cmTryCompileExec3191842149.dir/build
+make[1]: Entering directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3191842149.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=gethostbyname   -o CMakeFiles/cmTryCompileExec3191842149.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec3191842149
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3191842149.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=gethostbyname    CMakeFiles/cmTryCompileExec3191842149.dir/CheckFunctionExists.c.o  -o cmTryCompileExec3191842149 -rdynamic 
+make[1]: Leaving directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function connect exists passed with the following output:
+Change Dir: /home/team_theta/ROS/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec699769631/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec699769631.dir/build.make CMakeFiles/cmTryCompileExec699769631.dir/build
+make[1]: Entering directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec699769631.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=connect   -o CMakeFiles/cmTryCompileExec699769631.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec699769631
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec699769631.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=connect    CMakeFiles/cmTryCompileExec699769631.dir/CheckFunctionExists.c.o  -o cmTryCompileExec699769631 -rdynamic 
+make[1]: Leaving directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function remove exists passed with the following output:
+Change Dir: /home/team_theta/ROS/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec3682430051/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3682430051.dir/build.make CMakeFiles/cmTryCompileExec3682430051.dir/build
+make[1]: Entering directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3682430051.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=remove   -o CMakeFiles/cmTryCompileExec3682430051.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec3682430051
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3682430051.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=remove    CMakeFiles/cmTryCompileExec3682430051.dir/CheckFunctionExists.c.o  -o cmTryCompileExec3682430051 -rdynamic 
+make[1]: Leaving directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function shmat exists passed with the following output:
+Change Dir: /home/team_theta/ROS/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec918470246/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec918470246.dir/build.make CMakeFiles/cmTryCompileExec918470246.dir/build
+make[1]: Entering directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec918470246.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=shmat   -o CMakeFiles/cmTryCompileExec918470246.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec918470246
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec918470246.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=shmat    CMakeFiles/cmTryCompileExec918470246.dir/CheckFunctionExists.c.o  -o cmTryCompileExec918470246 -rdynamic 
+make[1]: Leaving directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function IceConnectionNumber exists in the ICE passed with the following output:
+Change Dir: /home/team_theta/ROS/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec4058430787/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec4058430787.dir/build.make CMakeFiles/cmTryCompileExec4058430787.dir/build
+make[1]: Entering directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec4058430787.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=IceConnectionNumber   -o CMakeFiles/cmTryCompileExec4058430787.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec4058430787
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec4058430787.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=IceConnectionNumber    CMakeFiles/cmTryCompileExec4058430787.dir/CheckFunctionExists.c.o  -o cmTryCompileExec4058430787 -rdynamic -lICE 
+make[1]: Leaving directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function png_create_read_struct exists passed with the following output:
+Change Dir: /home/team_theta/ROS/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec170976827/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec170976827.dir/build.make CMakeFiles/cmTryCompileExec170976827.dir/build
+make[1]: Entering directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec170976827.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=png_create_read_struct   -o CMakeFiles/cmTryCompileExec170976827.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec170976827
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec170976827.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=png_create_read_struct    CMakeFiles/cmTryCompileExec170976827.dir/CheckFunctionExists.c.o  -o cmTryCompileExec170976827 -rdynamic -lpng 
+make[1]: Leaving directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function jpeg_read_header exists passed with the following output:
+Change Dir: /home/team_theta/ROS/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec415546610/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec415546610.dir/build.make CMakeFiles/cmTryCompileExec415546610.dir/build
+make[1]: Entering directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec415546610.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=jpeg_read_header   -o CMakeFiles/cmTryCompileExec415546610.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec415546610
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec415546610.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=jpeg_read_header    CMakeFiles/cmTryCompileExec415546610.dir/CheckFunctionExists.c.o  -o cmTryCompileExec415546610 -rdynamic -ljpeg 
+make[1]: Leaving directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file sys/types.h exists passed with the following output:
+Change Dir: /home/team_theta/ROS/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec266877527/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec266877527.dir/build.make CMakeFiles/cmTryCompileExec266877527.dir/build
+make[1]: Entering directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec266877527.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec266877527.dir/CheckIncludeFile.c.o   -c /home/team_theta/ROS/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTryCompileExec266877527
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec266877527.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTryCompileExec266877527.dir/CheckIncludeFile.c.o  -o cmTryCompileExec266877527 -rdynamic 
+make[1]: Leaving directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file stdint.h exists passed with the following output:
+Change Dir: /home/team_theta/ROS/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec3055329707/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3055329707.dir/build.make CMakeFiles/cmTryCompileExec3055329707.dir/build
+make[1]: Entering directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3055329707.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec3055329707.dir/CheckIncludeFile.c.o   -c /home/team_theta/ROS/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTryCompileExec3055329707
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3055329707.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTryCompileExec3055329707.dir/CheckIncludeFile.c.o  -o cmTryCompileExec3055329707 -rdynamic 
+make[1]: Leaving directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file stddef.h exists passed with the following output:
+Change Dir: /home/team_theta/ROS/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec4059895009/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec4059895009.dir/build.make CMakeFiles/cmTryCompileExec4059895009.dir/build
+make[1]: Entering directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec4059895009.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec4059895009.dir/CheckIncludeFile.c.o   -c /home/team_theta/ROS/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTryCompileExec4059895009
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec4059895009.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTryCompileExec4059895009.dir/CheckIncludeFile.c.o  -o cmTryCompileExec4059895009 -rdynamic 
+make[1]: Leaving directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+
+
+Determining size of void* passed with the following output:
+Change Dir: /home/team_theta/ROS/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec1895683836/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec1895683836.dir/build.make CMakeFiles/cmTryCompileExec1895683836.dir/build
+make[1]: Entering directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec1895683836.dir/SIZE_OF_VOID_PTR.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec1895683836.dir/SIZE_OF_VOID_PTR.c.o   -c /home/team_theta/ROS/build/CMakeFiles/CheckTypeSize/SIZE_OF_VOID_PTR.c
+Linking C executable cmTryCompileExec1895683836
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1895683836.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTryCompileExec1895683836.dir/SIZE_OF_VOID_PTR.c.o  -o cmTryCompileExec1895683836 -rdynamic -ljpeg 
+make[1]: Leaving directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the CXX compiler has std namespace passed with the following output:
+Change Dir: /home/team_theta/ROS/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec1382910809/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec1382910809.dir/build.make CMakeFiles/cmTryCompileExec1382910809.dir/build
+make[1]: Entering directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec1382910809.dir/TestForSTDNamespace.cxx.o
+/usr/bin/c++    -Wreturn-type    -o CMakeFiles/cmTryCompileExec1382910809.dir/TestForSTDNamespace.cxx.o -c /usr/share/cmake-2.8/Modules/TestForSTDNamespace.cxx
+Linking CXX executable cmTryCompileExec1382910809
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1382910809.dir/link.txt --verbose=1
+/usr/bin/c++    -Wreturn-type     CMakeFiles/cmTryCompileExec1382910809.dir/TestForSTDNamespace.cxx.o  -o cmTryCompileExec1382910809 -rdynamic 
+make[1]: Leaving directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file iostream exists passed with the following output:
+Change Dir: /home/team_theta/ROS/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec3138178999/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3138178999.dir/build.make CMakeFiles/cmTryCompileExec3138178999.dir/build
+make[1]: Entering directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/team_theta/ROS/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec3138178999.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -Wreturn-type    -o CMakeFiles/cmTryCompileExec3138178999.dir/CheckIncludeFile.cxx.o -c /home/team_theta/ROS/build/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+Linking CXX executable cmTryCompileExec3138178999
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3138178999.dir/link.txt --verbose=1
+/usr/bin/c++    -Wreturn-type     CMakeFiles/cmTryCompileExec3138178999.dir/CheckIncludeFile.cxx.o  -o cmTryCompileExec3138178999 -rdynamic 
+make[1]: Leaving directory `/home/team_theta/ROS/build/CMakeFiles/CMakeTmp'
+
+

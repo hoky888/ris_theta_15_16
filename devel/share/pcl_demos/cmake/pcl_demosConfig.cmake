@@ -67,7 +67,7 @@ set(pcl_demos_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("TRUE" STREQUAL "TRUE")
-  set(pcl_demos_SOURCE_PREFIX /home/team_theta/ROS/src/vicos_ros-master/pcl_demos)
+  set(pcl_demos_SOURCE_PREFIX /home/team_theta/ROS/src/depth/pcl_demos)
   set(pcl_demos_DEVEL_PREFIX /home/team_theta/ROS/devel)
   set(pcl_demos_INSTALL_PREFIX "")
   set(pcl_demos_PREFIX ${pcl_demos_DEVEL_PREFIX})
@@ -103,7 +103,7 @@ if(NOT "/usr/include;/usr/include/pcl-1.7;/usr/include/eigen3;/usr/include/ni;/u
         message(FATAL_ERROR "Project 'pcl_demos' specifies '${idir}' as an include dir, which is not found.  It does not exist in '${include}'.  Ask the maintainer 'Luka Cehovin <luka.cehovin@gmail.com>' to fix it.")
       endif()
     else()
-      message(FATAL_ERROR "Project 'pcl_demos' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/team_theta/ROS/src/vicos_ros-master/pcl_demos/${idir}'.  Ask the maintainer 'Luka Cehovin <luka.cehovin@gmail.com>' to fix it.")
+      message(FATAL_ERROR "Project 'pcl_demos' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/team_theta/ROS/src/depth/pcl_demos/${idir}'.  Ask the maintainer 'Luka Cehovin <luka.cehovin@gmail.com>' to fix it.")
     endif()
     _list_append_unique(pcl_demos_INCLUDE_DIRS ${include})
   endforeach()

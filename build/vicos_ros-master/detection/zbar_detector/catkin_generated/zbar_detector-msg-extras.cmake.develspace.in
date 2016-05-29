@@ -1,0 +1,2 @@
+set(zbar_detector_MESSAGE_FILES "/home/team_theta/ROS/src/vicos_ros-master/detection/zbar_detector/msg/Marker.msg")
+set(zbar_detector_SERVICE_FILES "")

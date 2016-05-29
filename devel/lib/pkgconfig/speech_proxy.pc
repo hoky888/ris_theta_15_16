@@ -1,0 +1,8 @@
+prefix=/home/team_theta/ROS/devel
+
+Name: speech_proxy
+Description: Description of speech_proxy
+Version: 0.1.0
+Cflags: 
+Libs: -L/home/team_theta/ROS/devel/lib 
+Requires: roscpp

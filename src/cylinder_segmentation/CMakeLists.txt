@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+
+project(cylinder_segmentation)
+
+find_package(PCL 1.2 REQUIRED)
+
+find_package(catkin REQUIRED COMPONENTS
+  roscpp
+  rospy
+  std_msgs
+)
+
+include_directories(${PCL_INCLUDE_DIRS})
+link_directories(${PCL_LIBRARY_DIRS})
+add_definitions(${PCL_DEFINITIONS})
+
+add_executable (cylinder_segmentation src/cylinder_segmentation.cpp)
+target_link_libraries (cylinder_segmentation ${PCL_LIBRARIES})
+target_link_libraries(cylinder_segmentation ${catkin_LIBRARIES})
