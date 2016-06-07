@@ -38,21 +38,23 @@ int currentPOsition = 11;
 double x_current = 0;
 double y_current = 0;
 double theta_current = 0;
-visualization_msgs::MarkerArray ma;
 double coords[][2] = {{-0.17, -0.963},{0.853, 0.604},{1.95, -0.254},{3.74, 1.9},{5.81, 0.836}, {2.49,2.77},{-0.232, -0.936}};
 int goal = 0;
 tf::TransformListener *listener;
 tf::TransformListener *odom_listener;
+ros::Publisher map_waypoints_pub;
 MoveBaseClient *ac;
 ros::Publisher cmd_vel_pub_;
 int faceCount = 0;
 
+int path_coords_length = 15;
 double path_coords[][2] = {{5.76,0.82},{4.45,1.6},{3.81,1.91},{3.21,2.43},{2.58,2.78},{2.94,1.01},{1.95,-0.294},{1.44,0.0698},{1.34,-1.22},{0.77,-1.88},{0.307,-1.46},{-0.198,-0.984},{0.252,-0.289},{0.906,0.441},{1.82,1.84}};
 
 typedef int vertex_t;
 typedef double weight_t;
 
-int prices[15][15] = {{ 0, 1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+int prices[15][15] = {
+			{ 0, 1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
 			{ 1, 0, 1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
 			{-1, 1, 0,-1,-1, 1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
 			{-1,-1, 1, 0, 1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
@@ -410,18 +412,87 @@ void faceMapperCallback(const visualization_msgs::MarkerArray& msg)
     }
 }
 
+void publish_waypoints() {
+	visualization_msgs::MarkerArray marker_array;
+	int i = 0;
+	for(i = 0; i < path_coords_length ; i++)
+	{
+		visualization_msgs::Marker marker;
+		marker.header.frame_id = "base_link";
+		marker.header.stamp = ros::Time();
+		marker.ns = "waypoints";
+		marker.id = i;
+		marker.type = visualization_msgs::Marker::SPHERE;
+		marker.action = visualization_msgs::Marker::ADD;
+		marker.pose.position.x = path_coords[i][0];
+		marker.pose.position.y = path_coords[i][1];
+		marker.pose.position.z = 0;
+		marker.pose.orientation.x = 0.0;
+		marker.pose.orientation.y = 0.0;
+		marker.pose.orientation.z = 0.0;
+		marker.pose.orientation.w = 1.0;
+
+		marker.scale.x = 0.1;
+		marker.scale.y = 0.1;
+		marker.scale.z = 0;
+
+		marker.color.a = 1.0; // Don't forget to set the alpha!
+		switch(i)
+		{
+			case 0:
+			case 1:
+				marker.color.r = 1;
+				marker.color.g = 0;
+				marker.color.b = 0;
+				break;
+			case 2:
+			case 3:
+			case 4:
+				marker.color.r = 1;
+				marker.color.g = 1;
+				marker.color.b = 0;
+				break;
+			case 5:
+			case 6:
+			case 7:
+			case 8:
+			case 9:
+				marker.color.r = 0;
+				marker.color.g = 1;
+				marker.color.b = 0;
+				break;
+			case 10:
+			case 11:
+			case 12:
+			case 13:
+			case 14:
+				marker.color.r = 0;
+				marker.color.g = 0;
+				marker.color.b = 1;
+				break;
+			default:
+				marker.color.r = 1;
+				marker.color.g = 1;
+				marker.color.b = 1;
+				break;
+		}
+		marker_array.markers.push_back(marker);
+	}
+	map_waypoints_pub.publish( marker_array );
+}
+
 int main(int argc, char** argv){
   	ros::init(argc, argv, "simpe_navigation_goals");
 	listener = new tf::TransformListener();
 	ros::NodeHandle n;
 	ros::Subscriber sub = n.subscribe("/facemapper/markers", -1, faceMapperCallback);        
 	ros::Publisher faces_pub = n.advertise<visualization_msgs::MarkerArray>("detected_faces", 1000);
-    	cmd_vel_pub_ = n.advertise<geometry_msgs::Twist>("/cmd_vel_mux/input/teleop", 1);
-    	odom_listener = new tf::TransformListener();
+	map_waypoints_pub = n.advertise<visualization_msgs::MarkerArray>("map_waypoints", 1000);
+	cmd_vel_pub_ = n.advertise<geometry_msgs::Twist>("/cmd_vel_mux/input/teleop", 1);
+	odom_listener = new tf::TransformListener();
 	
 	ros::Subscriber sub1 = n.subscribe("command", -1, voiceCallback);
 	sound_play::SoundClient sc(n,"robotsound");
-
 	
   //tell the action client that we want to spin a thread by default
   ac = new MoveBaseClient("move_base", true);
@@ -431,14 +502,15 @@ int main(int argc, char** argv){
   }*/  
 	
 	sleep(1);
-	sc.say("My name is Stephen Hawking");
+	sc.say("Greetings friend. Please state your destination.");
+	publish_waypoints();
 
 	// Dijkstra
 	int path_index = 13;
-	while (path_index != 6) {
+	//while (path_index != 6) {
 	//	path_index = Dijkstra(15, path_index, 6);
 	//	move_to(path_coords[path_index][0],path_coords[path_index][1]);
-	}
+	//}
 
  /*
 	bringup_minimal
