@@ -12,6 +12,17 @@
 #include <nav_msgs/Odometry.h>
 #include <angles/angles.h>
 #include <geometry_msgs/Twist.h>
+#include <std_msgs/String.h>
+#include <sound_play/sound_play.h>
+#include <string>
+#include <algorithm>
+#include <vector>
+#include <iostream>
+#include <list>
+#include <limits>
+#include <utility>
+#include <iterator>
+
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
@@ -23,21 +34,132 @@ struct face
 	bool visited;
 } faces[25];
 
+int currentPOsition = 11;
 double x_current = 0;
 double y_current = 0;
 double theta_current = 0;
 visualization_msgs::MarkerArray ma;
-double coords[][2] = {{0.5, 0.2},{1.76, -0.22},{2.38, 0.9},{4.0, 1.3}, {5.4,0.11},{6.39, -0.80}};
-//double coords[][2] = {{0.46, 1.49},{-0.17, -0.38},{1.10, -0.66},{0.71, -2.26}, {2.04,-2.72},{0.3, -3.85},{-0.68, -4.39}};
-//double coords[][2] = {{-0.17, -0.38},{1.10, -0.66},{-0.68, -4.39}};
+double coords[][2] = {{-0.17, -0.963},{0.853, 0.604},{1.95, -0.254},{3.74, 1.9},{5.81, 0.836}, {2.49,2.77},{-0.232, -0.936}};
 int goal = 0;
 tf::TransformListener *listener;
 tf::TransformListener *odom_listener;
 MoveBaseClient *ac;
 ros::Publisher cmd_vel_pub_;
 int faceCount = 0;
-int indeks = 0;
-	
+
+double path_coords[][2] = {{5.76,0.82},{4.45,1.6},{3.81,1.91},{3.21,2.43},{2.58,2.78},{2.94,1.01},{1.95,-0.294},{1.44,0.0698},{1.34,-1.22},{0.77,-1.88},{0.307,-1.46},{-0.198,-0.984},{0.252,-0.289},{0.906,0.441},{1.82,1.84}};
+
+typedef int vertex_t;
+typedef double weight_t;
+
+int prices[15][15] = {{ 0, 1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+			{ 1, 0, 1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+			{-1, 1, 0,-1,-1, 1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+			{-1,-1, 1, 0, 1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+			{-1,-1,-1, 1, 0,-1,-1,-1,-1,-1,-1,-1,-1,-1, 1},
+			{-1,-1, 1,-1,-1, 0, 1,-1,-1,-1,-1,-1,-1,-1,-1},
+			{-1,-1,-1,-1,-1,-1, 0, 1, 1,-1,-1,-1,-1,-1,-1},
+			{-1,-1,-1,-1,-1,-1,-1, 0,-1,-1,-1,-1,-1, 1,-1},
+			{-1,-1,-1,-1,-1,-1, 1,-1, 0, 1,-1,-1,-1,-1,-1},
+			{-1,-1,-1,-1,-1,-1,-1,-1, 1, 0, 1,-1,-1,-1,-1},
+			{-1,-1,-1,-1,-1,-1,-1,-1,-1, 1, 0, 1,-1,-1,-1},
+			{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 1, 0, 1,-1,-1},
+			{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 1, 0, 1,-1},
+			{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 1, 0, 1},
+			{-1,-1,-1,-1, 1,-1,-1,-1,-1,-1,-1,-1,-1, 1, 0}};
+
+
+const weight_t max_weight = std::numeric_limits<double>::infinity();
+ 
+struct neighbor {
+    vertex_t target;
+    weight_t weight;
+    neighbor(vertex_t arg_target, weight_t arg_weight)
+        : target(arg_target), weight(arg_weight) { }
+};
+ 
+typedef std::vector<std::vector<neighbor> > adjacency_list_t; 
+ 
+void DijkstraComputePaths(vertex_t source,
+                          const adjacency_list_t &adjacency_list,
+                          std::vector<weight_t> &min_distance,
+                          std::vector<vertex_t> &previous)
+{
+    int n = adjacency_list.size();
+    min_distance.clear();
+    min_distance.resize(n, max_weight);
+    min_distance[source] = 0;
+    previous.clear();
+    previous.resize(n, -1);
+    std::set<std::pair<weight_t, vertex_t> > vertex_queue;
+    vertex_queue.insert(std::make_pair(min_distance[source], source));
+ 
+    while (!vertex_queue.empty()) 
+    {
+        weight_t dist = vertex_queue.begin()->first;
+        vertex_t u = vertex_queue.begin()->second;
+        vertex_queue.erase(vertex_queue.begin());
+ 
+        // Visit each edge exiting u
+	const std::vector<neighbor> &neighbors = adjacency_list[u];
+        for (std::vector<neighbor>::const_iterator neighbor_iter = neighbors.begin();
+             neighbor_iter != neighbors.end();
+             neighbor_iter++)
+        {
+            vertex_t v = neighbor_iter->target;
+            weight_t weight = neighbor_iter->weight;
+            weight_t distance_through_u = dist + weight;
+	    if (distance_through_u < min_distance[v]) {
+	        vertex_queue.erase(std::make_pair(min_distance[v], v));
+ 
+	        min_distance[v] = distance_through_u;
+	        previous[v] = u;
+	        vertex_queue.insert(std::make_pair(min_distance[v], v)); 
+	    } 
+        }
+    }
+} 
+ 
+std::list<vertex_t> DijkstraGetShortestPathTo(vertex_t vertex, const std::vector<vertex_t> &previous)
+{
+    std::list<vertex_t> path;
+    for ( ; vertex != -1; vertex = previous[vertex])
+        path.push_front(vertex);
+    return path;
+} 
+ 
+int Dijkstra(int n, int start, int end)
+{
+    // remember to insert edges both ways for an undirected graph
+    adjacency_list_t adjacency_list(n);
+    // 0 = a
+    for(int i = 0; i < n; i++){
+		for(int j = 0; j < n; j++){
+			if(prices[i][j] > 0){
+				  adjacency_list[i].push_back(neighbor(j, prices[i][j]));
+			}
+		}
+	}
+   
+    //int start, end;
+	//scanf("%d", &start);
+	//scanf("%d", &end);
+ 
+    std::vector<weight_t> min_distance;
+    std::vector<vertex_t> previous;
+    DijkstraComputePaths(start, adjacency_list, min_distance, previous);   
+    std::list<vertex_t> path = DijkstraGetShortestPathTo(end, previous);
+    std::cout << "Path : ";
+    
+    path.pop_front();
+	for (std::list<vertex_t>::iterator it=path.begin(); it != path.end(); ++it){
+		 int i = (int) * it ;
+		 printf("%d ",i);
+	}
+  std::cout << '\n';
+	return path.front();
+}
+
 void move_to(double x, double y, double ox, double oy)
 {	
   move_base_msgs::MoveBaseGoal goal;
@@ -58,7 +180,6 @@ void move_to(double x, double y, double ox, double oy)
   if(ac->getState() == actionlib::SimpleClientGoalState::SUCCEEDED) 
   {
     ROS_INFO("		SUCCESS");
-    faces[indeks].visited = true;
   }
   else 
   {
@@ -93,12 +214,130 @@ void move_to(double x, double y)
 
 void rotate(int angle)
 {	
+	ROS_INFO("rotating");
 	geometry_msgs::Twist base_cmd;	
 	base_cmd.angular.z = 0.45;
 	for(int i = 0; i < angle ; i++)
 		cmd_vel_pub_.publish(base_cmd);
 }
 
+void traverse_street(int street) {
+	int start;
+	int end;
+	switch (street) {
+		case 0: {
+			start = 0;
+			end = 1;
+			break;
+		}
+		case 1: {
+			start = 2;
+			end = 4;
+			break;
+		}
+		case 2: {
+			start = 5;
+			end = 9;
+			break;
+		}
+		case 3: {
+			start = 10;
+			end = 14;
+			break;
+		}
+		default:
+			return;
+	}
+	for (unsigned int i = start; i <= end; i++) {
+		int path_index = currentPOsition;
+		while (path_index != 6) {
+			path_index = Dijkstra(15, path_index, 6);
+	//	move_to(path_coords[path_index][0],path_coords[path_index][1]);
+		}
+		
+		
+		move_to(path_coords[i][0],path_coords[i][1]);
+	} 
+}
+
+unsigned int levenshtein_distance(const std::string& s1, const std::string& s2) 
+{
+	const std::size_t len1 = s1.size(), len2 = s2.size();
+	std::vector<unsigned int> col(len2+1), prevCol(len2+1);
+	
+	for (unsigned int i = 0; i < prevCol.size(); i++)
+		prevCol[i] = i;
+	for (unsigned int i = 0; i < len1; i++) {
+		col[0] = i+1;
+		for (unsigned int j = 0; j < len2; j++)
+                        // note that std::min({arg1, arg2, arg3}) works only in C++11,
+                        // for C++98 use std::min(std::min(arg1, arg2), arg3)
+			//col[j+1] = std::min({ prevCol[1 + j] + 1, col[j] + 1, prevCol[j] + (s1[i]==s2[j] ? 0 : 1) });
+			col[j+1] = std::min(std::min(prevCol[1 + j] + 1, col[j] + 1), prevCol[j] + (s1[i]==s2[j] ? 0 : 1));
+		col.swap(prevCol);
+	}
+	return prevCol[len2];
+}
+
+void voiceCallback(const std_msgs::String::ConstPtr& msg)
+{
+	ros::NodeHandle n;
+	ROS_INFO("I heard: [%s]", msg->data.c_str());
+
+	sound_play::SoundClient sc(n,"robotsound");
+
+	sleep(1);
+	std::string where = msg->data.c_str();
+	std::transform(where.begin(), where.end(), where.begin(), ::tolower);
+	std::replace(where.begin(), where.end(), '-', ' ');
+
+	std::size_t found = where.find("red street");
+	if (found != std::string::npos) {
+		traverse_street(0);
+		return;
+	}
+
+	found = where.find("yellow street");
+	if (found != std::string::npos) {
+		traverse_street(1);
+		return;
+	}
+
+	found = where.find("green street");
+	if (found != std::string::npos) {
+		traverse_street(2);
+		return;
+	}
+
+	found = where.find("blue street");
+	if (found != std::string::npos) {
+		traverse_street(3);
+		return;
+	}
+
+	std::string cepec = "Stephen will take you now to " + where + ". Hawking out!";
+
+	std::string people[3] = {"harry potter", "tom hanks", "kim jong un"};
+	double coordinates[][2] = {{0.91,0.74}, {6.1,1.27}, {0.91,0.74}};
+
+	for (unsigned int i = 0; i < 2; i++) {
+		if (levenshtein_distance(people[i], where) < 2) {
+			sc.say(cepec);
+			move_to(coordinates[i][0],coordinates[i][1]);
+			return;
+		}
+	}
+
+	cepec = "Hit me baby one more time!";
+	sc.say(cepec);
+
+	//if(where == "Harry Potter")
+	//	move_to(0.91,0.74);
+	
+	//if(where == "Tom Hanks")
+	//	move_to(6.1,1.27);
+
+}
 
 void faceMapperCallback(const visualization_msgs::MarkerArray& msg)
 {
@@ -125,17 +364,9 @@ void faceMapperCallback(const visualization_msgs::MarkerArray& msg)
 		x *= 0.30;
 		y *= 0.30;
 		
-		//x = ((int)round(x*1000))/1000.0;
-		//y = ((int)round(y*1000))/1000.0;
 		
-		//double goal_x = ((int)round((pout.pose.position.x + x)*1000))/1000.0;
-		//double goal_y = ((int)round((pout.pose.position.y + y)*1000))/1000.0;
-		
-		x = ((int)round(x*1000))/1000.0;
-		y = ((int)round(y*1000))/1000.0;
-		
-		double goal_x = ((int)round((pout.pose.position.x + x)*1000))/1000.0;
-		double goal_y = ((int)round((pout.pose.position.y + y)*1000))/1000.0;
+		double goal_x = pout.pose.position.x + x;
+		double goal_y = pout.pose.position.y + y;
 				
 	    //ROS_INFO("Roomba rot: [%f, %f, %f, %f]", transform.getRotation().x(), transform.getRotation().y(),transform.getRotation().z(), transform.getRotation().w());
 		//ROS_INFO("Roomba pos: [%f, %f, %f]", transform.getOrigin().x(), transform.getOrigin().y(),transform.getOrigin().z());
@@ -151,7 +382,7 @@ void faceMapperCallback(const visualization_msgs::MarkerArray& msg)
 				//ROS_INFO("Face: [%f, %f] - Pose: [%f, %f]", faces[i].x, faces[i].y, pout.pose.position.x, pout.pose.position.y);
 				double dist = sqrt(pow(pout.pose.position.x-faces[i].x, 2)+pow(pout.pose.position.y-faces[i].y,2));
 				//ROS_INFO("		Dist %d: %f", i, dist);
-				if(dist < 0.5)
+				if(dist < 0.6)
 				{
 					found = true;
 					faces[i].count++;				
@@ -166,11 +397,10 @@ void faceMapperCallback(const visualization_msgs::MarkerArray& msg)
 				faces[faceCount].z = pout.pose.position.z;
 				faces[faceCount].goal_x = goal_x;
 				faces[faceCount].goal_y = goal_y;
-				faces[faceCount].count = 1;
+				faces[faceCount].count = 1;		
 				ROS_INFO("	New face %d : [%f, %f, %f, %f]", faceCount, faces[faceCount].x, faces[faceCount].y, faces[faceCount].goal_x, faces[faceCount].goal_y);
-				
-				ROS_INFO("	Face data %d : [%f, %f, %f]", faceCount, faces[faceCount].x, faces[faceCount].y, faces[faceCount].z);
 
+				ROS_INFO("	New face %d : [%f, %f, %f]", faceCount, faces[faceCount].x, faces[faceCount].y, faces[faceCount].z);
 				faceCount++;		
 			}
 		}
@@ -184,77 +414,43 @@ int main(int argc, char** argv){
   	ros::init(argc, argv, "simpe_navigation_goals");
 	listener = new tf::TransformListener();
 	ros::NodeHandle n;
-	ros::Subscriber sub = n.subscribe("/facemapper/markers", -1, faceMapperCallback);  
+	ros::Subscriber sub = n.subscribe("/facemapper/markers", -1, faceMapperCallback);        
 	ros::Publisher faces_pub = n.advertise<visualization_msgs::MarkerArray>("detected_faces", 1000);
     	cmd_vel_pub_ = n.advertise<geometry_msgs::Twist>("/cmd_vel_mux/input/teleop", 1);
     	odom_listener = new tf::TransformListener();
 	
+	ros::Subscriber sub1 = n.subscribe("command", -1, voiceCallback);
+	sound_play::SoundClient sc(n,"robotsound");
+
+	
   //tell the action client that we want to spin a thread by default
   ac = new MoveBaseClient("move_base", true);
   
-  while(!ac->waitForServer(ros::Duration(5.0))){
+ /* while(!ac->waitForServer(ros::Duration(5.0))){
     ROS_INFO("Waiting for the move_base action server to come up");
-  }
-  
-  for(int i = 0 ; i < 6 ; i++)
-  {
-	// ROS_INFO("Moving to next goal");
-	  move_to(coords[i][0], coords[i][1]); 
-	 // ros::spinOnce();
+  }*/  
 	
-	ROS_INFO("ROTATION START");	
-	for(int g = 0; g < 70; g++){
-		rotate(20000);
-		ros::spinOnce();
-	}      
-	ROS_INFO("ROTATION END");		
+	sleep(1);
+	sc.say("My name is Stephen Hawking");
+
+	// Dijkstra
+	int path_index = 13;
+	while (path_index != 6) {
+	//	path_index = Dijkstra(15, path_index, 6);
+	//	move_to(path_coords[path_index][0],path_coords[path_index][1]);
+	}
+
+ /*
+	bringup_minimal
+	task 2
+	map_Server
+	rviz
+	speech_proxy
+	sound_play soundplay_node.launch
+
+*/	
 	
-	  
-	 /* for(int i = 0; i < faceCount; i++)
-	  {		
-		 ROS_INFO("Detected face %d - visited: %s - count: %d", i,faces[i].visited ? "true" : "false",faces[i].count);
-		  if(!faces[i].visited && faces[i].count > 25)
-			{
-				faces[i].visited = true;
-				ROS_INFO("MOVING TO FACE %d", i);
-				move_to(faces[i].goal_x,faces[i].goal_y,faces[i].x,faces[i].y);
-			}
-	  }*(
-	  ros::spinOnce();*/
-	  
-
-  }
-	  ROS_INFO("FINISHED MAPPING FACES");	
- // ros::spin();
- /* 
-  move_to(2.99,0.60);
-  int facesfinal;
-  */
-  int min_detections = 5;
-  for(int i = 0; i < faceCount; i++){
-
-	 
-	 /*
-	  for(int j = 0; j < faceCount; j++){
-		  if(faces[j].visited == false && faces[j].count > max){
-			//max = faces[j].count;
-			indeks = j;			  
-		  }
-	  }
-	  */
-	//v primeru če preuc je u zidi
-    if(faces[i].goal_x > 6 && faces[i].goal_x < 7.2) {
-		ROS_INFO("Moving to prevc on the wall");
-		 move_to(6.483,-0.812);
-	}
-	else if (faces[i].count >= min_detections){
-	ROS_INFO("Moving to detected face");
-	  move_to(faces[i].goal_x,faces[i].goal_y,faces[i].x,faces[i].y);		
-	} else {
-		ROS_INFO("Skipping false face");
-	}
-	//faces[indeks].visited = true;
-  }
+  ros::spin();
   return 0;
 }
 
