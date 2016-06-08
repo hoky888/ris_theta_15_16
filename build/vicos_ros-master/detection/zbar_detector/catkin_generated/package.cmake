@@ -1,7 +1,0 @@
-set(_CATKIN_CURRENT_PACKAGE "zbar_detector")
-set(zbar_detector_MAINTAINER "Luka Čehovin <luka.cehovin@fri.uni-lj.si>")
-set(zbar_detector_DEPRECATED "")
-set(zbar_detector_VERSION "0.1.0")
-set(zbar_detector_BUILD_DEPENDS "std_msgs" "opencv2" "roscpp" "sensor_msgs" "cv_bridge" "image_transport")
-set(zbar_detector_RUN_DEPENDS "std_msgs" "opencv2" "roscpp" "sensor_msgs" "cv_bridge" "image_transport" "message_runtime")
-set(zbar_detector_BUILDTOOL_DEPENDS "catkin")

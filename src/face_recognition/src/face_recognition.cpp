@@ -84,7 +84,7 @@ public:
     //subscribe to video stream through image transport class
     image_sub_ = it_.subscribe("/detections", 1, &FaceRecognition::imageCB, this);
 
-    ros::Subscriber detection_sub_ = nh_.subscribe("/facedetector/faces", -1,  &FaceRecognition::imageCBB); 
+    //ros::Subscriber detection_sub_ = nh_.subscribe("/facedetector/faces", -1,  &FaceRecognition::imageCBB); 
   }
 
   ~FaceRecognition(void)

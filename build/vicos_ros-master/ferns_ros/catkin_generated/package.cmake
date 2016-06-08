@@ -1,7 +1,0 @@
-set(_CATKIN_CURRENT_PACKAGE "ferns_ros")
-set(ferns_ros_MAINTAINER "Luka Čehovin <luka.cehovin@fri.uni-lj.si>")
-set(ferns_ros_DEPRECATED "")
-set(ferns_ros_VERSION "0.1.0")
-set(ferns_ros_BUILD_DEPENDS "genmsg" "std_msgs" "opencv2" "roscpp" "sensor_msgs" "cv_bridge" "image_transport")
-set(ferns_ros_RUN_DEPENDS "std_msgs" "opencv2" "roscpp" "sensor_msgs" "cv_bridge" "image_transport")
-set(ferns_ros_BUILDTOOL_DEPENDS "catkin" "genmsg")

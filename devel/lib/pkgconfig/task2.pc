@@ -1,8 +1,0 @@
-prefix=/home/team_theta/ROS/devel
-
-Name: task2
-Description: Description of task2
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/team_theta/ROS/devel/lib 
-Requires: 

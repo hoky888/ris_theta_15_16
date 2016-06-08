@@ -1,2 +1,0 @@
-set(costmap_layers_MESSAGE_FILES "/home/team_theta/ROS/src/vicos_ros-master/navigation/costmap_layers/msg/Wall.msg")
-set(costmap_layers_SERVICE_FILES "")

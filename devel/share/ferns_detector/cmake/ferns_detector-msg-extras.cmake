@@ -1,2 +1,0 @@
-set(ferns_detector_MESSAGE_FILES "/home/team_theta/ROS/src/detection/ferns_detector/msg/Detection.msg;/home/team_theta/ROS/src/detection/ferns_detector/msg/DetectedPoint.msg;/home/team_theta/ROS/src/detection/ferns_detector/msg/ModelStatus.msg")
-set(ferns_detector_SERVICE_FILES "")
