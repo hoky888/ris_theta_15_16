@@ -1,7 +1,0 @@
-set(_CATKIN_CURRENT_PACKAGE "facedetector")
-set(facedetector_MAINTAINER "Luka Cehovin <luka.cehovin@gmail.com>")
-set(facedetector_DEPRECATED "")
-set(facedetector_VERSION "0.1.0")
-set(facedetector_BUILD_DEPENDS "roscpp" "rospy" "std_msgs" "sensor_msgs" "dynamic_reconfigure" "message_generation")
-set(facedetector_RUN_DEPENDS "roscpp" "rospy" "std_msgs" "sensor_msgs" "dynamic_reconfigure" "message_runtime" "localizer")
-set(facedetector_BUILDTOOL_DEPENDS "catkin")

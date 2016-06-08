@@ -1,8 +1,0 @@
-prefix=/home/team_theta/ROS/install
-
-Name: facedetector
-Description: Description of facedetector
-Version: 0.1.0
-Cflags: -I/home/team_theta/ROS/install/include
-Libs: -L/home/team_theta/ROS/install/lib 
-Requires: message_runtime

@@ -1,7 +1,0 @@
-set(_CATKIN_CURRENT_PACKAGE "speech_proxy")
-set(speech_proxy_MAINTAINER "Luka Cehovin <luka.cehovin@fri.uni-lj.si>")
-set(speech_proxy_DEPRECATED "")
-set(speech_proxy_VERSION "0.1.0")
-set(speech_proxy_BUILD_DEPENDS "roscpp")
-set(speech_proxy_RUN_DEPENDS "roscpp")
-set(speech_proxy_BUILDTOOL_DEPENDS "catkin")
