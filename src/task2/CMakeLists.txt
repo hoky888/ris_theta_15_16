@@ -195,3 +195,9 @@ find_package(catkin REQUIRED COMPONENTS tf)
 
 add_executable(simple_navigation_goals src/simple_navigation_goals.cpp)
 target_link_libraries(simple_navigation_goals ${catkin_LIBRARIES})
+
+add_executable(face_recognizer_mapper src/face_recognizer_mapper.cpp)
+target_link_libraries(face_recognizer_mapper ${catkin_LIBRARIES})
+
+add_executable(cylinder_recognizer_mapper src/cylinder_recognizer_mapper.cpp)
+target_link_libraries(cylinder_recognizer_mapper ${catkin_LIBRARIES})

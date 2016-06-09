@@ -1,4 +1,3 @@
-
 #include <ros/ros.h>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
@@ -22,6 +21,7 @@
 #include <limits>
 #include <utility>
 #include <iterator>
+#include <sstream>
 
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
@@ -33,12 +33,14 @@ struct face
 	int count;
 	bool visited;
 } faces[25];
-
-int currentPOsition = 11;
+int currentPosition = 11;
+int situation = 1;
 double x_current = 0;
 double y_current = 0;
 double theta_current = 0;
-double coords[][2] = {{-0.17, -0.963},{0.853, 0.604},{1.95, -0.254},{3.74, 1.9},{5.81, 0.836}, {2.49,2.77},{-0.232, -0.936}};
+std::vector<std::string> streets = {"red", "yellow", "green", "blue"};
+std::vector<std::string> people = {"harry", "scarlet", "tina", "peter","kim","filip","matthew","ellen"};
+double coords[][2] = {{-0.17, -0.963},{0.853, 0.604},{1.95, -0.254},{3.74, 1.9},{5.81, 0.836}, {2.49,2.77},{-0.232, -0.936}, {-0.232, -0.936}};
 int goal = 0;
 tf::TransformListener *listener;
 tf::TransformListener *odom_listener;
@@ -162,6 +164,31 @@ int Dijkstra(int n, int start, int end)
 	return path.front();
 }
 
+int DijkstraLength(int n, int start, int end)
+{   
+    adjacency_list_t adjacency_list(n);
+    for(int i = 0; i < n; i++){
+		for(int j = 0; j < n; j++){
+			if(prices[i][j] > 0){
+				  adjacency_list[i].push_back(neighbor(j, prices[i][j]));
+			}
+		}
+	}   
+    std::vector<weight_t> min_distance;
+    std::vector<vertex_t> previous;
+    DijkstraComputePaths(start, adjacency_list, min_distance, previous);   
+    std::list<vertex_t> path = DijkstraGetShortestPathTo(end, previous);
+        
+    path.pop_front();
+    int a = 0;
+	for (std::list<vertex_t>::iterator it=path.begin(); it != path.end(); ++it){
+		 int i = (int) * it ;		
+		 a++;
+	}
+	printf("%d",a);
+	return a;
+}
+
 void move_to(double x, double y, double ox, double oy)
 {	
   move_base_msgs::MoveBaseGoal goal;
@@ -223,6 +250,16 @@ void rotate(int angle)
 		cmd_vel_pub_.publish(base_cmd);
 }
 
+void moveWithDjikstra(int end)
+{
+	int path_index = currentPosition;
+	while (path_index != end) {
+		path_index = Dijkstra(15, path_index, end);
+		//move_to(path_coords[path_index][0],path_coords[path_index][1]);
+		currentPosition = path_index;
+	}
+}
+
 void traverse_street(int street) {
 	int start;
 	int end;
@@ -250,16 +287,27 @@ void traverse_street(int street) {
 		default:
 			return;
 	}
-	for (unsigned int i = start; i <= end; i++) {
-		int path_index = currentPOsition;
-		while (path_index != 6) {
-			path_index = Dijkstra(15, path_index, 6);
-	//	move_to(path_coords[path_index][0],path_coords[path_index][1]);
-		}
-		
-		
-		move_to(path_coords[i][0],path_coords[i][1]);
-	} 
+	int first = DijkstraLength(15,currentPosition,start);
+	int second = DijkstraLength(15,currentPosition,end);
+
+	int path_index = currentPosition;
+
+	if(first <= second ){	
+		moveWithDjikstra(start);
+		for (unsigned int i = start + 1 ; i <= end; i++) {
+			moveWithDjikstra(i);
+			for(int g = 0; g < 10; g++){
+				rotate(200000);
+				ros::spinOnce();
+			}
+		}	
+	}
+	else{
+		moveWithDjikstra(end);
+		for (unsigned int i = end -1; i >= start; i--) {
+			moveWithDjikstra(i);
+		}			
+	}
 }
 
 unsigned int levenshtein_distance(const std::string& s1, const std::string& s2) 
@@ -281,6 +329,52 @@ unsigned int levenshtein_distance(const std::string& s1, const std::string& s2)
 	return prevCol[len2];
 }
 
+int findColor(const std::string& s1)
+{
+	std::string found;
+	int min = 999;
+	int index = -1;
+	istringstream iss(s1);
+	do
+	{
+		string sub;
+		iss >> sub;
+			
+		for(int i = 0; i < streets.size(); i++){	
+			int difference = levenshtein_distance(sub, streets[i]);
+			if(difference < min){
+				min = difference;
+				index = i;
+			}	
+		}
+	} while (iss);
+	
+	return index;
+}
+		
+
+int findPerson(const std::string& s1)
+{
+	std::string found;
+	int min = 999;
+	int index = -1;
+	istringstream iss(s1);
+	do
+	{
+		string sub;
+		iss >> sub;
+			
+		for(int i = 0; i < people.size(); i++){	
+			int difference = levenshtein_distance(sub, people[i]);
+			if(difference < min){
+				min = difference;
+				index = i;
+			}	
+		}
+	} while (iss);
+	
+	return index;
+}		
 void voiceCallback(const std_msgs::String::ConstPtr& msg)
 {
 	ros::NodeHandle n;
@@ -290,54 +384,38 @@ void voiceCallback(const std_msgs::String::ConstPtr& msg)
 
 	sleep(1);
 	std::string where = msg->data.c_str();
-	std::transform(where.begin(), where.end(), where.begin(), ::tolower);
+	/*std::transform(where.begin(), where.end(), where.begin(), ::tolower);
 	std::replace(where.begin(), where.end(), '-', ' ');
+	*/
 
-	std::size_t found = where.find("red street");
-	if (found != std::string::npos) {
+	int color = findColor(where);
+
+	if (color == 0) {
 		traverse_street(0);
 		return;
 	}
 
-	found = where.find("yellow street");
-	if (found != std::string::npos) {
+	
+	if (color == 1) {
 		traverse_street(1);
 		return;
 	}
 
-	found = where.find("green street");
-	if (found != std::string::npos) {
+	if (color == 2) {
 		traverse_street(2);
 		return;
 	}
 
-	found = where.find("blue street");
-	if (found != std::string::npos) {
+	if (color == 3) {
 		traverse_street(3);
 		return;
 	}
 
-	std::string cepec = "Stephen will take you now to " + where + ". Hawking out!";
+	//std::string cepec = "Stephen will take you now to " + where + ". Hawking out!";
 
-	std::string people[3] = {"harry potter", "tom hanks", "kim jong un"};
-	double coordinates[][2] = {{0.91,0.74}, {6.1,1.27}, {0.91,0.74}};
-
-	for (unsigned int i = 0; i < 2; i++) {
-		if (levenshtein_distance(people[i], where) < 2) {
-			sc.say(cepec);
-			move_to(coordinates[i][0],coordinates[i][1]);
-			return;
-		}
-	}
 
 	cepec = "Hit me baby one more time!";
 	sc.say(cepec);
-
-	//if(where == "Harry Potter")
-	//	move_to(0.91,0.74);
-	
-	//if(where == "Tom Hanks")
-	//	move_to(6.1,1.27);
 
 }
 
@@ -411,6 +489,7 @@ void faceMapperCallback(const visualization_msgs::MarkerArray& msg)
       //ROS_ERROR("%s",ex.what());
     }
 }
+
 
 void publish_waypoints() {
 	visualization_msgs::MarkerArray marker_array;
@@ -525,4 +604,3 @@ int main(int argc, char** argv){
   ros::spin();
   return 0;
 }
-
