@@ -16,36 +16,30 @@
 
 typedef pcl::PointXYZ PointT;
 
-// All the objects needed
-pcl::PassThrough<PointT> pass;
-pcl::NormalEstimation<PointT, pcl::Normal> ne;
-pcl::SACSegmentationFromNormals<PointT, pcl::Normal> seg; 
-pcl::ExtractIndices<PointT> extract;
-pcl::ExtractIndices<pcl::Normal> extract_normals;
-pcl::search::KdTree<PointT>::Ptr tree (new pcl::search::KdTree<PointT> ());
-
-
-// Datasets
-pcl::PointCloud<PointT>::Ptr cloud_filtered (new pcl::PointCloud<PointT>);
-pcl::PointCloud<pcl::Normal>::Ptr cloud_normals (new pcl::PointCloud<pcl::Normal>);
-pcl::PointCloud<PointT>::Ptr cloud_filtered2 (new pcl::PointCloud<PointT>);
-pcl::PointCloud<pcl::Normal>::Ptr cloud_normals2 (new pcl::PointCloud<pcl::Normal>);
-pcl::ModelCoefficients::Ptr coefficients_plane (new pcl::ModelCoefficients), coefficients_cylinder (new pcl::ModelCoefficients);
-pcl::PointIndices::Ptr inliers_plane (new pcl::PointIndices), inliers_cylinder (new pcl::PointIndices);
-
-void init()
-{
-
-}
-
 void handle(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){	
   
+	// All the objects needed
+	pcl::PassThrough<PointT> pass;
+	pcl::NormalEstimation<PointT, pcl::Normal> ne;
+	pcl::SACSegmentationFromNormals<PointT, pcl::Normal> seg; 
+	pcl::ExtractIndices<PointT> extract;
+	pcl::ExtractIndices<pcl::Normal> extract_normals;
+	pcl::search::KdTree<PointT>::Ptr tree (new pcl::search::KdTree<PointT> ());
+
+	// Datasets
+	pcl::PointCloud<PointT>::Ptr cloud_filtered (new pcl::PointCloud<PointT>);
+	pcl::PointCloud<pcl::Normal>::Ptr cloud_normals (new pcl::PointCloud<pcl::Normal>);
+	pcl::PointCloud<PointT>::Ptr cloud_filtered2 (new pcl::PointCloud<PointT>);
+	pcl::PointCloud<pcl::Normal>::Ptr cloud_normals2 (new pcl::PointCloud<pcl::Normal>);
+	pcl::ModelCoefficients::Ptr coefficients_plane (new pcl::ModelCoefficients), coefficients_cylinder (new pcl::ModelCoefficients);
+	pcl::PointIndices::Ptr inliers_plane (new pcl::PointIndices), inliers_cylinder (new pcl::PointIndices);
+
   // Build a passthrough filter to remove spurious NaNs
   pass.setInputCloud (cloud);
   pass.setFilterFieldName ("z");
-  pass.setFilterLimits (0, 1.5);
+  pass.setFilterLimits (0, 1.0);
   pass.filter (*cloud_filtered);
-  std::cerr << "PointCloud after filtering has: " << cloud_filtered->points.size () << " data points." << std::endl;
+  //std::cerr << "PointCloud after filtering has: " << cloud_filtered->points.size () << " data points." << std::endl;
 
   // Estimate point normals
   ne.setSearchMethod (tree);
@@ -90,15 +84,14 @@ void handle(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
   seg.setMethodType (pcl::SAC_RANSAC);
   seg.setNormalDistanceWeight (0.1);
   seg.setMaxIterations (10000);
-  seg.setDistanceThreshold (0.15);
-  seg.setRadiusLimits (0, 0.5);
+  seg.setDistanceThreshold (0.05);
+  seg.setRadiusLimits (0, 0.03);
   seg.setInputCloud (cloud_filtered2);
-
   seg.setInputNormals (cloud_normals2);
 
   // Obtain the cylinder inliers and coefficients
   seg.segment (*inliers_cylinder, *coefficients_cylinder);
-  std::cerr << "Cylinder coefficients: " << *coefficients_cylinder << std::endl;
+  //std::cerr << "Cylinder coefficients: " << *coefficients_cylinder << std::endl;
 
   // Write the cylinder inliers to disk
   extract.setInputCloud (cloud_filtered2);
@@ -108,11 +101,11 @@ void handle(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
   extract.filter (*cloud_cylinder);
   if (cloud_cylinder->points.empty ()) 
   {
-		std::cerr << "		NOP			Can't find the cylindrical component." << std::endl;
+		std::cerr << "Can't find the cylindrical component." << std::endl;
 	}
   else
   {
-	  std::cerr << "		YEY 		PointCloud representing the cylindrical component: " << cloud_cylinder->points.size () << " data points." << std::endl;
+	  std::cerr << "PointCloud representing the cylindrical component: " << cloud_cylinder->points.size () << " data points." << std::endl;
   }
 }
 
