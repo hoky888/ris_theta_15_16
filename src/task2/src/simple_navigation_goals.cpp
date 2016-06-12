@@ -38,8 +38,8 @@ int situation = 1;
 double x_current = 0;
 double y_current = 0;
 double theta_current = 0;
-std::vector<std::string> streets = {"red", "yellow", "green", "blue"};
-std::vector<std::string> people = {"harry", "scarlet", "tina", "peter","kim","filip","matthew","ellen"};
+//std::vector<std::string> streets = {"red", "yellow", "green", "blue"};
+//std::vector<std::string> people = {"harry", "scarlet", "tina", "peter", "kim", "filip", "matthew", "ellen"};
 double coords[][2] = {{-0.17, -0.963},{0.853, 0.604},{1.95, -0.254},{3.74, 1.9},{5.81, 0.836}, {2.49,2.77},{-0.232, -0.936}, {-0.232, -0.936}};
 int goal = 0;
 tf::TransformListener *listener;
@@ -328,7 +328,7 @@ unsigned int levenshtein_distance(const std::string& s1, const std::string& s2)
 	}
 	return prevCol[len2];
 }
-
+/*
 int findColor(const std::string& s1)
 {
 	std::string found;
@@ -337,7 +337,7 @@ int findColor(const std::string& s1)
 	istringstream iss(s1);
 	do
 	{
-		string sub;
+		std::string sub;
 		iss >> sub;
 			
 		for(int i = 0; i < streets.size(); i++){	
@@ -375,6 +375,7 @@ int findPerson(const std::string& s1)
 	
 	return index;
 }		
+*/
 void voiceCallback(const std_msgs::String::ConstPtr& msg)
 {
 	ros::NodeHandle n;
@@ -388,7 +389,7 @@ void voiceCallback(const std_msgs::String::ConstPtr& msg)
 	std::replace(where.begin(), where.end(), '-', ' ');
 	*/
 
-	int color = findColor(where);
+	int color = 0; // findColor(where);
 
 	if (color == 0) {
 		traverse_street(0);
@@ -414,7 +415,7 @@ void voiceCallback(const std_msgs::String::ConstPtr& msg)
 	//std::string cepec = "Stephen will take you now to " + where + ". Hawking out!";
 
 
-	cepec = "Hit me baby one more time!";
+	std::string cepec = "Hit me baby one more time!";
 	sc.say(cepec);
 
 }

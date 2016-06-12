@@ -40,7 +40,6 @@
 //#include <term.h>
 #include <unistd.h>
 #include "face_recognition_lib.cpp"
-#include <detection_msgs/Detection.h>
 
 using namespace std;
 
@@ -60,8 +59,8 @@ public:
     pnh_.param<bool>("show_screen_flag", show_screen_flag, true);
     ROS_INFO("show_screen_flag: %s", show_screen_flag ? "true" : "false");
     //a parameter for the "add_face_images" goal which determines the number of training images for a new face (person) to be acquired from the video stream 
-    pnh_.param<int>("add_face_number", add_face_number, 50);
-    add_face_number = 50;
+    pnh_.param<int>("add_face_number", add_face_number, 25);
+    add_face_number = 25;
     //the number of persons in the training file (train.txt)
     person_number=0;
     //starting the actionlib server
@@ -82,9 +81,7 @@ public:
        ROS_WARN("Alert: Database is not updated. Please delete \"facedata.xml\" and re-run!"); //AFTER
     }
     //subscribe to video stream through image transport class
-    image_sub_ = it_.subscribe("/detections", 1, &FaceRecognition::imageCB, this);
-
-    ros::Subscriber detection_sub_ = nh_.subscribe("/facedetector/faces", -1,  &FaceRecognition::imageCBB); 
+    image_sub_ = it_.subscribe("/camera/rgb/image_color", 1, &FaceRecognition::imageCB, this);
   }
 
   ~FaceRecognition(void)
@@ -192,11 +189,6 @@ public:
       fclose(imgListFile); 
       return (person_num);     
   }
-  void imageCBB(const detection_msgs::Detection& msg)
-	{
-      ROS_INFO("Its working !!!! YEY");
-		
-	}
   void imageCB(const sensor_msgs::ImageConstPtr& msg)
   {
     //to synchronize with executeCB function.

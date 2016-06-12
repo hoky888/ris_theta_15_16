@@ -21,7 +21,7 @@
   <include file="$(find turtlebot_navigation)/launch/includes/move_base.launch.xml">
     <arg name="custom_param_file" value="$(arg custom_param_file)"/>
   </include>
-
+<!--
   <include file="$(find facedetector)/launch/facedetector.launch">
 	<arg name="image_topic" value="/camera/rgb/image_color" />
   </include>
@@ -31,7 +31,7 @@
   </include>  
   
   <include file="$(find facedetector)/launch/facevisualizer.launch" />
-
+-->
   <node name="soundplay_node" pkg="sound_play" type="soundplay_node.py"/>
     
 </launch>
