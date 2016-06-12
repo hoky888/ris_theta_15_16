@@ -111,11 +111,13 @@ void publish_waypoints() {
 // Called once when the goal completes
 void doneCb(const actionlib::SimpleClientGoalState& state, const face_recognition::FaceRecognitionResultConstPtr& result)
 {
+	// ta se klice ko bo razpoznal faco
   ROS_INFO("Goal [%i] Finished in state [%s]", result->order_id,state.toString().c_str());
   if(state.toString() != "SUCCEEDED") 
 		return;
   if(result->order_id==0)
 	{
+		// kar tukaj naredimo je da poiščem pravo ji rečem da je valid, in publishamo nov array, tu lahko še malo predebatiramo
     ROS_INFO("%s with confidence %f", result->names[0].c_str(),result->confidence[0]);  
 		int index = find_face_by_file_name(result->names[0].c_str());
 		faces[index].valid = true;
@@ -127,12 +129,14 @@ void doneCb(const actionlib::SimpleClientGoalState& state, const face_recognitio
 // Called once when the goal becomes active
 void activeCb()
 {
+	// to se bo klicalo ko bo zacel prepoznavat faco
   ROS_INFO("Goal just went active");
 }
 
 // Called every time feedback is received for the goal
 void feedbackCb(const face_recognition::FaceRecognitionFeedbackConstPtr& feedback)
 {
+	// ta se ne bo nikoli prozil, lahko kasneje razlozim
   ROS_INFO("Received feedback from Goal [%d] ", feedback->order_id);
   if(feedback->order_id==1 )
     ROS_INFO("%s with confidence %f", feedback->names[0].c_str(),feedback->confidence[0]);          
@@ -140,6 +144,7 @@ void feedbackCb(const face_recognition::FaceRecognitionFeedbackConstPtr& feedbac
 
 void markersCallback(const visualization_msgs::MarkerArray& msg)
 {
+	// iz detektoja dobimo sporočilo, če že obravnavamo eno, ga zavržemo
 	if(current_handle != -1)
 		return;
 
@@ -150,6 +155,7 @@ void markersCallback(const visualization_msgs::MarkerArray& msg)
 	int index = -1;
 	int not_set = -1;
 	int i;
+	// pogledam če že imamo kdaj zaznano to koordinato
 	for(i = 0; i < face_count; i++)
 	{
 		if(detections[i].set == false)
@@ -167,9 +173,11 @@ void markersCallback(const visualization_msgs::MarkerArray& msg)
 	
 	if(index >= 0)
 	{
+		// to pomeni da sem to koordinato že videl, samo count povečam
 		detections[i].count++;
 		if(detections[i].count > 10)
 		{
+			// če je count > 10; prožim še face recognition, kar bo ta naredil je da bo to kar trenutno vidi poskusil razpoznat
 			current_handle = i;
 			goal.order_id = 0;
 			goal.order_argument = "none";
@@ -178,8 +186,10 @@ void markersCallback(const visualization_msgs::MarkerArray& msg)
 	}
 	else 
 	{
+		// te koordinate še nisem videl, nevem kako to lepo rešit
 		if(not_set >= 0)
 		{
+			// dodam koordinato na prvo prosto mesto
 			detections[not_set].x = x;
 			detections[not_set].y = y;
 			detections[not_set].count = 1;
@@ -187,6 +197,7 @@ void markersCallback(const visualization_msgs::MarkerArray& msg)
 		}
 		else
 		{
+			// ni več prostih mest, kaj zdaj??? vrjetno imamo nekje false detections
 			//TODO
 		}
 	}
