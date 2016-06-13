@@ -37,7 +37,7 @@ struct detection
 	int count;
 	double x,y;
 	bool set;
-} detections[face_count];
+} detections[1000];
 
 struct face
 {
@@ -72,11 +72,11 @@ int find_face_by_file_name(std::string file_name)
 	return -1;	
 }
 
-void publish_waypoints() {
+void publish_waypoints(int j) {
 	visualization_msgs::MarkerArray marker_array;
 	for(int i = 0; i < face_count; i++)
 	{
-		if(faces[i].valid == false)
+		if(i != j)
 			continue;
 
 		visualization_msgs::Marker marker;
@@ -104,6 +104,7 @@ void publish_waypoints() {
 		marker.color.g = 0;
 		marker.color.b = 1;
 		marker_array.markers.push_back(marker);
+
 	}
 	_pub.publish( marker_array );
 	ROS_INFO("publisham!!");
@@ -120,9 +121,12 @@ void doneCb(const actionlib::SimpleClientGoalState& state, const face_recognitio
 	{
 		// kar tukaj naredimo je da poiščem pravo ji rečem da je valid, in publishamo nov array, tu lahko še malo predebatiramo
     ROS_INFO("%s with confidence %f", result->names[0].c_str(),result->confidence[0]);  
-		int index = find_face_by_file_name(result->names[0].c_str());
-		faces[index].valid = true;
-		publish_waypoints();
+		if(result->confidence[0] > 0.95){		
+			int index = find_face_by_file_name(result->names[0].c_str());
+			//faces[index].valid = true;
+			publish_waypoints(index);
+			current_handle = -1;
+		}
 		current_handle = -1;
 	}        
 }
@@ -158,15 +162,15 @@ void markersCallback(const visualization_msgs::MarkerArray& msg)
 	int not_set = -1;
 	int i;
 	// pogledam če že imamo kdaj zaznano to koordinato
-	for(i = 0; i < face_count; i++)
+	for(i = 0; i < 1000; i++)
 	{
 		if(detections[i].set == false)
 		{
 			not_set = i;
-			continue;
+			break;
 		}
 		double diff = sqrt(pow(x-detections[i].x, 2)+pow(y-detections[i].y, 2));
-		if(diff < 0.5)
+		if(diff < 0.4)
 		{
 			index = i;
 			break;
@@ -176,11 +180,11 @@ void markersCallback(const visualization_msgs::MarkerArray& msg)
 	if(index >= 0)
 	{
 		// to pomeni da sem to koordinato že videl, samo count povečam
-		detections[i].count++;
-		if(detections[i].count > 20)
+		detections[index].count++;
+		if(detections[index].count > 3)
 		{
 			// če je count > 10; prožim še face recognition, kar bo ta naredil je da bo to kar trenutno vidi poskusil razpoznat
-			current_handle = i;
+			current_handle = index;
 			goal.order_id = 0;
 			goal.order_argument = "none";
 		 	ac->sendGoal(goal, &doneCb, &activeCb, &feedbackCb);
@@ -210,8 +214,8 @@ int main(int argc, char** argv){
 	ros::NodeHandle n;
 
 	sleep(1);
-	ros::Subscriber sub = n.subscribe("/markers", 1, markersCallback);        
-	_pub = n.advertise<visualization_msgs::MarkerArray>("recognized_faces", 1000);   
+	ros::Subscriber sub = n.subscribe("/markers", -1, markersCallback);        
+	_pub = n.advertise<visualization_msgs::MarkerArray>("recognized_faces", 10000);   
 
   ac = new actionlib::SimpleActionClient<face_recognition::FaceRecognitionAction>("face_recognition", true);
 

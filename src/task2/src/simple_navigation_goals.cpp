@@ -34,11 +34,12 @@ struct face
 } faces[25];
 int currentPosition = 11;
 int situation = 1;
+int customer = -1;
 double x_current = 0;
 double y_current = 0;
 double theta_current = 0;
 std::vector<std::string> streets = {"red", "yellow", "green", "blue"};
-std::vector<std::string> people = {"harry", "scarlet", "tina", "peter", "kim", "filip", "matthew", "ellen"};
+std::vector<std::string> people = {"harry", "scarlett", "tina", "peter", "kim", "filip", "matthew", "ellen"};
 double coords[][2] = {{-0.17, -0.963},{0.853, 0.604},{1.95, -0.254},{3.74, 1.9},{5.81, 0.836}, {2.49,2.77},{-0.232, -0.936}, {-0.232, -0.936}};
 int goal = 0;
 tf::TransformListener *listener;
@@ -242,9 +243,8 @@ void move_to(double x, double y)
 
 void rotate(int angle)
 {	
-	ROS_INFO("rotating");
 	geometry_msgs::Twist base_cmd;	
-	base_cmd.angular.z = 0.45;
+	base_cmd.angular.z = 1;
 	for(int i = 0; i < angle ; i++)
 		cmd_vel_pub_.publish(base_cmd);
 }
@@ -254,7 +254,7 @@ void moveWithDjikstra(int end)
 	int path_index = currentPosition;
 	while (path_index != end) {
 		path_index = Dijkstra(15, path_index, end);
-		//move_to(path_coords[path_index][0],path_coords[path_index][1]);
+		move_to(path_coords[path_index][0],path_coords[path_index][1]);
 		currentPosition = path_index;
 	}
 }
@@ -296,9 +296,13 @@ void traverse_street(int street) {
 		for (unsigned int i = start + 1 ; i <= end; i++) {
 			moveWithDjikstra(i);
 			for(int g = 0; g < 10; g++){
-				rotate(200000);
+				rotate(175000);
 				ros::spinOnce();
+				if(situation == 2)
+				return;	
 			}
+
+					
 		}	
 	}
 	else{
@@ -348,9 +352,11 @@ int findColor(const std::string& s1)
 		}
 	} while (iss);
 	
+	if(min >= 2)
+		index = -1;
+	
 	return index;
-}
-		
+}		
 
 int findPerson(const std::string& s1)
 {
@@ -372,6 +378,10 @@ int findPerson(const std::string& s1)
 		}
 	} while (iss);
 	
+	if(min >= 2)
+		index = -1;
+	
+	printf("%d\n",index);
 	return index;
 }		
 
@@ -384,29 +394,35 @@ void voiceCallback(const std_msgs::String::ConstPtr& msg)
 
 	sleep(1);
 	std::string where = msg->data.c_str();
-	/*std::transform(where.begin(), where.end(), where.begin(), ::tolower);
+	std::transform(where.begin(), where.end(), where.begin(), ::tolower);
 	std::replace(where.begin(), where.end(), '-', ' ');
-	*/
+	
 
-	int color = 0; // findColor(where);
+	int color = findColor(where);
+	customer = findPerson(where);
+	
 
-	if (color == 0) {
+	if (color == 0 && customer != -1) {
+		printf("%s", "šou na rdeco");
 		traverse_street(0);
 		return;
 	}
 
 	
-	if (color == 1) {
+	if (color == 1 && customer != -1) {
+	printf("%s", "šou na rumena");
 		traverse_street(1);
 		return;
 	}
 
-	if (color == 2) {
+	if (color == 2 && customer != -1) {
+		printf("%s", "šou na zeleno");
 		traverse_street(2);
 		return;
 	}
 
-	if (color == 3) {
+	if (color == 3 && customer != -1) {
+		printf("%s", "šou na modro");
 		traverse_street(3);
 		return;
 	}
@@ -414,7 +430,7 @@ void voiceCallback(const std_msgs::String::ConstPtr& msg)
 	//std::string cepec = "Stephen will take you now to " + where + ". Hawking out!";
 
 
-	std::string cepec = "Hit me baby one more time!";
+	std::string cepec = "NOpe!";
 	sc.say(cepec);
 
 }
@@ -422,7 +438,7 @@ void voiceCallback(const std_msgs::String::ConstPtr& msg)
 void faceMapperCallback(const visualization_msgs::MarkerArray& msg)
 {
 	//ROS_INFO("msg received");
-    tf::StampedTransform transform;
+   	tf::StampedTransform transform;
 	visualization_msgs::Marker m = msg.markers[0];
 	geometry_msgs::PoseStamped pout;
 	geometry_msgs::PoseStamped *pin = new geometry_msgs::PoseStamped();
@@ -447,11 +463,6 @@ void faceMapperCallback(const visualization_msgs::MarkerArray& msg)
 		
 		double goal_x = pout.pose.position.x + x;
 		double goal_y = pout.pose.position.y + y;
-				
-	    //ROS_INFO("Roomba rot: [%f, %f, %f, %f]", transform.getRotation().x(), transform.getRotation().y(),transform.getRotation().z(), transform.getRotation().w());
-		//ROS_INFO("Roomba pos: [%f, %f, %f]", transform.getOrigin().x(), transform.getOrigin().y(),transform.getOrigin().z());
-	    //ROS_INFO("Marker pos: [%f, %f, %f]", m.pose.position.x, m.pose.positio/y, m.pose.position.z);
-		//ROS_INFO("Marker map pos: [%f, %f, %f]", pout.pose.position.x, pout.pose.position.y,pout.pose.position.z);
 		
 		if (pout.pose.position.z < 0.42 && pout.pose.position.z > 0.30) 
 		{
@@ -492,35 +503,17 @@ void faceMapperCallback(const visualization_msgs::MarkerArray& msg)
 
 void faceMapperCallback2(const visualization_msgs::MarkerArray& msg)
 {
-ROS_INFO("msg received");
+	//ROS_INFO("msg received");
 	tf::StampedTransform transform;
 	visualization_msgs::Marker m = msg.markers[0];
-	ROS_INFO("Detection %s", m.text.c_str());
-	geometry_msgs::PoseStamped pout;
-	geometry_msgs::PoseStamped *pin = new geometry_msgs::PoseStamped();
-	pin->header = m.header;
-	pin->pose = m.pose;
+	//ROS_INFO("Detection %s", m.text.c_str());
 	
-    try
-	{		
-        	(*listener).lookupTransform("/map", "/base_link", ros::Time(0), transform);
-		(*listener).transformPose("/map", ros::Time(0), *pin, "/base_link", pout);
-		
-		double x = (pout.pose.position.x - transform.getOrigin().x())*-1;
-		double y = (pout.pose.position.y - transform.getOrigin().y())*-1;
-		
-		double l = sqrt(pow(x,2)+pow(y,2));
-		x /= l;
-		y /= l;
-		
-		x *= 0.30;
-		y *= 0.30;	
-		
-		
-    }
-    catch (tf::TransformException ex){
-      //ROS_ERROR("%s",ex.what());
-    }
+	if(m.id == customer)
+	{	
+		ROS_INFO("Detection %s", "I find a person!");
+		move_to(m.pose.position.x,m.pose.position.y);
+		situation = 2;		
+	}	
 }
 
 void publish_waypoints() {
@@ -596,7 +589,7 @@ int main(int argc, char** argv){
   	ros::init(argc, argv, "simpe_navigation_goals");
 	listener = new tf::TransformListener();
 	ros::NodeHandle n;
-	ros::Subscriber sub = n.subscribe("/facemapper/markers", -1, faceMapperCallback);  
+	//ros::Subscriber sub = n.subscribe("/facemapper/markers", -1, faceMapperCallback);  
 	ros::Subscriber sub2 = n.subscribe("recognized_faces", -1, faceMapperCallback2);        
 	ros::Publisher faces_pub = n.advertise<visualization_msgs::MarkerArray>("detected_faces", 1000);
 	map_waypoints_pub = n.advertise<visualization_msgs::MarkerArray>("map_waypoints", 1000);
@@ -607,7 +600,7 @@ int main(int argc, char** argv){
 	sound_play::SoundClient sc(n,"robotsound");
 	
   //tell the action client that we want to spin a thread by default
-  ac = new MoveBaseClient("move_base", true);
+ 	ac = new MoveBaseClient("move_base", true);
   
  /* while(!ac->waitForServer(ros::Duration(5.0))){
     ROS_INFO("Waiting for the move_base action server to come up");
@@ -616,9 +609,9 @@ int main(int argc, char** argv){
 	sleep(1);
 	sc.say("Greetings friend. Please state your destination.");
 	publish_waypoints();
-
+	
 	// Dijkstra
-	int path_index = 13;
+	//int path_index = 13;
 	//while (path_index != 6) {
 	//	path_index = Dijkstra(15, path_index, 6);
 	//	move_to(path_coords[path_index][0],path_coords[path_index][1]);
@@ -633,7 +626,7 @@ int main(int argc, char** argv){
 	sound_play soundplay_node.launch
 
 */	
-	
+	//TEST
   ros::spin();
   return 0;
 }
