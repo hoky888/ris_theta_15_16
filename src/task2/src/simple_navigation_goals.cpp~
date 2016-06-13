@@ -23,7 +23,6 @@
 #include <iterator>
 #include <sstream>
 
-
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
 struct face
@@ -39,7 +38,7 @@ double x_current = 0;
 double y_current = 0;
 double theta_current = 0;
 std::vector<std::string> streets = {"red", "yellow", "green", "blue"};
-//std::vector<std::string> people = {"harry", "scarlet", "tina", "peter", "kim", "filip", "matthew", "ellen"};
+std::vector<std::string> people = {"harry", "scarlet", "tina", "peter", "kim", "filip", "matthew", "ellen"};
 double coords[][2] = {{-0.17, -0.963},{0.853, 0.604},{1.95, -0.254},{3.74, 1.9},{5.81, 0.836}, {2.49,2.77},{-0.232, -0.936}, {-0.232, -0.936}};
 int goal = 0;
 tf::TransformListener *listener;
@@ -192,7 +191,7 @@ int DijkstraLength(int n, int start, int end)
 void move_to(double x, double y, double ox, double oy)
 {	
   move_base_msgs::MoveBaseGoal goal;
-  goal.target_pose.header.frame_id = "map";
+  goal.target_pose.header.frame_id = "base_link";
   goal.target_pose.header.stamp = ros::Time::now();
   goal.target_pose.pose.position.x = x;
   goal.target_pose.pose.position.y = y;
@@ -328,13 +327,13 @@ unsigned int levenshtein_distance(const std::string& s1, const std::string& s2)
 	}
 	return prevCol[len2];
 }
-/*
+
 int findColor(const std::string& s1)
 {
 	std::string found;
 	int min = 999;
 	int index = -1;
-	istringstream iss(s1);
+	std::istringstream iss(s1);
 	do
 	{
 		std::string sub;
@@ -358,10 +357,10 @@ int findPerson(const std::string& s1)
 	std::string found;
 	int min = 999;
 	int index = -1;
-	istringstream iss(s1);
+	std::istringstream iss(s1);
 	do
 	{
-		string sub;
+		std::string sub;
 		iss >> sub;
 			
 		for(int i = 0; i < people.size(); i++){	
@@ -375,7 +374,7 @@ int findPerson(const std::string& s1)
 	
 	return index;
 }		
-*/
+
 void voiceCallback(const std_msgs::String::ConstPtr& msg)
 {
 	ros::NodeHandle n;
@@ -491,6 +490,38 @@ void faceMapperCallback(const visualization_msgs::MarkerArray& msg)
     }
 }
 
+void faceMapperCallback2(const visualization_msgs::MarkerArray& msg)
+{
+ROS_INFO("msg received");
+	tf::StampedTransform transform;
+	visualization_msgs::Marker m = msg.markers[0];
+	ROS_INFO("Detection %s", m.text);
+	geometry_msgs::PoseStamped pout;
+	geometry_msgs::PoseStamped *pin = new geometry_msgs::PoseStamped();
+	pin->header = m.header;
+	pin->pose = m.pose;
+	
+    try
+	{		
+        	(*listener).lookupTransform("/map", "/base_link", ros::Time(0), transform);
+		(*listener).transformPose("/map", ros::Time(0), *pin, "/base_link", pout);
+		
+		double x = (pout.pose.position.x - transform.getOrigin().x())*-1;
+		double y = (pout.pose.position.y - transform.getOrigin().y())*-1;
+		
+		double l = sqrt(pow(x,2)+pow(y,2));
+		x /= l;
+		y /= l;
+		
+		x *= 0.30;
+		y *= 0.30;	
+		
+		
+    }
+    catch (tf::TransformException ex){
+      //ROS_ERROR("%s",ex.what());
+    }
+}
 
 void publish_waypoints() {
 	visualization_msgs::MarkerArray marker_array;
@@ -565,7 +596,8 @@ int main(int argc, char** argv){
   	ros::init(argc, argv, "simpe_navigation_goals");
 	listener = new tf::TransformListener();
 	ros::NodeHandle n;
-	ros::Subscriber sub = n.subscribe("/facemapper/markers", -1, faceMapperCallback);        
+	ros::Subscriber sub = n.subscribe("/facemapper/markers", -1, faceMapperCallback);  
+	ros::Subscriber sub2 = n.subscribe("recognized_faces", -1, faceMapperCallback2);        
 	ros::Publisher faces_pub = n.advertise<visualization_msgs::MarkerArray>("detected_faces", 1000);
 	map_waypoints_pub = n.advertise<visualization_msgs::MarkerArray>("map_waypoints", 1000);
 	cmd_vel_pub_ = n.advertise<geometry_msgs::Twist>("/cmd_vel_mux/input/teleop", 1);

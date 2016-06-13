@@ -44,7 +44,7 @@ struct face
 	std::string file_name;
 	std::string name;
 	int recognition_count;
-  bool valid;
+	bool valid;
 	double x,y;
 } faces[face_count];
 
@@ -80,11 +80,11 @@ void publish_waypoints() {
 			continue;
 
 		visualization_msgs::Marker marker;
-		marker.header.frame_id = "base_link";
+		marker.header.frame_id = "map";
 		marker.header.stamp = ros::Time();
 		marker.ns = "recognized_faces_markers";
 		marker.id = i;
-		marker.type = visualization_msgs::Marker::SPHERE;
+		marker.type = visualization_msgs::Marker::TEXT_VIEW_FACING;
 		marker.action = visualization_msgs::Marker::ADD;
 		marker.text = faces[i].name;
 		marker.pose.position.x = faces[i].x;
@@ -106,6 +106,7 @@ void publish_waypoints() {
 		marker_array.markers.push_back(marker);
 	}
 	_pub.publish( marker_array );
+	ROS_INFO("publisham!!");
 }
 
 // Called once when the goal completes
@@ -148,6 +149,7 @@ void markersCallback(const visualization_msgs::MarkerArray& msg)
 	if(current_handle != -1)
 		return;
 
+  ROS_INFO("dETECTION");
 	visualization_msgs::Marker m = msg.markers[0];
 	double x = m.pose.position.x;
 	double y = m.pose.position.y;
@@ -175,7 +177,7 @@ void markersCallback(const visualization_msgs::MarkerArray& msg)
 	{
 		// to pomeni da sem to koordinato že videl, samo count povečam
 		detections[i].count++;
-		if(detections[i].count > 10)
+		if(detections[i].count > 20)
 		{
 			// če je count > 10; prožim še face recognition, kar bo ta naredil je da bo to kar trenutno vidi poskusil razpoznat
 			current_handle = i;
