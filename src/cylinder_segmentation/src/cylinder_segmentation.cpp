@@ -16,29 +16,32 @@
 
 typedef pcl::PointXYZ PointT;
 
-void handle(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){	
-  
-	// All the objects needed
-	pcl::PassThrough<PointT> pass;
-	pcl::NormalEstimation<PointT, pcl::Normal> ne;
-	pcl::SACSegmentationFromNormals<PointT, pcl::Normal> seg; 
-	pcl::ExtractIndices<PointT> extract;
-	pcl::ExtractIndices<pcl::Normal> extract_normals;
-	pcl::search::KdTree<PointT>::Ptr tree (new pcl::search::KdTree<PointT> ());
+//void callback(const pcl::PCLPointCloud2ConstPtr& cloud_blob) {
+void handle(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud)
+{	
+  // All the objects needed
+  pcl::PassThrough<PointT> pass;
+  pcl::NormalEstimation<PointT, pcl::Normal> ne;
+  pcl::SACSegmentationFromNormals<PointT, pcl::Normal> seg; 
+  pcl::ExtractIndices<PointT> extract;
+  pcl::ExtractIndices<pcl::Normal> extract_normals;
+  pcl::search::KdTree<PointT>::Ptr tree (new pcl::search::KdTree<PointT> ());
 
-	// Datasets
-	pcl::PointCloud<PointT>::Ptr cloud_filtered (new pcl::PointCloud<PointT>);
-	pcl::PointCloud<pcl::Normal>::Ptr cloud_normals (new pcl::PointCloud<pcl::Normal>);
-	pcl::PointCloud<PointT>::Ptr cloud_filtered2 (new pcl::PointCloud<PointT>);
-	pcl::PointCloud<pcl::Normal>::Ptr cloud_normals2 (new pcl::PointCloud<pcl::Normal>);
-	pcl::ModelCoefficients::Ptr coefficients_plane (new pcl::ModelCoefficients), coefficients_cylinder (new pcl::ModelCoefficients);
-	pcl::PointIndices::Ptr inliers_plane (new pcl::PointIndices), inliers_cylinder (new pcl::PointIndices);
+  // Datasets
+  pcl::PointCloud<PointT>::Ptr cloud_filtered (new pcl::PointCloud<PointT>);
+  pcl::PointCloud<pcl::Normal>::Ptr cloud_normals (new pcl::PointCloud<pcl::Normal>);
+  pcl::PointCloud<PointT>::Ptr cloud_filtered2 (new pcl::PointCloud<PointT>);
+  pcl::PointCloud<pcl::Normal>::Ptr cloud_normals2 (new pcl::PointCloud<pcl::Normal>);
+  pcl::ModelCoefficients::Ptr coefficients_plane (new pcl::ModelCoefficients), coefficients_cylinder (new pcl::ModelCoefficients);
+  pcl::PointIndices::Ptr inliers_plane (new pcl::PointIndices), inliers_cylinder (new pcl::PointIndices);
+
+  std::cerr << "PointCloud has: " << cloud->points.size () << " data points." << std::endl;
 
   // Build a passthrough filter to remove spurious NaNs
   pass.setInputCloud (cloud);
   pass.setFilterFieldName ("z");
-  pass.setFilterLimits (0, 1.0);
-  pass.filter (*cloud_filtered);
+  pass.setFilterLimits (0, 1.5);
+  pass.filter(*cloud_filtered);
   //std::cerr << "PointCloud after filtering has: " << cloud_filtered->points.size () << " data points." << std::endl;
 
   // Estimate point normals
@@ -65,11 +68,6 @@ void handle(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
   extract.setIndices (inliers_plane);
   extract.setNegative (false);
 
-  // Write the planar inliers to disk
-  pcl::PointCloud<PointT>::Ptr cloud_plane (new pcl::PointCloud<PointT> ());
-  extract.filter (*cloud_plane);
-  //std::cerr << "PointCloud representing the planar component: " << cloud_plane->points.size () << " data points." << std::endl;
-
   // Remove the planar inliers, extract the rest
   extract.setNegative (true);
   extract.filter (*cloud_filtered2);
@@ -84,8 +82,8 @@ void handle(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
   seg.setMethodType (pcl::SAC_RANSAC);
   seg.setNormalDistanceWeight (0.1);
   seg.setMaxIterations (10000);
-  seg.setDistanceThreshold (0.05);
-  seg.setRadiusLimits (0, 0.03);
+  seg.setDistanceThreshold (0.5);
+  seg.setRadiusLimits (0, 1.0);
   seg.setInputCloud (cloud_filtered2);
   seg.setInputNormals (cloud_normals2);
 
@@ -100,30 +98,30 @@ void handle(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
   pcl::PointCloud<PointT>::Ptr cloud_cylinder (new pcl::PointCloud<PointT> ());
   extract.filter (*cloud_cylinder);
   if (cloud_cylinder->points.empty ()) 
-  {
-		std::cerr << "Can't find the cylindrical component." << std::endl;
-	}
+    std::cerr << "Can't find the cylindrical component." << std::endl;
   else
   {
 	  std::cerr << "PointCloud representing the cylindrical component: " << cloud_cylinder->points.size () << " data points." << std::endl;
   }
 }
 
-
 void cloud_cb(const boost::shared_ptr<const sensor_msgs::PointCloud2>& input){
-	pcl::PCLPointCloud2 pcl_pc2;
-	pcl_conversions::toPCL(*input,pcl_pc2);
-	pcl::PointCloud<pcl::PointXYZ>::Ptr temp_cloud(new pcl::PointCloud<pcl::PointXYZ>);
-	pcl::fromPCLPointCloud2(pcl_pc2,*temp_cloud);
-	//do stuff with temp_cloud here
-	handle(temp_cloud);	
+  pcl::PCLPointCloud2 pcl_pc2;
+  pcl_conversions::toPCL(*input,pcl_pc2);
+  pcl::PointCloud<pcl::PointXYZ>::Ptr temp_cloud(new pcl::PointCloud<pcl::PointXYZ>);
+  pcl::fromPCLPointCloud2(pcl_pc2,*temp_cloud);
+	handle(temp_cloud);
 }
 
 int main (int argc, char** argv)
 {
 	ros::init (argc, argv, "cylinder_segmentations");
-	ros::NodeHandle nh;
-	ros::Subscriber sub = nh.subscribe("/camera/depth_registered/points", 1, cloud_cb);
+	ros::NodeHandle n;
+
+	sleep(1);
+
+	ros::Subscriber sub = n.subscribe("/camera/depth_registered/points", 0, cloud_cb);  
+  
   ros::spin();
   return (0);
 }

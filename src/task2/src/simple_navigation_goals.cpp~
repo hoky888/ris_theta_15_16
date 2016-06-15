@@ -3,7 +3,6 @@
 #include <actionlib/client/simple_action_client.h>
 #include <visualization_msgs/Marker.h>
 #include <visualization_msgs/MarkerArray.h>
-#include <tf/transform_listener.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/Vector3.h>
 #include <geometry_msgs/Twist.h>
@@ -23,34 +22,25 @@
 #include <iterator>
 #include <sstream>
 
+#define ARRAY_SIZE(array) (sizeof((array))/sizeof((array[0])))
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
-struct face
-{
-	double x,y,z;
-	double goal_x,goal_y;
-	int count;
-	bool visited;
-} faces[25];
 int currentPosition = 11;
 int situation = 1;
 int customer = -1;
-double x_current = 0;
-double y_current = 0;
-double theta_current = 0;
+
 std::vector<std::string> streets = {"red", "yellow", "green", "blue"};
 std::vector<std::string> people = {"harry", "scarlett", "tina", "peter", "kim", "filip", "matthew", "ellen"};
-double coords[][2] = {{-0.17, -0.963},{0.853, 0.604},{1.95, -0.254},{3.74, 1.9},{5.81, 0.836}, {2.49,2.77},{-0.232, -0.936}, {-0.232, -0.936}};
-int goal = 0;
-tf::TransformListener *listener;
-tf::TransformListener *odom_listener;
-ros::Publisher map_waypoints_pub;
-MoveBaseClient *ac;
-ros::Publisher cmd_vel_pub_;
-int faceCount = 0;
 
-int path_coords_length = 15;
+ros::Publisher map_waypoints_pub;
+ros::Publisher cmd_vel_pub_;
+MoveBaseClient *ac;
+
 double path_coords[][2] = {{5.76,0.82},{4.45,1.6},{3.81,1.91},{3.21,2.43},{2.58,2.78},{2.94,1.01},{1.95,-0.294},{1.44,0.0698},{1.34,-1.22},{0.77,-1.88},{0.307,-1.46},{-0.198,-0.984},{0.252,-0.289},{0.906,0.441},{1.82,1.84}};
+
+visualization_msgs::MarkerArray recognized_faces;
+visualization_msgs::MarkerArray recognized_cylinders;
+visualization_msgs::MarkerArray recognized_traffic_signs;
 
 typedef int vertex_t;
 typedef double weight_t;
@@ -71,7 +61,6 @@ int prices[15][15] = {
 			{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 1, 0, 1,-1},
 			{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 1, 0, 1},
 			{-1,-1,-1,-1, 1,-1,-1,-1,-1,-1,-1,-1,-1, 1, 0}};
-
 
 const weight_t max_weight = std::numeric_limits<double>::infinity();
  
@@ -200,7 +189,6 @@ void move_to(double x, double y, double ox, double oy)
   goal.target_pose.pose.orientation.z = tan((y-oy)/(ox-x));
   goal.target_pose.pose.orientation.w = 1.0;
 
-  //ROS_INFO("Sending goal");
   ROS_INFO("	Goal: [%f, %f]", x, y);
   ac->sendGoal(goal);
 
@@ -235,7 +223,7 @@ void move_to(double x, double y)
   {
     ROS_INFO("		SUCCESS");
   }
-  else 
+  else
   {
     ROS_INFO("		FAIL");
   }
@@ -298,10 +286,11 @@ void traverse_street(int street) {
 			for(int g = 0; g < 10; g++){
 				rotate(175000);
 				ros::spinOnce();
+				if(situation == 2)
+				return;	
 			}
 
-			if(situation == 2)
-				return;			
+					
 		}	
 	}
 	else{
@@ -429,99 +418,18 @@ void voiceCallback(const std_msgs::String::ConstPtr& msg)
 	//std::string cepec = "Stephen will take you now to " + where + ". Hawking out!";
 
 
-	std::string cepec = "NOpe!";
+	std::string cepec = "Nope!";
 	sc.say(cepec);
 
-}
-
-void faceMapperCallback(const visualization_msgs::MarkerArray& msg)
-{
-	//ROS_INFO("msg received");
-   	tf::StampedTransform transform;
-	visualization_msgs::Marker m = msg.markers[0];
-	geometry_msgs::PoseStamped pout;
-	geometry_msgs::PoseStamped *pin = new geometry_msgs::PoseStamped();
-	pin->header = m.header;
-	pin->pose = m.pose;
-	
-    try
-	{		
-        (*listener).lookupTransform("/map", "/base_link", ros::Time(0), transform);
-		(*listener).transformPose("/map", ros::Time(0), *pin, "/base_link", pout);
-		
-		double x = (pout.pose.position.x - transform.getOrigin().x())*-1;
-		double y = (pout.pose.position.y - transform.getOrigin().y())*-1;
-		
-		double l = sqrt(pow(x,2)+pow(y,2));
-		x /= l;
-		y /= l;
-		
-		x *= 0.30;
-		y *= 0.30;
-		
-		
-		double goal_x = pout.pose.position.x + x;
-		double goal_y = pout.pose.position.y + y;
-		
-		if (pout.pose.position.z < 0.42 && pout.pose.position.z > 0.30) 
-		{
-			bool found = false;
-			//ROS_INFO("Face count: %d", faceCount);
-			for(int i = 0; i < faceCount; i++)
-			{
-				//ROS_INFO("Face: [%f, %f] - Pose: [%f, %f]", faces[i].x, faces[i].y, pout.pose.position.x, pout.pose.position.y);
-				double dist = sqrt(pow(pout.pose.position.x-faces[i].x, 2)+pow(pout.pose.position.y-faces[i].y,2));
-				//ROS_INFO("		Dist %d: %f", i, dist);
-				if(dist < 0.6)
-				{
-					found = true;
-					faces[i].count++;				
-					//ROS_INFO("	Existing face: %d - [%f, %f] - %d", i, faces[i].x, faces[i].y, faces[i].count);					
-					break;
-				}
-			}
-			if(!found)
-			{
-				faces[faceCount].x = pout.pose.position.x;
-				faces[faceCount].y = pout.pose.position.y;
-				faces[faceCount].z = pout.pose.position.z;
-				faces[faceCount].goal_x = goal_x;
-				faces[faceCount].goal_y = goal_y;
-				faces[faceCount].count = 1;		
-				ROS_INFO("	New face %d : [%f, %f, %f, %f]", faceCount, faces[faceCount].x, faces[faceCount].y, faces[faceCount].goal_x, faces[faceCount].goal_y);
-
-				ROS_INFO("	New face %d : [%f, %f, %f]", faceCount, faces[faceCount].x, faces[faceCount].y, faces[faceCount].z);
-				faceCount++;		
-			}
-		}
-    }
-    catch (tf::TransformException ex){
-      //ROS_ERROR("%s",ex.what());
-    }
-}
-
-void faceMapperCallback2(const visualization_msgs::MarkerArray& msg)
-{
-	//ROS_INFO("msg received");
-	tf::StampedTransform transform;
-	visualization_msgs::Marker m = msg.markers[0];
-	//ROS_INFO("Detection %s", m.text.c_str());
-	
-	if(m.id == customer)
-	{	
-		ROS_INFO("Detection %s", "I find a person!");
-		move_to(m.pose.position.x,m.pose.position.y);
-		situation = 2;		
-	}	
 }
 
 void publish_waypoints() {
 	visualization_msgs::MarkerArray marker_array;
 	int i = 0;
-	for(i = 0; i < path_coords_length ; i++)
+	for(i = 0; i < ARRAY_SIZE(path_coords) ; i++)
 	{
 		visualization_msgs::Marker marker;
-		marker.header.frame_id = "base_link";
+		marker.header.frame_id = "map";
 		marker.header.stamp = ros::Time();
 		marker.ns = "waypoints";
 		marker.id = i;
@@ -537,7 +445,7 @@ void publish_waypoints() {
 
 		marker.scale.x = 0.1;
 		marker.scale.y = 0.1;
-		marker.scale.z = 0;
+		marker.scale.z = 0.1;
 
 		marker.color.a = 1.0; // Don't forget to set the alpha!
 		switch(i)
@@ -584,30 +492,39 @@ void publish_waypoints() {
 	map_waypoints_pub.publish( marker_array );
 }
 
+void facesCallback(const visualization_msgs::MarkerArray& msg)
+{
+	recognized_faces = msg;
+}
+
+void cylindersCallback(const visualization_msgs::MarkerArray& msg)
+{
+	recognized_cylinders = msg;
+}
+
+void trafficSignsCallback(const visualization_msgs::MarkerArray& msg)
+{
+	recognized_traffic_signs = msg;
+}
+
 int main(int argc, char** argv){
-  	ros::init(argc, argv, "simpe_navigation_goals");
-	listener = new tf::TransformListener();
+	ros::init(argc, argv, "simpe_navigation_goals");
 	ros::NodeHandle n;
-	//ros::Subscriber sub = n.subscribe("/facemapper/markers", -1, faceMapperCallback);  
-	ros::Subscriber sub2 = n.subscribe("recognized_faces", -1, faceMapperCallback2);        
-	ros::Publisher faces_pub = n.advertise<visualization_msgs::MarkerArray>("detected_faces", 1000);
+
+	ros::Subscriber sub1 = n.subscribe("command", -1, voiceCallback);
+	ros::Subscriber sub2 = n.subscribe("recognized_faces", -1, facesCallback); 
+	ros::Subscriber sub3 = n.subscribe("recognized_cylinders", -1, cylindersCallback); 
+	ros::Subscriber sub4 = n.subscribe("recognized_traffic_signs", -1, trafficSignsCallback);  
+      
 	map_waypoints_pub = n.advertise<visualization_msgs::MarkerArray>("map_waypoints", 1000);
 	cmd_vel_pub_ = n.advertise<geometry_msgs::Twist>("/cmd_vel_mux/input/teleop", 1);
-	odom_listener = new tf::TransformListener();
 	
-	ros::Subscriber sub1 = n.subscribe("command", -1, voiceCallback);
 	sound_play::SoundClient sc(n,"robotsound");
 	
-  //tell the action client that we want to spin a thread by default
  	ac = new MoveBaseClient("move_base", true);
   
- /* while(!ac->waitForServer(ros::Duration(5.0))){
-    ROS_INFO("Waiting for the move_base action server to come up");
-  }*/  
-	
 	sleep(1);
 	sc.say("Greetings friend. Please state your destination.");
-	publish_waypoints();
 	
 	// Dijkstra
 	//int path_index = 13;
@@ -625,7 +542,14 @@ int main(int argc, char** argv){
 	sound_play soundplay_node.launch
 
 */	
-	//TEST
-  ros::spin();
+
+  ros::Rate loop_rate(3);
+  while (ros::ok())
+  {
+		publish_waypoints();
+    ros::spinOnce();
+    loop_rate.sleep();
+  }
+
   return 0;
 }

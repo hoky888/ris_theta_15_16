@@ -1,7 +1,12 @@
 <launch>
   
+
+  <node pkg="cylinder_segmentation" type="cylinder_segmentation" name="cylinder_segmentation">
+  </node>
+
+<!--
   <include file="$(find turtlebot_bringup)/launch/3dsensor.launch" >
     <arg name="depth_registration" value="true" />
   </include>
-  
+  -->
 </launch>

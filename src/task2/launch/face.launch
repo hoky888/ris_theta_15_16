@@ -1,4 +1,5 @@
 <launch>
+
   <include file="$(find turtlebot_bringup)/launch/3dsensor.launch" >
     <arg name="depth_registration" value="true" />
   </include>
@@ -9,7 +10,7 @@
 
   <include file="$(find localizer)/launch/localizer_node.launch" />
 
-  <node pkg="localizer" type="mapper" name="facemapper" output="screen">
+  <node pkg="localizer" type="mapper" name="facemapper">
     <remap from="detections" to="/facedetector/faces" />
     <remap from="camera_info" to="/camera/rgb/camera_info" />
     <remap from="mapper" to="/facedetector/markers" />
@@ -19,10 +20,6 @@
 
   <arg name="custom_param_file" default="$(find turtlebot_navigation)/param/dummy.yaml"/>
   
-  <!-- Map server -->
-  <arg name="map_file" default="ROS/task2.yaml"/>
-  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
-
   <arg name="initial_pose_x" default="0.0"/> <!-- Use 17.0 for willow's map in simulation -->
   <arg name="initial_pose_y" default="0.0"/> <!-- Use 17.0 for willow's map in simulation -->
   <arg name="initial_pose_a" default="0.0"/>
@@ -35,6 +32,26 @@
   <include file="$(find turtlebot_navigation)/launch/includes/move_base.launch.xml">
     <arg name="custom_param_file" value="$(arg custom_param_file)"/>
   </include>
+	
+<!--
+  <node name="cylinder_segmentation" pkg="cylinder_segmentation" type="cylinder_segmentation" />
+-->
+  <node name="cylinder_recognizer_mapper" pkg="task2" type="cylinder_recognizer_mapper" output="screen"/>
 
+  <include file="$(find dlib_detector)/launch/dlib_detector.launch">
+		<arg name="image_topic" value="/camera/rgb/image_color" />
+		<arg name="detections_topic" value="/detector/traffic_signs" />
+  	<arg name="detector" value="$(find dlib_detector)/data/traffic_signs.dat"/>
+  </include>
+<!--
+  <node pkg="detection_msgs" type="overlay_visualizer" name="traffic_sign_visualizer" output="screen">
+    <remap from="camera" to="/camera/rgb/image_color" />
+    <remap from="detections" to="/detector/traffic_signs" />
+    <param name="cleanup_delay" value="0" />
+  </node>
+-->
+  <node name="traffic_sign_recognizer_mapper" pkg="task2" type="traffic_sign_recognizer_mapper" output="screen"/>
+
+  <node name="simple_navigation_goals" pkg="task2" type="simple_navigation_goals" output="screen"/>
 </launch>
 

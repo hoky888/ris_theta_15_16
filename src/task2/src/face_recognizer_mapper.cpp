@@ -29,56 +29,38 @@
 ros::Publisher _pub;
 face_recognition::FaceRecognitionGoal goal; //Goal message
 actionlib::SimpleActionClient<face_recognition::FaceRecognitionAction> * ac; //action lib client
-const int face_count = 8;
 int current_handle = -1;
+tf::TransformListener *listener;
+tf::TransformListener *odom_listener;
 
-struct detection
+struct location
 {
-	int count;
-	double x,y;
-	bool set;
-} detections[1000];
-
-struct face
-{
-	std::string file_name;
-	std::string name;
+	double x_average,y_average;
+	double x_sum, y_sum;
+	int detection_count;
 	int recognition_count;
-	bool valid;
-	double x,y;
-} faces[face_count];
+	std::string name;
+	int name_max;
+	std::map<std::string, int> counter;
+};
 
-int find_face_by_name(std::string name)
-{
-	for(int i = 0; i < face_count; i++)
-	{
-		if(faces[i].name == name)
-		{
-			return i;
-		}
-	}
-	return -1;	
-}
+std::vector<location> locations;
+std::map<std::string, std::string> mapper = {
+	{"Ellen_DeGeneres", "ellen"},
+	{"Harry_Potter", "harry"},
+	{"Peter_Prevec", "peter"},
+	{"Filip_Flisar", "filip"},
+	{"Kim_Jong-un", "kim"},
+	{"Scarlett_Johansson", "scarlett"},
+	{"Matthew_McConaughey", "matthew"},
+	{"Tina_Maze", "tina"},
+	{"Tom_Hanks", "tom"}
+};
 
-int find_face_by_file_name(std::string file_name)
-{
-	for(int i = 0; i < face_count; i++)
-	{
-		if(faces[i].file_name == file_name)
-		{
-			return i;
-		}
-	}
-	return -1;	
-}
-
-void publish_waypoints(int j) {
+void publish_waypoints() {
 	visualization_msgs::MarkerArray marker_array;
-	for(int i = 0; i < face_count; i++)
+	for(int i = 0; i < locations.size(); i++)
 	{
-		if(i != j)
-			continue;
-
 		visualization_msgs::Marker marker;
 		marker.header.frame_id = "map";
 		marker.header.stamp = ros::Time();
@@ -86,9 +68,9 @@ void publish_waypoints(int j) {
 		marker.id = i;
 		marker.type = visualization_msgs::Marker::TEXT_VIEW_FACING;
 		marker.action = visualization_msgs::Marker::ADD;
-		marker.text = faces[i].name;
-		marker.pose.position.x = faces[i].x;
-		marker.pose.position.y = faces[i].y;
+		marker.text = locations[i].name;
+		marker.pose.position.x = locations[i].x_average;
+		marker.pose.position.y = locations[i].y_average;
 		marker.pose.position.z = 0.2;
 		marker.pose.orientation.x = 0.0;
 		marker.pose.orientation.y = 0.5;
@@ -99,43 +81,55 @@ void publish_waypoints(int j) {
 		marker.scale.y = 0.2;
 		marker.scale.z = 0.2;
 
-		marker.color.a = 1.0; // Don't forget to set the alpha!
-		marker.color.r = 0.6;
-		marker.color.g = 0;
-		marker.color.b = 1;
+		marker.color.a = 1.0;
+		marker.color.r = 1.0;
+		marker.color.g = 1.0;
+		marker.color.b = 0.0;
 		marker_array.markers.push_back(marker);
-
 	}
 	_pub.publish( marker_array );
-	ROS_INFO("publisham!!");
 }
 
 // Called once when the goal completes
 void doneCb(const actionlib::SimpleClientGoalState& state, const face_recognition::FaceRecognitionResultConstPtr& result)
 {
 	// ta se klice ko bo razpoznal faco
-  ROS_INFO("Goal [%i] Finished in state [%s]", result->order_id,state.toString().c_str());
-  if(state.toString() != "SUCCEEDED") 
-		return;
-  if(result->order_id==0)
+  //ROS_INFO("Goal [%i] Finished in state [%s]", result->order_id,state.toString().c_str());
+  if(state.toString() == "SUCCEEDED") 		
 	{
-		// kar tukaj naredimo je da poiščem pravo ji rečem da je valid, in publishamo nov array, tu lahko še malo predebatiramo
-    ROS_INFO("%s with confidence %f", result->names[0].c_str(),result->confidence[0]);  
-		if(result->confidence[0] > 0.95){		
-			int index = find_face_by_file_name(result->names[0].c_str());
-			//faces[index].valid = true;
-			publish_waypoints(index);
-			current_handle = -1;
-		}
-		current_handle = -1;
-	}        
+		if(result->order_id==0)
+		{
+			// kar tukaj naredimo je da poiščem pravo ji rečem da je valid, in publishamo nov array, tu lahko še malo predebatiramo
+			std::string file_name = result->names[0];
+  		std::map<std::string, std::string>::iterator it = mapper.find(file_name);
+			if (it != mapper.end())
+			{
+		 	 	ROS_INFO("%s with confidence %f", file_name.c_str(), result->confidence[0]);  
+				if(result->confidence[0] > 0.95)
+				{		
+					locations[current_handle].counter[file_name]++;
+					int count = locations[current_handle].counter[file_name];
+	 
+					if(count > 3 && count > locations[current_handle].name_max)
+					{
+						locations[current_handle].name_max = count;
+						std::string name = mapper[file_name];
+						locations[current_handle].name = name;
+						publish_waypoints();
+					}			
+				}
+			}
+		}    
+	}
+
+	current_handle = -1;    
 }
 
 // Called once when the goal becomes active
 void activeCb()
 {
 	// to se bo klicalo ko bo zacel prepoznavat faco
-  ROS_INFO("Goal just went active");
+  //ROS_INFO("Goal just went active");
 }
 
 // Called every time feedback is received for the goal
@@ -153,59 +147,73 @@ void markersCallback(const visualization_msgs::MarkerArray& msg)
 	if(current_handle != -1)
 		return;
 
-  ROS_INFO("dETECTION");
 	visualization_msgs::Marker m = msg.markers[0];
+	
 	double x = m.pose.position.x;
 	double y = m.pose.position.y;
 
-	int index = -1;
-	int not_set = -1;
+	geometry_msgs::PoseStamped pout;
+	geometry_msgs::PoseStamped *pin = new geometry_msgs::PoseStamped();
+	pin->header = m.header;
+	pin->pose = m.pose;
+
+  try
+	{		
+		(*listener).transformPose("/map", ros::Time(0), *pin, "/base_link", pout);
+
+		x = pout.pose.position.x;
+		y = pout.pose.position.y;
+  }
+  catch (tf::TransformException ex){
+    //ROS_ERROR("%s",ex.what());
+		current_handle = -1;	
+		return;
+  }
+
+
 	int i;
-	// pogledam če že imamo kdaj zaznano to koordinato
-	for(i = 0; i < 1000; i++)
+	int index = -1;
+	double min_diff = 0;
+	for(i = 0; i < locations.size(); i++)
 	{
-		if(detections[i].set == false)
-		{
-			not_set = i;
-			break;
-		}
-		double diff = sqrt(pow(x-detections[i].x, 2)+pow(y-detections[i].y, 2));
+		double diff = sqrt(pow(x-locations[i].x_average, 2)+pow(y-locations[i].y_average, 2));		
 		if(diff < 0.4)
 		{
 			index = i;
+			min_diff = diff;
 			break;
 		}
 	}
-	
+
 	if(index >= 0)
-	{
-		// to pomeni da sem to koordinato že videl, samo count povečam
-		detections[index].count++;
-		if(detections[index].count > 3)
-		{
-			// če je count > 10; prožim še face recognition, kar bo ta naredil je da bo to kar trenutno vidi poskusil razpoznat
-			current_handle = index;
-			goal.order_id = 0;
-			goal.order_argument = "none";
-		 	ac->sendGoal(goal, &doneCb, &activeCb, &feedbackCb);
-		}
+	{   
+		locations[index].detection_count++;
+		locations[index].x_sum += x;
+		locations[index].y_sum += y;
+		locations[index].x_average = locations[index].x_sum/locations[index].detection_count;
+		locations[index].y_average = locations[index].y_sum/locations[index].detection_count;
 	}
-	else 
+	else
 	{
-		// te koordinate še nisem videl, nevem kako to lepo rešit
-		if(not_set >= 0)
-		{
-			// dodam koordinato na prvo prosto mesto
-			detections[not_set].x = x;
-			detections[not_set].y = y;
-			detections[not_set].count = 1;
-			detections[not_set].set = true;
-		}
-		else
-		{
-			// ni več prostih mest, kaj zdaj??? vrjetno imamo nekje false detections
-			//TODO
-		}
+		location l;		
+		l.x_sum = x;
+		l.y_sum = y;
+		l.detection_count = 1;
+		l.x_average = x;
+		l.y_average = y;	
+		l.name_max = 0;	
+		locations.push_back(l);
+		index = locations.size()-1;
+	}
+	
+	//to vrstico bi se dalo vrjetno zakomentirat, za premislit!
+	if(locations[index].detection_count > 5)
+	{
+		// če je count > 10; prožim še face recognition, kar bo ta naredil je da bo to kar trenutno vidi poskusil razpoznat
+		current_handle = index;
+		goal.order_id = 0;
+		goal.order_argument = "none";
+	 	ac->sendGoal(goal, &doneCb, &activeCb, &feedbackCb);
 	}
 }
 
@@ -214,67 +222,14 @@ int main(int argc, char** argv){
 	ros::NodeHandle n;
 
 	sleep(1);
+
 	ros::Subscriber sub = n.subscribe("/markers", -1, markersCallback);        
 	_pub = n.advertise<visualization_msgs::MarkerArray>("recognized_faces", 10000);   
-
   ac = new actionlib::SimpleActionClient<face_recognition::FaceRecognitionAction>("face_recognition", true);
+	odom_listener = new tf::TransformListener();
+	listener = new tf::TransformListener();
 
-	for(int i = 0; i < face_count ; i++)
-	{
-		faces[i].valid = false;
-		faces[i].recognition_count = 0;	
-
-		detections[i].set = false;
-	}
-		
-	faces[0].name = "harry";
-	faces[0].file_name = "Harry_Potter";
-	faces[0].x = -0.45;
-	faces[0].y = -1;
-
-	faces[1].name = "scarlett";
-	faces[1].file_name = "Scarlett_Johansson";
-	faces[1].x = 2.3;
-	faces[1].y = -0.15;
-
-	faces[2].name = "tina";
-	faces[2].file_name = "Tina_Maze";
-	faces[2].x = 0.8;
-	faces[2].y = -2.1;
-
-	faces[3].name = "pater";
-	faces[3].file_name = "Peter_Prevec";
-	faces[3].x = 1.4;
-	faces[3].y = 0;
-
-	faces[4].name = "kim";
-	faces[4].file_name = "Kim_Jong-un";
-	faces[4].x = 0.5;
-	faces[4].y = 0;
-
-	faces[5].name = "filip";
-	faces[5].file_name = "Filip_Flisar";
-	faces[5].x = 1.2;
-	faces[5].y = 1.05;
-
-	faces[6].name = "matthew";
-	faces[6].file_name = "Matthew_McConaughey";
-	faces[6].x = 1.7;
-	faces[6].y = -1.1;
-
-	faces[7].name = "ellen";
-	faces[7].file_name = "Ellen_DeGeneres";
-	faces[7].x = 6.1;
-	faces[7].y = 1.3;
-/*
-  ros::Rate loop_rate(1);
-  while (ros::ok())
-  {
-    ros::spinOnce();
-    loop_rate.sleep();
-  }
-*/
-    ros::spin();
+  ros::spin();
   return 0;
 }
 

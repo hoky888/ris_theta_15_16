@@ -50,7 +50,7 @@ void detectCallback(const sensor_msgs::ImageConstPtr& cam_msg){
 	// dlib wrapper for OpenCV
 	cv_image<bgr_pixel> image = cv_image<bgr_pixel>(cv_ptr->image);
 	std::vector<std::pair<double, rectangle> > rects;
-	object_detector_function(image, rects);
+  object_detector_function(image, rects);
   cv::Rect image_region(0, 0, cv_ptr->image.cols, cv_ptr->image.rows);
 
 	for (int i = 0; i < rects.size(); i++) 
@@ -75,10 +75,7 @@ void detectCallback(const sensor_msgs::ImageConstPtr& cam_msg){
 	}
 }
 
-int main(int argc, char** argv) 
-{
-  string detector_file;
-
+int main(int argc, char** argv) {
 	ros::init (argc, argv, "object_detector");
 	ros::NodeHandle nh;
 	ros::NodeHandle nhp("~");
