@@ -1,4 +1,3 @@
-
 #include <ros/ros.h>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
@@ -87,9 +86,13 @@ void publish_waypoints() {
 	_pub.publish( marker_array );
 }
 
+
 int main(int argc, char** argv){
 	ros::init(argc, argv, "cylinder_recognizer_mapper");
 	ros::NodeHandle n;
+
+	sleep(1);
+		
 	_pub = n.advertise<visualization_msgs::MarkerArray>("recognized_cylinders", 1000);
 		
 	cylinders[0].color = "yellow";
@@ -108,10 +111,9 @@ int main(int argc, char** argv){
 	cylinders[3].x = 1.3;
 	cylinders[3].y = -1.8;
 
-	sleep(1);
 	publish_waypoints();
 
   ros::spin();
-  return 0;
+  return (0);
 }
 

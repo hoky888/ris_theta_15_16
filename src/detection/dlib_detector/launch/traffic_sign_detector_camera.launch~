@@ -6,9 +6,9 @@
   </node>
 
   <include file="$(find dlib_detector)/launch/dlib_detector.launch">
-		<arg name="image_topic" value="/camera/image_raw" />
-		<arg name="detections_topic" value="/detector/traffic_signs" />
-  	<arg name="detector" value="$(find dlib_detector)/data/traffic_signs.dat"/>
+	<arg name="image_topic" value="/camera/image_raw" />
+	<arg name="detections_topic" value="/detector/traffic_signs" />
+    <arg name="detector" value="$(find dlib_detector)/data/traffic_signs.dat"/>
   </include>
 
   <node pkg="detection_msgs" type="overlay_visualizer" name="traffic_sign_visualizer" output="screen">

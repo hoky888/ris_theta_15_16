@@ -10,8 +10,7 @@
 
 typedef pcl::PointXYZ PointT;
 
-int
-main (int argc, char** argv)
+int main (int argc, char** argv)
 {
   // All the objects needed
   pcl::PCDReader reader;
