@@ -34,10 +34,10 @@ backgroundcolor=\color{light-gray},
 
 Pri predmetu Razvoj inteligentnih sistemov (RIS) smo ekipo z imenom \textbf{team theta} sestavljali:
 \begin{itemize}
-	\item Jan Gulič
-	\item Luka Podgoršek
-	\item Rok Poje
-	\item Sašo Cvitkovič
+	\item Cvitkovič Sašo
+	\item Gulič Jan
+	\item Podgoršek Luka
+	\item Poje Rok
 \end{itemize}
 
 % ----------------------------- OPIS PROBLEMA ---------------------------------------- %
@@ -102,7 +102,32 @@ Razpoznava obrazev uporablja: haarcascade classifier
 
 \section{Implementacija in integracija}
 
+\subsection{Glavni pojmi sistema ROS}
 
+\begin{itemize}
+\item \textbf{ROS} (Robot Operation System) je odprtokodni operacijski sistem za robotiko. Vsebuje mnogo knjižnic in orodij za razvoj robotskih sistemov.
+\item \textbf{Node} je samostojen proces, ki teče vzporedno z drugimi procesi.
+\item \textbf{Medprocesna komunikacija} je ena izmed glavnih komponent ROS-a. Komunikacija poteka preko \textbf{tem} na katere se vežejo poslušalci in pošiljatelji. 
+\item \textbf{Rviz} je orodje s katerim lahko vizualiziramo delovanje robota, mapo po kateri se premika, detektirane objekte, obraze, itd.
+\end{itemize}
+
+TODO dodaj sliko celotnega sistema
+
+\subsection{Detekcija in razpoznava obrazev}
+
+Za detekcijo obrazev smo uporabili \href{https://github.com/vicoslab/vicos_ros}{Vicos-ov} detektor. Detektor je uporabljen kot \textbf{ROS node}. Registriran je na temo \textbf{TODO ADD TOPIC}, kamor pošlje sporočilo v primeru detekcije obraza. Detektor vrača tudi neveljavne detekcije, zato smo v poslušalcu (node: main node) implementirali filter neveljavnih detekcij.
+
+Filter najprej omeji detekcije po višini. Imeli smo problem, saj je naš robot zaznal obraze ljudi, ki so stali ob poligonu. Ti obrazi so v danem scenariju neveljavni, povzročili pa so to, da je robot zaznal obraz na neveljavni lokaciji. V prejšnji nalogi se je robot moral zapeljati do zaznanega obraza, zato so neveljavni obrazi predstavljali problem, saj se robot ni znal zapeljati do njih in se je posledično ustavil preden je končal svojo nalogo. To smo rešili tako, da smo mu omejili vidno polje. Vse detekcije, ki so bile višje od stene poligona (glej sliko \textbf{XYZ TODO!!}) smo zavrgli. 
+
+Kljub omejitvi "vidnega polja", je detektor vračal neveljavne detekcije. Npr. ročaje omare je detektor zaznal kot obraz. Zato smo v filter dodali, da more detektor zaznati obraz vsaj 5-krat v pol meterskem radiju okoli točke, kjer je bil zaznan prvi obraz. Ko detektor zazna obraz vsaj 5-krat, filter pošlje sporočilo \textbf{procesu za razpoznavo obrazev}. 
+
+Tako kot detektor obrazev, je tudi razpoznavalec obrazev vračal napačne rešitve. To smo rešili, z dodatnim filtrom v razpoznavalcu obrazev. Razpoznavalec najprej izračuna podobnost med obrazem, ki ga vidi preko kamere in med naučenimi obrazi. V primeru, da je podobnost večja ali enaka \textbf{95\%}, poskusi razpoznati obraz. Zaradi robustnosti in izničitve napačnih razpoznav, mora razpoznavalec razpoznati obrat vsaj 10-krat. Nato pogleda kateri obraz izmed vseh obrazev je zaznal največkrat in tega označi kot veljavnega na dani lokaciji. Lokacijo veljavnega obraza pošlje orodju Rviz, ki izriše ime zaznane osebe na mapi. Lokacijo obraza prejme tudi glavni proces, ki si shrani lokacijo zaznanega obraza in jo nato uporabi pri planiranju.
+ 
+Uporabljeni \href{http://wiki.ros.org/face_recognition}{razpoznavalec obrazev} je na voljo, kot ROS orodje. Izvorno kodo smo predelali za naše potrebe. Implementirali smo zgoraj opisani filter, popravili, da sliko prejme preko kamere in spremenili temo na kateri je poslušal. Dodali smo tudi pošiljatelja, ki je pošiljal razpoznane obraze orodju Rviz za vizualizacijo.
+
+\subsection{Navigacija}
+
+\subsection{Dialog človek robot}
 % ----------------------------- PRILOGE ---------------------------------------- %
 \appendix
 \appendixpage
