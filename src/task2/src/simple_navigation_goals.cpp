@@ -39,6 +39,8 @@ MoveBaseClient *ac;
 double path_coords[][2] = {{5.76,0.82},{4.45,1.6},{3.81,1.91},{3.21,2.43},{2.58,2.78},{2.94,1.01},{1.95,-0.294},{1.44,0.0698},{1.34,-1.22},{0.77,-1.88},{0.307,-1.46},{-0.198,-0.984},{0.252,-0.289},{0.906,0.441},{1.82,1.84}};
 
 visualization_msgs::MarkerArray recognized_faces;
+visualization_msgs::MarkerArray recognized_cylinders;
+visualization_msgs::MarkerArray recognized_traffic_signs;
 
 typedef int vertex_t;
 typedef double weight_t;
@@ -421,12 +423,6 @@ void voiceCallback(const std_msgs::String::ConstPtr& msg)
 
 }
 
-void faceRecognizerMapperCallback(const visualization_msgs::MarkerArray& msg)
-{
-	recognized_faces = msg;
-	visualization_msgs::Marker m = msg.markers[0];
-}
-
 void publish_waypoints() {
 	visualization_msgs::MarkerArray marker_array;
 	int i = 0;
@@ -496,23 +492,37 @@ void publish_waypoints() {
 	map_waypoints_pub.publish( marker_array );
 }
 
+void facesCallback(const visualization_msgs::MarkerArray& msg)
+{
+	recognized_faces = msg;
+}
+
+void cylindersCallback(const visualization_msgs::MarkerArray& msg)
+{
+	recognized_cylinders = msg;
+}
+
+void trafficSignsCallback(const visualization_msgs::MarkerArray& msg)
+{
+	recognized_traffic_signs = msg;
+}
+
 int main(int argc, char** argv){
 	ros::init(argc, argv, "simpe_navigation_goals");
 	ros::NodeHandle n;
-	ros::Subscriber sub2 = n.subscribe("recognized_faces", -1, faceRecognizerMapperCallback);        
+
+	ros::Subscriber sub1 = n.subscribe("command", -1, voiceCallback);
+	ros::Subscriber sub2 = n.subscribe("recognized_faces", -1, facesCallback); 
+	ros::Subscriber sub3 = n.subscribe("recognized_cylinders", -1, cylindersCallback); 
+	ros::Subscriber sub4 = n.subscribe("recognized_traffic_signs", -1, trafficSignsCallback);  
+      
 	map_waypoints_pub = n.advertise<visualization_msgs::MarkerArray>("map_waypoints", 1000);
 	cmd_vel_pub_ = n.advertise<geometry_msgs::Twist>("/cmd_vel_mux/input/teleop", 1);
 	
-	ros::Subscriber sub1 = n.subscribe("command", -1, voiceCallback);
 	sound_play::SoundClient sc(n,"robotsound");
 	
-  //tell the action client that we want to spin a thread by default
  	ac = new MoveBaseClient("move_base", true);
   
- /* while(!ac->waitForServer(ros::Duration(5.0))){
-    ROS_INFO("Waiting for the move_base action server to come up");
-  }*/  
-	
 	sleep(1);
 	sc.say("Greetings friend. Please state your destination.");
 	
@@ -540,5 +550,6 @@ int main(int argc, char** argv){
     ros::spinOnce();
     loop_rate.sleep();
   }
+
   return 0;
 }
