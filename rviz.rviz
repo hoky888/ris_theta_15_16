@@ -5,6 +5,9 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
+        - /Status1
+        - /MarkerArray4/Namespaces1
+        - /MarkerArray5/Namespaces1
       Splitter Ratio: 0.5
     Tree Height: 435
   - Class: rviz/Selection
@@ -55,14 +58,6 @@ Visualization Manager:
       Name: Map
       Topic: /map
       Unreliable: false
-      Value: true
-    - Class: rviz/MarkerArray
-      Enabled: true
-      Marker Topic: /facemapper/markers
-      Name: MarkerArray
-      Namespaces:
-        {}
-      Queue Size: 100
       Value: true
     - Alpha: 1
       Class: rviz/RobotModel
@@ -291,7 +286,7 @@ Visualization Manager:
       Marker Topic: /map_waypoints
       Name: MarkerArray
       Namespaces:
-        {}
+        waypoints: true
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
@@ -299,7 +294,15 @@ Visualization Manager:
       Marker Topic: /recognized_cylinders
       Name: MarkerArray
       Namespaces:
-        {}
+        recognized_cylinders_markers: true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /recognized_traffic_signs
+      Name: MarkerArray
+      Namespaces:
+        recognized_traffic_signs_markers: true
       Queue Size: 100
       Value: true
   Enabled: true
@@ -326,22 +329,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.72624
+      Distance: 4.5149
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.169914
-        Y: -0.308923
-        Z: 0.712681
+        X: 0.741189
+        Y: 0.25935
+        Z: 1.10728
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.785398
+      Pitch: 0.730203
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.57042
+      Yaw: 3.45221
     Saved: ~
 Window Geometry:
   Displays:
@@ -360,4 +363,4 @@ Window Geometry:
     collapsed: false
   Width: 1200
   X: 55
-  Y: 14
+  Y: 24

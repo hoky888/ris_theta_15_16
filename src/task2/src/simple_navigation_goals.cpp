@@ -433,7 +433,7 @@ void publish_waypoints() {
 	for(i = 0; i < ARRAY_SIZE(path_coords) ; i++)
 	{
 		visualization_msgs::Marker marker;
-		marker.header.frame_id = "base_link";
+		marker.header.frame_id = "map";
 		marker.header.stamp = ros::Time();
 		marker.ns = "waypoints";
 		marker.id = i;
@@ -449,7 +449,7 @@ void publish_waypoints() {
 
 		marker.scale.x = 0.1;
 		marker.scale.y = 0.1;
-		marker.scale.z = 0;
+		marker.scale.z = 0.1;
 
 		marker.color.a = 1.0; // Don't forget to set the alpha!
 		switch(i)
@@ -515,7 +515,6 @@ int main(int argc, char** argv){
 	
 	sleep(1);
 	sc.say("Greetings friend. Please state your destination.");
-	publish_waypoints();
 	
 	// Dijkstra
 	//int path_index = 13;
@@ -533,7 +532,13 @@ int main(int argc, char** argv){
 	sound_play soundplay_node.launch
 
 */	
-	//TEST
-  ros::spin();
+
+  ros::Rate loop_rate(3);
+  while (ros::ok())
+  {
+		publish_waypoints();
+    ros::spinOnce();
+    loop_rate.sleep();
+  }
   return 0;
 }
