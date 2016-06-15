@@ -25,9 +25,21 @@
 #define ARRAY_SIZE(array) (sizeof((array))/sizeof((array[0])))
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
+const int SITUATION_SEARCHING_FOR_PERSON = 1;
+const int SITUATION_ASK_FOR_GOAL = 2;
+const int SITUATION_CONFIRM_GOAL = 3;
+const int SITUATION_MOVE_TO_GOAL = 4;
+
+int situation_goal;
+
+const int COLOR_RED = 0;
+const int COLOR_YELLOW = 1;
+const int COLOR_GREEN = 2;
+const int COLOR_BLUE = 3;
+
 int currentPosition = 11;
 int situation = 1;
-int customer = -1;
+std::string customer = "";
 
 std::vector<std::string> streets = {"red", "yellow", "green", "blue"};
 std::vector<std::string> people = {"harry", "scarlett", "tina", "peter", "kim", "filip", "matthew", "ellen"};
@@ -35,8 +47,9 @@ std::vector<std::string> people = {"harry", "scarlett", "tina", "peter", "kim", 
 ros::Publisher map_waypoints_pub;
 ros::Publisher cmd_vel_pub_;
 MoveBaseClient *ac;
+sound_play::SoundClient *sc;
 
-double path_coords[][2] = {{5.76,0.82},{4.45,1.6},{3.81,1.91},{3.21,2.43},{2.58,2.78},{2.94,1.01},{1.95,-0.294},{1.44,0.0698},{1.34,-1.22},{0.77,-1.88},{0.307,-1.46},{-0.198,-0.984},{0.252,-0.289},{0.906,0.441},{1.82,1.84}};
+double path_coords[][2] = {{5.76,0.82},{4.45,1.6},{3.81,1.91},{3.21,2.43},{2.58,2.78},{2.94,1.01},{1.95,-0.294},{1.44,0.0698},{1.34,-1.22},{0.77,-1.88},{0.307,-1.46},{-0.198,-0.984},{0.252,-0.289},{0.906,0.441},{1.92,1.67}};
 
 visualization_msgs::MarkerArray recognized_faces;
 visualization_msgs::MarkerArray recognized_cylinders;
@@ -63,6 +76,39 @@ int prices[15][15] = {
 			{-1,-1,-1,-1, 1,-1,-1,-1,-1,-1,-1,-1,-1, 1, 0}};
 
 const weight_t max_weight = std::numeric_limits<double>::infinity();
+
+struct line
+{
+	double a,b,c;	
+	double x,y;
+} borders[6];
+
+int find_nearest_line(double x, double y)
+{
+	int index = -1;
+	double min = 999;
+	for(int i = 0; i < ARRAY_SIZE(borders) ; i++)
+	{
+		double diff = abs(borders[i].a*x + borders[i].b*y +  borders[i].c)/sqrt(pow(borders[i].a,2)+pow(borders[i].b,2));
+		if(diff < min) 
+		{
+			min = diff;
+			index = i;
+		}
+	}
+	return index;
+}
+
+void add_border(int i, double x1, double y1, double x2, double y2, double x, double y)
+{
+	line l;
+	l.a = y1-y2;
+	l.b = x2-x1;
+	l.c = (x1-x2)*y1 + (y2-y1)*x1;
+	l.x = x;
+	l.y = y;
+	borders[i] = l;	
+}
  
 struct neighbor {
     vertex_t target;
@@ -229,12 +275,22 @@ void move_to(double x, double y)
   }
 }
 
-void rotate(int angle)
+void rotate()
 {	
 	geometry_msgs::Twist base_cmd;	
-	base_cmd.angular.z = 1;
-	for(int i = 0; i < angle ; i++)
+	base_cmd.angular.z = 0.5;
+	ros::Rate loop_rate(5);
+	for(int i = 0; i < 50 ; i++)
+	{
 		cmd_vel_pub_.publish(base_cmd);
+		loop_rate.sleep();
+		ros::spinOnce();
+		
+		if(!ros::ok())
+		{
+			break;
+		}
+	}
 }
 
 void moveWithDjikstra(int end)
@@ -247,7 +303,7 @@ void moveWithDjikstra(int end)
 	}
 }
 
-void traverse_street(int street) {
+void traverse_street(int street, bool isRetry) {
 	int start;
 	int end;
 	switch (street) {
@@ -283,15 +339,40 @@ void traverse_street(int street) {
 		moveWithDjikstra(start);
 		for (unsigned int i = start + 1 ; i <= end; i++) {
 			moveWithDjikstra(i);
-			for(int g = 0; g < 10; g++){
-				rotate(175000);
-				ros::spinOnce();
-				if(situation == 2)
-				return;	
-			}
-
+			rotate();
+			
+			ROS_INFO("preverjam");
+			for(int k = 0; k < recognized_faces.markers.size(); k++){
+				ROS_INFO("%d %s %s",k, customer.c_str(), recognized_faces.markers[k].text.c_str());
+				if(recognized_faces.markers[k].text.compare(customer) == 0)
+				{					
+					double x = recognized_faces.markers[k].pose.position.x;
+					double y = recognized_faces.markers[k].pose.position.y;
 					
+					int index = find_nearest_line(x,y);
+				
+					x += borders[index].x;
+					y += borders[index].y;
+					
+					move_to(x, y);
+					
+					situation = SITUATION_ASK_FOR_GOAL;
+					sc->say("Where can i take you?");
+					return;				
+				}
+			}
 		}	
+		
+		if(!isRetry)
+		{
+			sc->say("I cant find wanted person, i will retry the search!");		
+			traverse_street(street, true);
+		}
+		else
+		{
+			sc->say("I still cant find wanted person! Aborting.");	
+			situation = SITUATION_SEARCHING_FOR_PERSON;
+		}
 	}
 	else{
 		moveWithDjikstra(end);
@@ -346,11 +427,10 @@ int findColor(const std::string& s1)
 	return index;
 }		
 
-int findPerson(const std::string& s1)
+std::string findPerson(const std::string& s1)
 {
-	std::string found;
 	int min = 999;
-	int index = -1;
+	std::string name;
 	std::istringstream iss(s1);
 	do
 	{
@@ -361,66 +441,131 @@ int findPerson(const std::string& s1)
 			int difference = levenshtein_distance(sub, people[i]);
 			if(difference < min){
 				min = difference;
-				index = i;
+				name = people[i];
 			}	
 		}
 	} while (iss);
 	
 	if(min >= 2)
-		index = -1;
+		name = "";
 	
-	printf("%d\n",index);
-	return index;
+	return name;
 }		
+
+void move_to_goal()
+{
+	std::string search = "";
+	switch(situation_goal)
+	{
+		case COLOR_RED:
+			search = "red";
+			break;
+		case COLOR_YELLOW:
+			search = "yellow";
+			break;
+		case COLOR_GREEN:
+			search = "green";
+			break;
+		case COLOR_BLUE:
+			search = "blue";
+			break;
+	}
+	
+	int i;
+	for(i = 0; i < recognized_cylinders.markers.size(); i++)
+	{
+		if(recognized_cylinders.markers[i].text.compare(search) == 0)
+			break;
+	}
+	
+	double x = recognized_cylinders.markers[i].pose.position.x;
+	double y = recognized_cylinders.markers[i].pose.position.y;
+	
+	ROS_INFO("Moving to cylinder location [%f, %f]", x,y);
+	
+	move_to(x,y);
+	sc->say("We arrived at your destination. Get out!!!");	
+	situation = SITUATION_SEARCHING_FOR_PERSON;
+}
 
 void voiceCallback(const std_msgs::String::ConstPtr& msg)
 {
+	/*
 	ros::NodeHandle n;
-	ROS_INFO("I heard: [%s]", msg->data.c_str());
-
 	sound_play::SoundClient sc(n,"robotsound");
-
 	sleep(1);
-	std::string where = msg->data.c_str();
-	std::transform(where.begin(), where.end(), where.begin(), ::tolower);
-	std::replace(where.begin(), where.end(), '-', ' ');
+	*/
 	
+	if(situation == SITUATION_SEARCHING_FOR_PERSON)
+	{
+		ROS_INFO("I heard: [%s]", msg->data.c_str());
 
-	int color = findColor(where);
-	customer = findPerson(where);
-	
+		std::string where = msg->data.c_str();
+		std::transform(where.begin(), where.end(), where.begin(), ::tolower);
+		std::replace(where.begin(), where.end(), '-', ' ');
+		
+		//DOBI IME STRANKE IN KAM MORE IT
+		int color = findColor(where);
+		customer = findPerson(where);
 
-	if (color == 0 && customer != -1) {
-		printf("%s", "šou na rdeco");
-		traverse_street(0);
-		return;
+		ROS_INFO("Color: [%d], Person: [%s]", color, customer.c_str());
+		
+		if(color != -1 && !customer.empty())
+		{
+			traverse_street(color, false);
+		}
+		else
+		{
+			sc->say("Sorry, i didn't understand that.");				
+		}		
 	}
+	else if(situation == SITUATION_ASK_FOR_GOAL)
+	{		
+		std::string where = msg->data.c_str();
+		std::transform(where.begin(), where.end(), where.begin(), ::tolower);
+		std::replace(where.begin(), where.end(), '-', ' ');
 
-	
-	if (color == 1 && customer != -1) {
-	printf("%s", "šou na rumena");
-		traverse_street(1);
-		return;
+		situation_goal = findColor(where);
+		std::string color_name = "";
+		switch(situation_goal)
+		{
+			case COLOR_RED:
+				color_name = "red";
+				break;
+			case COLOR_YELLOW:
+				color_name = "yellow";
+				break;
+			case COLOR_GREEN:
+				color_name = "green";
+				break;
+			case COLOR_BLUE:
+				color_name = "blue";
+				break;
+		}
+		
+		sc->say(("You want me to take you to " + color_name + " building?").c_str());
+		situation = SITUATION_CONFIRM_GOAL;
 	}
-
-	if (color == 2 && customer != -1) {
-		printf("%s", "šou na zeleno");
-		traverse_street(2);
-		return;
+	else if(situation == SITUATION_CONFIRM_GOAL)
+	{
+		std::string where = msg->data.c_str();
+		std::transform(where.begin(), where.end(), where.begin(), ::tolower);
+		std::replace(where.begin(), where.end(), '-', ' ');
+		
+		if(where.compare("yes") == 0)
+		{
+			move_to_goal();
+		}
+		else if(where.compare("no") == 0)
+		{
+			situation = SITUATION_ASK_FOR_GOAL;
+			sc->say("Sorry, where do you want me to take you?");
+		}
+		else
+		{
+			sc->say("Sorry, i didn't understand that.");			
+		}
 	}
-
-	if (color == 3 && customer != -1) {
-		printf("%s", "šou na modro");
-		traverse_street(3);
-		return;
-	}
-
-	//std::string cepec = "Stephen will take you now to " + where + ". Hawking out!";
-
-
-	std::string cepec = "Nope!";
-	sc.say(cepec);
-
 }
 
 void publish_waypoints() {
@@ -494,7 +639,7 @@ void publish_waypoints() {
 
 void facesCallback(const visualization_msgs::MarkerArray& msg)
 {
-	recognized_faces = msg;
+	recognized_faces = msg;	
 }
 
 void cylindersCallback(const visualization_msgs::MarkerArray& msg)
@@ -514,42 +659,32 @@ int main(int argc, char** argv){
 	ros::Subscriber sub1 = n.subscribe("command", -1, voiceCallback);
 	ros::Subscriber sub2 = n.subscribe("recognized_faces", -1, facesCallback); 
 	ros::Subscriber sub3 = n.subscribe("recognized_cylinders", -1, cylindersCallback); 
-	ros::Subscriber sub4 = n.subscribe("recognized_traffic_signs", -1, trafficSignsCallback);  
+	//ros::Subscriber sub4 = n.subscribe("recognized_traffic_signs", -1, trafficSignsCallback);  
       
 	map_waypoints_pub = n.advertise<visualization_msgs::MarkerArray>("map_waypoints", 1000);
 	cmd_vel_pub_ = n.advertise<geometry_msgs::Twist>("/cmd_vel_mux/input/teleop", 1);
 	
-	sound_play::SoundClient sc(n,"robotsound");
-	
+	sc = new sound_play::SoundClient(n,"robotsound");	
  	ac = new MoveBaseClient("move_base", true);
   
+	add_border(0, 2.4, 3.6, -0.9, -1.1, 0.15, -0.10);
+	add_border(1, -0.9, -1.1, 0.7, -2.6, 0.12, 0.18);
+	add_border(2, 0.7, -2.6, 3.8, 1.2, -0.15, 0.10);
+	add_border(3, 3.8, 1.2, 6.1, -0.1, 0.12, 0.18);
+	add_border(4, 6.1, -0.1, 6.7, 0.8, -0.15, 0.10);
+	add_border(5, 6.7, 0.8, 2.4, 3.6, -0.12, -0.18);
+  
 	sleep(1);
-	sc.say("Greetings friend. Please state your destination.");
+	sc->say("Greetings friend. Please state your destination.");
 	
-	// Dijkstra
-	//int path_index = 13;
-	//while (path_index != 6) {
-	//	path_index = Dijkstra(15, path_index, 6);
-	//	move_to(path_coords[path_index][0],path_coords[path_index][1]);
-	//}
 
- /*
-	bringup_minimal
-	task 2
-	map_Server
-	rviz
-	speech_proxy
-	sound_play soundplay_node.launch
-
-*/	
-
-  ros::Rate loop_rate(3);
-  while (ros::ok())
-  {
+    ros::Rate loop_rate(3);
+	while (ros::ok())
+	{
 		publish_waypoints();
-    ros::spinOnce();
-    loop_rate.sleep();
-  }
-
-  return 0;
+		ros::spinOnce();
+		loop_rate.sleep();
+    }
+	
+	return 0;
 }

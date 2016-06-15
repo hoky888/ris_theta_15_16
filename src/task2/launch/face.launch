@@ -52,6 +52,6 @@
 -->
   <node name="traffic_sign_recognizer_mapper" pkg="task2" type="traffic_sign_recognizer_mapper" output="screen"/>
 
-  <node name="simple_navigation_goals" pkg="task2" type="simple_navigation_goals" output="screen"/>
+  
 </launch>
 

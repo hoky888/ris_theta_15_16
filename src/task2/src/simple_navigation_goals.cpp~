@@ -27,7 +27,8 @@ typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseCl
 
 int currentPosition = 11;
 int situation = 1;
-int customer = -1;
+std::string customer = "";
+int personIndex = 0;
 
 std::vector<std::string> streets = {"red", "yellow", "green", "blue"};
 std::vector<std::string> people = {"harry", "scarlett", "tina", "peter", "kim", "filip", "matthew", "ellen"};
@@ -36,7 +37,7 @@ ros::Publisher map_waypoints_pub;
 ros::Publisher cmd_vel_pub_;
 MoveBaseClient *ac;
 
-double path_coords[][2] = {{5.76,0.82},{4.45,1.6},{3.81,1.91},{3.21,2.43},{2.58,2.78},{2.94,1.01},{1.95,-0.294},{1.44,0.0698},{1.34,-1.22},{0.77,-1.88},{0.307,-1.46},{-0.198,-0.984},{0.252,-0.289},{0.906,0.441},{1.82,1.84}};
+double path_coords[][2] = {{5.76,0.82},{4.45,1.6},{3.81,1.91},{3.21,2.43},{2.58,2.78},{2.94,1.01},{1.95,-0.294},{1.44,0.0698},{1.34,-1.22},{0.77,-1.88},{0.307,-1.46},{-0.198,-0.984},{0.252,-0.289},{0.906,0.441},{1.92,1.67}};
 
 visualization_msgs::MarkerArray recognized_faces;
 visualization_msgs::MarkerArray recognized_cylinders;
@@ -248,6 +249,8 @@ void moveWithDjikstra(int end)
 }
 
 void traverse_street(int street) {
+	ros::NodeHandle n;
+	printf("Peljem %s",customer.c_str());
 	int start;
 	int end;
 	switch (street) {
@@ -284,11 +287,27 @@ void traverse_street(int street) {
 		for (unsigned int i = start + 1 ; i <= end; i++) {
 			moveWithDjikstra(i);
 			for(int g = 0; g < 10; g++){
-				rotate(175000);
-				ros::spinOnce();
-				if(situation == 2)
-				return;	
+				rotate(150000);
+				ros::spinOnce();			
+			}			
+			
+			printf("preverjam");
+			for(int k = 0; k < ARRAY_SIZE(recognized_faces.markers); k++){
+				if(recognized_faces.markers[k].text.compare(customer))
+				{
+					situation = 2;
+					move_to(recognized_faces.markers[k].pose.position.x, recognized_faces.markers[k].pose.position.y);
+					break;				
+				}
 			}
+				
+			if(situation == 2){
+				sound_play::SoundClient sc(n,"robotsound");
+				sleep(1);
+				sc.say("Where can i take you?");
+				return;
+			}
+			
 
 					
 		}	
@@ -376,50 +395,88 @@ int findPerson(const std::string& s1)
 void voiceCallback(const std_msgs::String::ConstPtr& msg)
 {
 	ros::NodeHandle n;
-	ROS_INFO("I heard: [%s]", msg->data.c_str());
+	if(situation == 1)
+	{
+		ROS_INFO("I heard: [%s]", msg->data.c_str());
 
-	sound_play::SoundClient sc(n,"robotsound");
+		sound_play::SoundClient sc(n,"robotsound");
+	
+		sleep(1);
 
-	sleep(1);
-	std::string where = msg->data.c_str();
-	std::transform(where.begin(), where.end(), where.begin(), ::tolower);
-	std::replace(where.begin(), where.end(), '-', ' ');
+		std::string where = msg->data.c_str();
+		std::transform(where.begin(), where.end(), where.begin(), ::tolower);
+		std::replace(where.begin(), where.end(), '-', ' ');
+	
+	
+		//DOBI IME STRANKE IN KAM MORE IT
+		int color = findColor(where);
+		personIndex = findPerson(where);
+		if(personIndex != -1)
+			customer = people[personIndex].c_str();
 	
 
-	int color = findColor(where);
-	customer = findPerson(where);
-	
-
-	if (color == 0 && customer != -1) {
-		printf("%s", "šou na rdeco");
-		traverse_street(0);
-		return;
-	}
+		if (color == 0 && personIndex != -1) {
+			printf("%s", "šou na rdeco");
+			traverse_street(0);
+			return;
+		}
 
 	
-	if (color == 1 && customer != -1) {
-	printf("%s", "šou na rumena");
-		traverse_street(1);
-		return;
+		if (color == 1 && personIndex != -1) {
+		printf("%s", "šou na rumena");
+			traverse_street(1);
+			return;
+		}
+
+		if (color == 2 && personIndex != -1) {
+			printf("%s", "šou na zeleno");
+			traverse_street(2);
+			return;
+		}
+
+		if (color == 3 && personIndex != -1) {
+			printf("%s", "šou na modro");
+			traverse_street(3);
+			return;
+		}
+
+		//std::string cepec = "Stephen will take you now to " + where + ". Hawking out!";
+		std::string cepec = "Nope!";
+		sc.say(cepec);
 	}
+	else
+	{
+		std::string where = msg->data.c_str();
+		std::transform(where.begin(), where.end(), where.begin(), ::tolower);
+		std::replace(where.begin(), where.end(), '-', ' ');
 
-	if (color == 2 && customer != -1) {
-		printf("%s", "šou na zeleno");
-		traverse_street(2);
-		return;
+		int color = findColor(where);
+
+		if (color == 0) {
+			printf("%s", "peljem na rdeco");
+			move_to(1.4,0);
+			return;
+		}
+	
+		if (color == 1) {
+		printf("%s", "peljem na rumena");
+			move_to(1.4,0);
+			return;
+		}
+
+		if (color == 2) {
+			printf("%s", "peljem na zeleno");
+			move_to(1.4,0);
+			return;
+		}
+
+		if (color == 3) {
+			printf("%s", "peljem na modro");
+			move_to(1.4,0);
+			return;
+		}
+		
 	}
-
-	if (color == 3 && customer != -1) {
-		printf("%s", "šou na modro");
-		traverse_street(3);
-		return;
-	}
-
-	//std::string cepec = "Stephen will take you now to " + where + ". Hawking out!";
-
-
-	std::string cepec = "Nope!";
-	sc.say(cepec);
 
 }
 
@@ -494,7 +551,7 @@ void publish_waypoints() {
 
 void facesCallback(const visualization_msgs::MarkerArray& msg)
 {
-	recognized_faces = msg;
+	recognized_faces = msg;	
 }
 
 void cylindersCallback(const visualization_msgs::MarkerArray& msg)
@@ -512,9 +569,9 @@ int main(int argc, char** argv){
 	ros::NodeHandle n;
 
 	ros::Subscriber sub1 = n.subscribe("command", -1, voiceCallback);
-	ros::Subscriber sub2 = n.subscribe("recognized_faces", -1, facesCallback); 
-	ros::Subscriber sub3 = n.subscribe("recognized_cylinders", -1, cylindersCallback); 
-	ros::Subscriber sub4 = n.subscribe("recognized_traffic_signs", -1, trafficSignsCallback);  
+	ros::Subscriber sub2 = n.subscribe("recognized_faces", 1000, facesCallback); 
+	//ros::Subscriber sub3 = n.subscribe("recognized_cylinders", -1, cylindersCallback); 
+	//ros::Subscriber sub4 = n.subscribe("recognized_traffic_signs", -1, trafficSignsCallback);  
       
 	map_waypoints_pub = n.advertise<visualization_msgs::MarkerArray>("map_waypoints", 1000);
 	cmd_vel_pub_ = n.advertise<geometry_msgs::Twist>("/cmd_vel_mux/input/teleop", 1);
@@ -526,6 +583,8 @@ int main(int argc, char** argv){
 	sleep(1);
 	sc.say("Greetings friend. Please state your destination.");
 	
+
+
 	// Dijkstra
 	//int path_index = 13;
 	//while (path_index != 6) {
@@ -543,13 +602,14 @@ int main(int argc, char** argv){
 
 */	
 
-  ros::Rate loop_rate(3);
+  /*ros::Rate loop_rate(3);
   while (ros::ok())
   {
-		publish_waypoints();
-    ros::spinOnce();
+	publish_waypoints();
+    	ros::spinOnce();
     loop_rate.sleep();
-  }
+  }*/
+	ros::spin();
 
   return 0;
 }

@@ -96,20 +96,20 @@ int main(int argc, char** argv){
 	_pub = n.advertise<visualization_msgs::MarkerArray>("recognized_cylinders", 1000);
 		
 	cylinders[0].color = "yellow";
-	cylinders[0].x = 2.4;
-	cylinders[0].y = 3.2;
+	cylinders[0].x = 2.5;
+	cylinders[0].y = 3.0;
 
 	cylinders[1].color = "red";
 	cylinders[1].x = 6.0;
-	cylinders[1].y = 0.2;
+	cylinders[1].y = 0.4;
 
 	cylinders[2].color = "blue";
-	cylinders[2].x = -0.6;
+	cylinders[2].x = -0.5;
 	cylinders[2].y = -1.1;
 
 	cylinders[3].color = "green";
-	cylinders[3].x = 1.3;
-	cylinders[3].y = -1.8;
+	cylinders[3].x = 0.7;
+	cylinders[3].y = -2.1;
 
   ros::Rate loop_rate(3);
   while (ros::ok())
