@@ -44,7 +44,7 @@ Pri predmetu Razvoj inteligentnih sistemov (RIS) smo ekipo z imenom \textbf{team
 
 \section{Opis problema}
 
-Končna naloga je bila implementacija robotskega taksija. Poligon je predstavljal mesto, v katerem se je robot vozil in izpoljeval naloge. Mesto je bilo sestavljeno iz štirih ulic, štirih hiš in prometnih znakov, katere je robot moral upoštevati med samo vožnjo. Na začetku smo robota postavili v mesto in mu sporočili njegovo lokacijo. Nato je uporabnik preko telefona (uporabljena je bila Android aplikacija) sporočil robotu svoje ime in na kateri ulici se nahaja. Robot se je odpeljal na željeno ulico in poiskal uporabnika, ki ga je poklical. Nato je s potnikom opravil kratek dialog, preko katerega je izvedel željeno destinacijo. Uporabnika je odpeljal na destinacijo, kjer je moral poiskati stavbo. Stavbe so bile predstavljene kot barvni cilindri. Po uspešni dostavi se je robot odpeljal po naslednjega uporabnika. 
+Končna naloga je bila implementacija robotskega taksija. Poligon je predstavljal mesto, v katerem se je robot vozil in izpoljeval naloge. Mesto je bilo sestavljeno iz štirih ulic, štirih hiš in prometnih znakov, katere je robot moral upoštevati med samo vožnjo. Na začetku smo robota postavili v mesto in mu sporočili njegovo lokacijo. Nato je uporabnik preko telefona (uporabljena je bila Android aplikacija) sporočil robotu svoje ime in na kateri ulici se nahaja. Robot se je odpeljal na željeno ulico in poiskal uporabnika, ki ga je poklical. Nato je s potnikom opravil kratek dialog, preko katerega je izvedel željeno destinacijo. Uporabnika je odpeljal na destinacijo, kjer je moral poiskati stavbo. Stavbe so bile predstavljene kot barvni cilindri. Po uspešni dostavi se je robot odpeljal do naslednjega uporabnika. 
 Robot je nalogo opravil, ko je uspešno odpeljal tri osebe na željeno destinacijo.\\
 
 
@@ -53,7 +53,7 @@ Slike mesta, obrazev in zgradb najdete v prilogi \ref{sec:slike}{}.
 % ----------------------------- REALIZACIJA ZAHTEV ---------------------------------------- %
 \pagebreak
 \section{Realizacija zahtev}
-Zahteve, ki so obarvane z yeleno so bile realizirane.
+Zahteve, ki so obarvane z zeleno so bile realizirane. Rumeno obarvane zahteve niso bilo v celoti implementirane.
 
 \begin{itemize}
 	\color{green}
@@ -65,7 +65,7 @@ Zahteve, ki so obarvane z yeleno so bile realizirane.
 	\item Start at any position
 	\item Travel around the city
 	\item {\color{red}Detect and recognize the traffic signs}
-	\item {\color{red}Follow the traffic rules}
+	\item {\color{yellow}Follow the traffic rules}
 	\item Detect and recognize the faces
 	\item {\color{red}Detect and recognize the buildings}
 	\item Wait and understand the dispatcher's commands
@@ -76,14 +76,23 @@ Zahteve, ki so obarvane z yeleno so bile realizirane.
 
 % ----------------------------- METODOLOGIJA ---------------------------------------- %
 \section{Metodologija}
-\subsection{Detekcija obrazev}
 
-Za detekcijo obrazov je uporabljen vicosov detektor.
+
 
 \pagebreak
-\subsection{Razpoznava obrazev}
+\subsection{Detekcija in razpoznava obrazev}
 
-Da je sistem lahko prepoznal obraz, smo potrebovali učne podatke. Za vsak obraz smo shranili \textbf{50 različnih slik} obraza. Te slike smo nato uporabili za izdelavo podatkovne baze z \textbf{eigenfaces}.
+Za detekcijo obraza je bil uporabljen \textbf{Haarov klasifikator} (ang. haarcascade classifier). Ta klasifikator sta razvila Paul Viola in Michael Jones. Deluje tako, da poišče določene lastnosti na obrazu. Lastnost je predstavljkena kot število, ki se izračuna tako, da odštejemo vsoto belih pikslov od vsote črnih piksov. Algoritem poišče ogromno lastnosti v obrazu, vendar je večina neuporabnih. Zato nad vsemi lastnosti uporabimo algoritem \textbf{adaboosting}, ki poišče najbolše lastnosti obraza. Preden lahko uporabimo klasifikator, ga je potrebno natrenirati. Zato potrebujemo ogromno pozitivnih slik (slik obraza) in negativnih slik. Treniranje klasifikatorja poteka tako, da si shrani lastnosti obrazev in lastnosti slik, ki ne predstavljajo obraza. 
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.7]{haar.png}
+\caption{Iskanje lastnosti na obrazu}
+\label{slika1}
+\end{center}
+\end{figure}
+
+Da je sistem lahko prepoznal obraz, smo potrebovali učno množico obrazev. Za vsak obraz, ki ga je bilo potrebno prepoznati, smo shranili \textbf{50 različnih slik}. Te slike smo nato uporabili za izdelavo podatkovne baze \textbf{lastnih obrazev} (ang. eigenfaces).
 
 \begin{figure}[h]
 \begin{center}
@@ -93,19 +102,23 @@ Da je sistem lahko prepoznal obraz, smo potrebovali učne podatke. Za vsak obraz
 \end{center}
 \end{figure}
 
-Za razpoznavo obraza je uporabljen \textbf{haarcascade} klasifikator. Ta klasifikator sta uporabila tudi Paul Viola in Michael Jones v svojem detektoju obrazev. Deluje tako, da poišče določene lastnosti na obrazu (npr. nos, oči, obrvi,...) in jih nato primerja.
-//TODO Preveri
-
-\subsection{Detekcija in razpoznava prometnih znakov}
-\subsection{Detekcija in razpoznava cilindrov}
 \subsection{Navigacija}
 
-Za navigacijo robota v mapi smo uporabili podatkovno strukturo graf. Želeli smo, da robot čim hitreje pride iz točke A v točko B. Zato smo za podatkovno strukturo izbrali graf, saj poznamo algoritme za iskanje najkrajših poti v grafu.
-Uporabili smo Dijkstrin algoritem za iskanje poti v grafu.
+Želeli smo, da robot čim hitreje pride iz točke A v točko B. Zato smo za podatkovno strukturo izbrali graf, saj poznamo algoritme za iskanje najkrajših poti v grafu. Uporabili smo Dijkstrin algoritem, s katerim poiščemo najboljšo pot do željene destinacije.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.4]{mapGraph.png}
+\caption{Mapa}
+\label{slika1}
+\end{center}
+\end{figure}
+
+Barvne pike na sliki predstavljajo vozlišča grafa. Barva vozlišča določa ulico na kateri se nahaja.
 
 \subsubsection{Upoštevanje prometnih znakov}
 
-Prometne znake robot upošteva s pomočjo cen povezav v grafu. Ko robot zazna prometni znak, popravi povezavo, ki vodi do tega oz. mimo tega znaka. Nrp. robot vidi znak za prepovedan promet v eno smer. Ceno povezave poveča tako, da te povezave ne bo izbral za pot, saj je ta pot neoptimalna. V primeru, da so vse ostale poti blokirane robot, ne bo upošteval prometnega znaka in prišel bo do svoje destinacije po edini možni poti.
+Prometne znake robot upošteva s pomočjo cen povezav v grafu. Ko robot zazna prometni znak, popravi povezavo, ki vodi do tega oz. mimo tega znaka. Npr. robot vidi znak za prepovedan promet v eno smer. Ceno povezave poveča tako, da te povezave ne bo izbral za pot, saj je ta pot neoptimalna. V primeru, da so vse ostale poti blokirane robot, ne bo upošteval prometnega znaka in prišel bo do svoje destinacije po edini možni poti.
 
 Detekcija znaka za zvočni signal je izjema in ne popravi cene povezave. Pred tem znakom robot zatrobi.
 
@@ -126,7 +139,7 @@ Detekcija znaka za zvočni signal je izjema in ne popravi cene povezave. Pred te
 \item \textbf{Rviz} je orodje s katerim lahko vizualiziramo delovanje robota, mapo po kateri se premika, detektirane objekte, obraze, itd.
 \end{itemize}
 
-TODO dodaj sliko celotnega sistema
+ \ref{systemGraph}{  slika celotnega sistema}
 
 \subsection{Integracija celotnega sistema}
 
@@ -141,13 +154,19 @@ Naš sistem je sestavljen iz glavnega procesa in pomožnih procesov (glej sliko 
 
 Implementacije celotnega sistema smo se lotili postopoma. Najprej smo naredili mapo celotnega mesta z uporabo Rviz-a in Kinecta ter jo shranili na disk. Sprva smo v kodo zapisali koordinate oseb, zgradb, in prometnih znakov, saj smo potrebovali testne podatke. Nato smo implementirali navigacijo in določili vozlišča grafa, ter označili posamezne ulice. Iz prejšnje naloge smo vzeli kodo za transformacijo koordinat med koordinatnimi sistemi in za premik do koordinat, ter jo dodali v nov sistem. Implementirali smo pošiljanje ti. markerjev orodju Rviz, ki je te markerje vizualiziralo. Markerji predstavljajo lokacije oseb, zgradb, prometnih znakov in vozlišč grafa. Vidna je tudi lokacija robota.
 
-//TODO dodaj sliko RVIZA
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=\textwidth]{mapAll.png}
+\caption{Mapa z znaki in zgradbami}
+\label{slika1}
+\end{center}
+\end{figure}
 
 Tako smo si pripravili osnovo samega sistema, katero je bilo možno nadgrajevati. Nato smo implementirali ostale procese, ki so skrbeli za detekcijo razpoznavo. Implementacija teh procesov je podrobno opisana v spodnjih poglavjih.
 
 \subsection{Detekcija in razpoznava obrazev}
 
-Za detekcijo obrazev smo uporabili \href{https://github.com/vicoslab/vicos_ros}{Vicos-ov}detektor obrazev. Detektor je uporabljen kot \textbf{ROS node}. Registriran je na temo \textbf{TODO ADD TOPIC}, kamor pošlje sporočilo v primeru detekcije obraza. Detektor vrača tudi neveljavne detekcije, zato smo v poslušalcu, ki teče v glavnem procesu implementirali filter neveljavnih detekcij.
+Za detekcijo obrazev smo uporabili \href{https://github.com/vicoslab/vicos_ros}{Vicos-ov}detektor obrazev. Detektor je uporabljen kot \textbf{ROS node}. Registriran je na temo \textbf{detections}, kamor pošlje sporočilo v primeru detekcije obraza. Detektor vrača tudi neveljavne detekcije, zato smo v poslušalcu, ki teče v glavnem procesu implementirali filter neveljavnih detekcij.
 
 Filter najprej omeji detekcije po višini. Imeli smo problem, saj je naš robot zaznal obraze ljudi, ki so stali ob poligonu. Ti obrazi so v danem scenariju neveljavni, povzročili pa so to, da je robot zaznal obraz na neveljavni lokaciji. V prejšnji nalogi se je robot moral zapeljati do zaznanega obraza, zato so neveljavni obrazi predstavljali problem, saj se robot ni znal zapeljati do njih in se je posledično ustavil preden je končal svojo nalogo. To smo rešili tako, da smo mu omejili vidno polje. Vse detekcije, ki so bile višje od stene poligona smo zavrgli. 
 
@@ -207,16 +226,24 @@ Dijkstra je algoritem za iskanje najkrajših poti v grafu. Preden se robot prema
 
 \begin{figure}[!tbp]
   \centering
-  \begin{minipage}[b]{0.2\textwidth}
+  \begin{minipage}[b]{0.4\textwidth}
 	\includegraphics[scale=1]{city.png}
 	\caption{Skica mesta}
   \end{minipage}
   \hfill
-  \begin{minipage}[b]{0.2\textwidth}
+  \begin{minipage}[b]{0.4\textwidth}
 	\includegraphics[scale=1]{robotMap.png}
 	\caption{Mapa po kateri se je navigiral robot}
   \end{minipage}
 \end{figure}
 
+\pagebreak
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.1]{systemGraph.png}
+\caption{Graf celotnega sistema}
+\label{systemGraph}
+\end{center}
+\end{figure}
 
 \end{document}
