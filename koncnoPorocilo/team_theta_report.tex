@@ -10,6 +10,7 @@
 \usepackage{color}
 \definecolor{light-gray}{gray}{0.95}
 \definecolor{green}{RGB}{0,128,0}
+\definecolor{yellow}{RGB}{225,222,80}
 \usepackage{listings} % za vključevanje kode
 \usepackage{hyperref}
 \renewcommand{\baselinestretch}{1.2} % za boljšo berljivost večji razmak
@@ -124,7 +125,17 @@ Detekcija znaka za zvočni signal je izjema in ne popravi cene povezave. Pred te
 
 \subsection{Dialog človek računalnik}
 
-//TODO gulič
+Robot je mogel poslušati in se pogovarjati s človekom. Za to smo uporabili mobilno aplikacijo Voice Commander, katera je bila odgovorna za prepoznavanje govora, node SpeechProxy za povezavo med telefonom in robotom, ter node SoundPlay za sintezo govora. V dialog smo implementirali še Levenshteinovo razdaljo za boljšo natančnost dialoga.
+
+Levenshteinovo razdalja med dvema nizoma predstavlja minimalno število operacij, ki jih potrebujemo za preoblikovanje enaga niza v drugega.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.8]{levenshtein.png}
+\caption{Formula Levenshteinove razdalje}
+\label{slika1}
+\end{center}
+\end{figure}
 
 % ----------------------------- INTEGRACIJA ---------------------------------------- %
 
@@ -176,12 +187,6 @@ Tako kot detektor obrazev, je tudi razpoznavalec obrazev vračal napačne rešit
  
 Uporabljeni \href{http://wiki.ros.org/face_recognition}{razpoznavalec obrazev} je na voljo, kot ROS orodje. Izvorno kodo smo predelali za naše potrebe. Implementirali smo zgoraj opisani filter, popravili, da sliko prejme preko kamere in spremenili temo na kateri je poslušal. Dodali smo tudi pošiljatelja, ki je pošiljal razpoznane obraze orodju Rviz za vizualizacijo. Preden je pošiljatel poslal koordinate obraza, smo jih transformirali v koordinatni sistem mape.
 
-\subsection{Detekcija in razpoznava prometnih znakov}
-
-Za detekcijo objektov smo uporabili \href{https://github.com/vicoslab/vicos_ros/tree/master/detection/dlib_detector/src}{Vicos-ov} detektor. Detektor teče kot samostojen proces.
-
-//TODO kako je uporabljen
-
 \subsection{Detekcija in razpoznava cilindrov}
 
 Detekcija in razpoznava cilindrov ni bila dokončno implementirana. V glavnem procesu smo ročno vnesli koordinate zgradb in jih shranili v seznam. Zaradi tega je robot lahko dostavil osebo do željene zgradbe, kljub temu, da je ni "videl". Imeli smo pripravljenega poslušalca, ki je poslušal na temi za cilindre, vendar smo to kodo zakomentirali. V primeru, da bi uspešno zaključili implementacijo detekcije cilindrov, bi poslali informacijo z koordinatami zgradbe glavnemu procesu. Glavni proces, bi nato dodal zgradbo v seznam zgradb. Seznam zgradb bi bil ob zagonu glavnega procesa prazen.
@@ -190,7 +195,10 @@ Za detekcijo cilindrov smo uporabili detektor iz knjižnice \href{http://pointcl
 
 \subsection{\label{sec:dialog} Dialog človek robot}
 
-//TODO gulič in šiško
+Na začetku programa nas robot s pomočjo SoundPlay-a lepo pozdravi, nato pa čaka na ukaz. S pomočjo Android aplikacije Voice Commander, ki prepoznava govor ustvarimo ukaz in ga preko SpeechProxy-ja pošljemo robotu. Ta s pomočjo Levenshteinove razdalje preveri ali gre za ustrezen ukaz. Na podlagi danega ukaza in »situacije« v kateri se nahaja se nato odloči kaj bo naredil. Robot pozna več situacij. V vsaki je dialog malce drugačen. 
+Situacija iskanja osebe v dani ulici: Robot posluša ukaze in poizkuša s pomočjo Levenshteinove razdalje iz njih dobiti ime ulice, ter ime osebe, katero more poiskati.
+Situacija določanja cilja: Ko robot pride do stranke jo vpraša kam želi iti, ta pa more nato povedati barvo cilindra, do katerega želi biti prenešena. Robot nato ponovi ukaz, ki ga je prejel od stranke, da ga lahko ta potrdi ali ovrže. 
+Situacija potrditve cilja: Robot posluša, ali je ukaz, ki ga je prejel pravilen ali napačen. Če prejme odgovor »yes«, se odpravi na cilj, v primeru pa da stranka ovrže uakz in odgovori z »no«, pridemo spet v situacijo določanja cilja ter se dialog določanja cilja ponovi. Ko robot pripelje stranko do določenega cilja ga lepo pozdravi in se postavi nazaj v začetno situacijo.
 
 \subsection{Navigacija in planiranje}
 
@@ -201,7 +209,7 @@ Dijkstra je algoritem za iskanje najkrajših poti v grafu. Preden se robot prema
 
 \section{Delovanje celotnega sistema na tekmovanju}
 
-//TODO dodaj po tekmovanju
+Naš sistem je na končnem tekmovanju zbral 24 točk. Pravilno je dostavil 2 osebi do dveh zgradb. Zataknil se je pri pobiranju tretje osebe s čimer je končal svoj poiskus.
 
 % ----------------------------- PRILOGE ---------------------------------------- %
 \pagebreak
