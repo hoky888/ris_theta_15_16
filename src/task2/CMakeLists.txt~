@@ -202,3 +202,6 @@ target_link_libraries(face_recognizer_mapper ${catkin_LIBRARIES})
 
 add_executable(cylinder_recognizer_mapper src/cylinder_recognizer_mapper.cpp)
 target_link_libraries(cylinder_recognizer_mapper ${catkin_LIBRARIES})
+
+add_executable(traffic_sign_recognizer_mapper src/traffic_sign_recognizer_mapper.cpp)
+target_link_libraries(traffic_sign_recognizer_mapper ${catkin_LIBRARIES})

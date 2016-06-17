@@ -82,7 +82,7 @@ void publish_waypoints() {
 		marker.scale.z = 0.2;
 
 		marker.color.a = 1.0;
-		marker.color.r = 0.0;
+		marker.color.r = 1.0;
 		marker.color.g = 1.0;
 		marker.color.b = 0.0;
 		marker_array.markers.push_back(marker);
@@ -110,7 +110,7 @@ void doneCb(const actionlib::SimpleClientGoalState& state, const face_recognitio
 					locations[current_handle].counter[file_name]++;
 					int count = locations[current_handle].counter[file_name];
 	 
-					if(count > 3 && count > locations[current_handle].name_max)
+					if(count > 1 && count > locations[current_handle].name_max)
 					{
 						locations[current_handle].name_max = count;
 						std::string name = mapper[file_name];
@@ -165,7 +165,7 @@ void markersCallback(const visualization_msgs::MarkerArray& msg)
 		y = pout.pose.position.y;
   }
   catch (tf::TransformException ex){
-    //ROS_ERROR("%s",ex.what());
+	//ROS_ERROR("%s",ex.what());
 		current_handle = -1;	
 		return;
   }
@@ -207,7 +207,7 @@ void markersCallback(const visualization_msgs::MarkerArray& msg)
 	}
 	
 	//to vrstico bi se dalo vrjetno zakomentirat, za premislit!
-	if(locations[index].detection_count > 5)
+	if(locations[index].detection_count > 1)
 	{
 		// če je count > 10; prožim še face recognition, kar bo ta naredil je da bo to kar trenutno vidi poskusil razpoznat
 		current_handle = index;

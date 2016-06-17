@@ -250,7 +250,7 @@ void move_to(double x, double y, double ox, double oy)
   }
 }
 
-void move_to(double x, double y)
+bool move_to(double x, double y)
 {	
   move_base_msgs::MoveBaseGoal goal;
   goal.target_pose.header.frame_id = "map";
@@ -268,10 +268,12 @@ void move_to(double x, double y)
   if(ac->getState() == actionlib::SimpleClientGoalState::SUCCEEDED) 
   {
     ROS_INFO("		SUCCESS");
+    return true;
   }
   else
   {
     ROS_INFO("		FAIL");
+    return false;
   }
 }
 
@@ -455,19 +457,24 @@ std::string findPerson(const std::string& s1)
 void move_to_goal()
 {
 	std::string search = "";
+	int index = -1;
 	switch(situation_goal)
 	{
 		case COLOR_RED:
 			search = "red";
+			index = 0;
 			break;
 		case COLOR_YELLOW:
 			search = "yellow";
+			index = 4;
 			break;
 		case COLOR_GREEN:
 			search = "green";
+			index = 10;
 			break;
 		case COLOR_BLUE:
 			search = "blue";
+			index = 8;
 			break;
 	}
 	
@@ -483,8 +490,16 @@ void move_to_goal()
 	
 	ROS_INFO("Moving to cylinder location [%f, %f]", x,y);
 	
-	move_to(x,y);
-	sc->say("We arrived at your destination. Get out!!!");	
+	moveWithDjikstra(index);
+	/*bool result = move_to(x,y);
+	if(result == true)
+	{
+		sc->say("We arrived at your destination. Get out!!!");	
+	}
+	else
+	{
+		sc->say("Sorry, but i can't move to specified location. Get out!!!");	
+	}*/
 	situation = SITUATION_SEARCHING_FOR_PERSON;
 }
 
